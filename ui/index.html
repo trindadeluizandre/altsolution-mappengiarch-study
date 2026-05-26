@@ -227,70 +227,152 @@ será desenhado e exibido de forma visível na janela do navegador para quem est
 
     </div>
     //Esta linha fecha a grande caixa invisível central que envelopava todo o formulário. Isso conclui o empacotamento visual de toda a tela de login.
+
     <script type="module">
+        //abre a seção de programação do site. O comando indica ao navegador que os próximos blocos não são elementos visuais, mas sim comandos de lógica JavaScript que rodarão de forma moderna, limpa e segura.//
+
         import { StorageService } from '../logic/storage.js';
+        //importa um arquivo de códigos de fora para dentro da página atual. O sistema está buscando o motor de armazenamento (StorageService) que fica guardado lá na pasta de lógica (storage.js) para conseguir ler e salvar dados de usuários mais tarde.//
+
         window.validar = () => {
+            //cria uma função chamada validar. Ao colocarmos window. na frente, estamos garantindo que essa função fique guardada na memória principal do navegador, permitindo que qualquer elemento da tela consiga chamá-la para verificar o formulário. O símbolo () => { abre a lista de comandos que essa função vai executar.//
+
             const e = document.getElementById('l-email').value.trim();
+            //captura e limpa o e-mail digitado. O comando document.getElementById('l-email') localiza o campo de e-mail na tela; a propriedade .value pega o texto que está escrito dentro dele; e a função .trim() apaga automaticamente qualquer espaço em branco que o usuário tenha digitado sem querer no começo ou no final do texto.//
+
             const p = document.getElementById('l-pass').value.trim();
+            //captura e limpa a senha digitada. De forma idêntica à linha anterior, ela localiza o campo de senha (l-pass), puxa o texto digitado e limpa os espaços vazios das pontas, guardando tudo na constante p.//
+
             const btn = document.getElementById('btn-login');
+            //mapeia o botão de login. Ela cria uma constante chamada btn que serve como um "atalho" ou controle remoto apontado diretamente para o botão "AUTENTICAR NA REDE" da tela, permitindo alterar suas propriedades de forma mais rápida.//
+
             const light = document.getElementById('status-light');
-            // REGRA ESTRITA: Mínimo 8 caracteres, letras, números e especial
-            // Esta regra garante que @Calculadora123 seja validada
+            //cria um atalho para a bolinha de status. A constante light guarda a referência direta do círculo de luz (status-light), deixando-o pronto para ter sua cor alterada pelos próximos comandos lógicos.//
+
             const regexSeguranca = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+            //cria a regra de segurança da senha. Ela define uma expressão regular (um padrão de checagem) que obriga a senha a ter no mínimo 8 caracteres no total, contendo obrigatoriamente pelo menos uma letra, pelo menos um número e pelo menos um caractere especial (como @, !, #). É essa linha que valida senhas fortes.//
+
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            // Se o e-mail for válido E a senha atender à complexidade total
+            //cria a regra de validação do e-mail. Ela estabelece uma fórmula padrão para verificar se o que o usuário digitou realmente se parece com um e-mail válido, exigindo um bloco de texto, o símbolo @, outro bloco de texto, um ponto e o final da extensão (como .com).//
+
             if (emailRegex.test(e) && regexSeguranca.test(p)) {
+                //avalia se o e-mail e a senha estão corretos ao mesmo tempo. O comando if abre um teste: o emailRegex.test(e) confere o e-mail e o regexSeguranca.test(p) confere a senha. O símbolo && significa "E", ou seja, o sistema só vai executar os próximos comandos de sucesso se o e-mail for válido E a senha também for aprovada na regra de segurança.//
+
                 btn.className = 'btn-active';
+                //ativa o visual do botão. Ela acessa o nosso botão através do atalho btn e troca a classe dele para btn-active, fazendo com que ele mude de cor e fique aceso na tela, sinalizando ao usuário que os dados estão corretos.//
+
                 btn.disabled = false;
+                //destranca o botão. Ao mudar a propriedade .disabled (desabilitado) para false (falso), o navegador permite que o usuário consiga clicar no botão para tentar se autenticar na rede.//
+
                 light.className = 'status-light light-green';
+                //muda a cor da luz de status para verde. Ela acessa a bolinha através do atalho light e atualiza suas classes para injetar a cor verde (light-green), mostrando visualmente que o formulário está preenchido corretamente e pronto.//
+
             } else {
+                //A palavra else significa "caso contrário". Esta linha avisa ao navegador o que ele deve fazer se o e-mail ou a senha estiverem errados ou incompletos: ele vai ignorar os comandos de cima e rodar o bloco de código que vem a seguir.//
+
                 btn.className = 'btn-inactive';
+                //apaga o visual do botão. Ela devolve a classe btn-inactive para o botão, fazendo com que ele volte a ficar cinza e opaco, indicando que há algo incorreto nos campos.//
+
                 btn.disabled = true;
+                //tranca o botão novamente. Ao mudar a propriedade .disabled para true (verdadeiro), o navegador impede o usuário de clicar no botão, bloqueando o acesso até que os erros sejam corrigidos.//
+
                 light.className = 'status-light light-red';
+                //muda a cor da luz para vermelho. Ela redefine a bolinha indicadora para as classes de cor vermelha (light-red), sinalizando na tela que o estado atual do formulário é inválido ou inseguro.//
             }
         };
-        // VINCULAÇÃO EM TEMPO REAL:
-        // Removemos o 'blur' e 'change' e usamos 'input' para o LED acender na última letra
-        document.getElementById('l-email').addEventListener('input', window.validar);
+        
+        document.getElementById('l-email').addEventListener('input',
+        window.validar);
+        //cria um "vigia" para o campo de e-mail. O comando procura o campo de e-mail (l-email) e adiciona um ouvinte de eventos (addEventListener). Esse ouvinte fica acordado monitorando o campo e, toda vez que o usuário digitar ou apagar uma única letra (input), ele chama automaticamente aquela função validar que criamos anteriormente para checar a tela.//
+
         document.getElementById('l-pass').addEventListener('input', window.validar);
+        //cria um "vigia" idêntico para o campo de senha. Ela monitora o campo l-pass em tempo real e, a cada caractere que o usuário insere ou remove, dispara imediatamente a função validar para conferir se a senha cumpre os requisitos de segurança exigidos.//
+
         window.togglePassword = () => {
+            //cria a função chamada togglePassword (que significa alternar senha). Ao colocarmos window. na frente, ela se torna visível para que o ícone do "olhinho" que configuramos no HTML consiga chamá-la quando receber um clique do usuário. O símbolo () => { abre a lista de ações que essa função vai executar.//
+
             const input = document.getElementById('l-pass');
+            //cria uma constante interna chamada input que serve como um atalho direto para o campo de senha (l-pass). Isso evita que o navegador precise ficar procurando o campo na tela várias vezes durante o clique do usuário.//
+
             const icon = document.querySelector('.toggle-password');
+            //cria um atalho para o desenho do olho. A constante icon localiza o ícone do olhinho na tela procurando pela sua classe de estilo (.toggle-password), permitindo que o sistema altere o desenho dele logo em seguida.//
+
             input.type = input.type === 'password' ? 'text' : 'password';
+            //decide se mostra ou esconde o texto da senha usando uma pergunta rápida. Ela diz ao navegador: "O tipo atual do campo é senha oculta (password)? Se for verdadeiro (representado pelo ponto de interrogação ?), mude o tipo para texto comum (text) para que o usuário veja o que digitou. Se for falso (representado pelos dois pontos :), volte o tipo para oculto (password) novamente". Isso cria o efeito de clique para revelar.//
+
             icon.classList.toggle('fa-eye-slash');
+            //altera o desenho do olho na tela. O comando classList.toggle funciona como um interruptor de lâmpada: se a classe fa-eye-slash (que desenha o olho cortado com um risco) não estiver no ícone, ele adiciona o risco; se já estiver lá, ele remove o risco e o olho volta a ficar aberto. Isso dá o feedback visual perfeito para o usuário saber o estado atual do campo.//
+
         };
-        // --- REPARO CIRÚRGICO: AUTENTICAÇÃO E CONEXÃO DE SESSÃO ---
+        //fecha a lista de comandos da função togglePassword. A partir daqui, as instruções da função estão encerradas.
+
         window.autenticar = () => {
+            //cria a função principal de login chamada autenticar. O prefixo window. faz com que essa função fique disponível para toda a página, permitindo que o botão "AUTENTICAR NA REDE" consiga rodar esses comandos no momento em que for clicado pelo usuário. O símbolo () => { abre as portas da função.//
+
             const e = document.getElementById('l-email').value;
+            //captura o texto que está digitado no campo de e-mail. Ela vai até a tela, localiza o campo através do nome exclusivo l-email, puxa o que estiver escrito dentro dele e guarda esse texto na caixinha chamada e para usarmos na checagem.//
+
             const p = document.getElementById('l-pass').value;
-            // 1. Buscamos a lista global de usuários que o Cadastro gravou
+            //faz exatamente o mesmo processo para a senha. O sistema localiza o campo pelo ID único l-pass, coleta os caracteres da senha digitada pelo usuário e armazena tudo em segurança dentro da constante chamada p.//
+
             const usuariosDaRede = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
-            // 2. Tentamos encontrar o usuário com e-mail e senha correspondentes
+            //abre o "banco de dados" do navegador para ler os usuários cadastrados. O comando localStorage.getItem('alt_solution_users') busca a lista de usuários salvos na memória do computador. Como esses dados ficam guardados no formato de um texto corrido e trancado, o comando JSON.parse() entra em ação para transformar esse texto de volta em uma lista viva de cadastros. Se o sistema não encontrar nenhum usuário (banco vazio), o símbolo || [] garante a criação de uma lista vazia automática para o sistema não quebrar.//
+
             const user = usuariosDaRede.find(u => u.email === e && u.senha === p);
+            //varre a lista de usuários para tentar encontrar o dono daquelas credenciais. O comando .find() faz uma busca rápida passando de cadastro em cadastro (representados pela letra u) e faz uma pergunta: "O e-mail deste cadastro é igual ao e-mail digitado (u.email === e) E a senha deste cadastro é igual à senha digitada (u.senha === p)?". Se encontrar alguém compatível, os dados desse usuário específico são isolados e guardados na constante user.//
+
             if (user) {
-                // 3. GRAVAÇÃO DA CHAVE (SESSÃO):
-                // Salvamos no formato que o Dashboard.html espera ler no window.onload
+                //abre o teste de aprovação do login. O comando if (user) pergunta ao sistema: "A busca acima deu certo e encontramos um usuário correspondente no banco?". Se a resposta for sim, o navegador entra neste bloco e executa as próximas ordens luegos (que serão os comandos para dar as boas-vindas e liberar o acesso à tela principal do painel).//
+
                 localStorage.setItem('usuario_sessao', JSON.stringify(user));
-                // 4. Integração opcional com seu StorageService
+                //salva o usuário encontrado na "sessão ativa" do navegador. Ela pega o objeto com todas as informações do usuário logado (como nome e e-mail) e usa o comando JSON.stringify() para empacotar esses dados em um formato de texto. Depois, guarda esse pacote com o nome de 'usuario_sessao' para que as próximas páginas do site saibam quem é a pessoa que está navegando.//
+
                 if (typeof StorageService !== 'undefined' && StorageService.setSession) {
+                    //faz uma verificação dupla de segurança no sistema. Ela pergunta ao navegador: "O nosso motor avançado de armazenamento existe na memória (typeof StorageService !== 'undefined') E ele possui a função de salvar sessão pronta para uso (StorageService.setSession)?". Esse teste previne que o site trave caso algum arquivo externo de lógica não tenha carregado direito no navegador.//
+
                     StorageService.setSession(user);
+                    //aciona o salvamento avançado. Caso o teste anterior tenha sido aprovado, o sistema chama a função do motor e entrega os dados do usuário (user) para que ele gerencie as permissões e a segurança de acesso nas regras internas.//
+
                 }
+                //Esta linha fecha o teste de segurança do motor avançado.
+
                 console.log("Login autorizado para:", user.nome);
-                // 5. REDIRECIONAMENTO FINAL
+                //escreve um aviso de sucesso escondido no navegador. O comando console.log imprime uma mensagem no painel de controle do desenvolvedor dizendo "Login autorizado para:" seguido do nome do usuário que acabou de logar, o que é ótimo para o QA auditar se o sistema identificou a pessoa certa.//
+
                 window.location.href = 'dashboard.html';
+                //faz o redirecionamento automático de tela. Ao alterar o comando window.location.href para 'dashboard.html', o navegador imediatamente tira o usuário da tela de login e o leva direto para a página principal do painel do sistema.//
+
             } else {
-                // Se não encontrar, exibe o erro com orientação de navegação
+                //A palavra else significa "caso contrário". Esta linha abre as instruções que o sistema deve rodar se o e-mail ou a senha digitados não forem encontrados no banco de dados, iniciando a exibição da mensagem de erro.//
+
                 const toast = document.getElementById('error-toast');
+                //localiza o componente de aviso na tela. Ela cria um atalho chamado toast que aponta diretamente para a caixinha invisível de erros (error-toast) que criamos no corpo do HTML.//
+
                 toast.innerHTML = '<div style="text-align: center;">Acesso Negado ! <br><small style="font-size: 12px; display: block; margin-top: 4px; opacity: 0.9;">Clique em "Criar nova identidade" para se cadastrar.</small></div>';
+                //escreve a mensagem de erro que vai aparecer na tela. O comando .innerHTML abre a caixinha de aviso e desenha lá dentro um texto estilizado dizendo "Acesso Negado!" em letras maiores e um lembrete em letras menores instruindo o usuário a criar uma nova conta se ele não for cadastrado.//
+
                 toast.classList.add('show');
+                //faz a mensagem de erro acender e aparecer na tela. Ela adiciona a classe show ao componente, ativando as regras visuais do CSS que fazem a caixinha deslizar ou surgir de forma suave para o usuário ver.//
+
                 setTimeout(() => {
                     toast.classList.remove('show');
                 }, 8000);
+                //Este bloco cria um cronômetro de contagem regressiva invisível. O comando setTimeout programa uma tarefa para dali a pouco: ele aguarda exatamente 8000 milissegundos (8 segundos) e, assim que o tempo acaba, roda a linha de dentro retirando a classe show do aviso. Isso faz com que a mensagem de erro suma da tela sozinha, limpando a visão do usuário.//
             }
         };
-        // Vínculo cirúrgico: a validação visual só ocorre ao sair do campo (blur)
+        //Esta linha fecha a lista de instruções de toda a função autenticar.
+        
         document.getElementById('l-pass').addEventListener('blur', window.validar);
+        //cria um segundo vigia para o campo de senha. O comando monitora o evento blur, que acontece quando o usuário tira o cursor de dentro do campo e clica em qualquer outro lugar fora dele, forçando uma checagem automática dos dados naquele exato momento.//
+
         document.getElementById('l-email').addEventListener('blur', window.validar);
+        //cria o mesmo vigia de perda de foco para o campo de e-mail, forçando a verificação de regras se o usuário clicar fora do campo, garantindo que as cores do botão e da luz mudem reativamente.//
+
     </script>
+    //encerra a seção de códigos e programações de lógica da página.//
+
 </body>
+//fecha o corpo do site, indicando que nenhum outro elemento visual será desenhado na tela abaixo daqui.
+
 </html>
+//fecha o arquivo por completo. É o ponto final de toda a estrutura da página de login.
