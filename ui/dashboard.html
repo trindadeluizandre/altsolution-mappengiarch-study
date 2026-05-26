@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambiente Gênesis - Dashboard Corporativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #020408;
+            /* Mais profundo para destacar o neon */
+            --card-bg: rgba(23, 28, 35, 0.0);
+            /* Mais transparente para o Glass */
+            --secondary: #21d4fd;
+            --secondary-glow: rgba(33, 212, 253, 0.4);
+            --success: #00ff88;
+            --success-glow: rgba(0, 255, 136, 0.3);
+            --error: #ff5252;
+            --text: #e2e8f0;
+            --border: rgba(33, 212, 253, 0.04);
+            --neon-gradient: linear-gradient(90deg, #21d4fd, #00ff88);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 80px 80px;
+            /* Grade estilo Sci-Fi */
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1280px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Header / Container Horizontal */
+        .header-genesis {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(0px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Linha de luz no topo do header */
+        .header-genesis::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-gradient);
+            box-shadow: 0 0 15px var(--secondary-glow);
+        }
+
+        .user-info h2 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .user-details {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .balance-info {
+            text-align: right;
+        }
+
+        .balance-label {
+            font-size: 0.7rem;
+            color: var(--secondary);
+            display: block;
+        }
+
+        .balance-value {
+            font-size: 1.8rem;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(23, 28, 35, 0.0) !important;
+            backdrop-filter: blur(0px) saturate(180%) !important;
+            border: 1px solid rgba(33, 212, 253, 0.25) !important;
+            border-radius: 20px !important;
+            padding: 25px !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        .card:hover {
+            border-color: var(--secondary) !important;
+            box-shadow: 0 0 20px rgba(33, 212, 253, 0.15) !important;
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        /* Inputs e Botões */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            color: #aaa;
+        }
+
+        input,
+        select {
+            width: 100% !important;
+            padding: 12px !important;
+            background: rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 8px !important;
+            color: var(--text) !important;
+            font-family: 'Rajdhani', sans-serif !important;
+            font-size: 0.95rem !important;
+            transition: 0.3s !important;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--secondary) !important;
+            box-shadow: 0 0 10px var(--secondary-glow) !important;
+            background: rgba(0, 0, 0, 0.6) !important;
+        }
+
+        .btn {
+            font-family: 'Orbitron', sans-serif !important;
+            letter-spacing: 1px !important;
+            text-transform: uppercase !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #00ff88, #00d4ff) !important;
+            color: #020408 !important;
+            box-shadow: 0 0 15px var(--success-glow) !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #00ff88, #00d4ff) !important;
+            color: #020408 !important;
+            box-shadow: 0 0 15px var(--success-glow) !important;
+        }
+
+        .btn:hover {
+            filter: brightness(1.2) !important;
+            letter-spacing: 2px !important;
+            box-shadow: 0 0 30px var(--secondary-glow) !important;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            margin-top: 5px;
+        }
+
+        .btn-logout {
+            background: var(--error);
+            color: white;
+            width: auto;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Pop-over */
+        /* ESTA REGRA É O QUE RESOLVE O SEU PROBLEMA */
+        .popover-overlay {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(2, 4, 8, 0.85) !important;
+            /* Fundo mais denso para foco */
+            backdrop-filter: blur(12px) !important;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999 !important;
+        }
+
+        .popover-content {
+            background: rgba(15, 20, 30, 0.75) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--secondary) !important;
+            border-radius: 20px !important;
+            padding: 35px !important;
+            max-width: 850px !important;
+            width: 92%;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), 0 0 15px var(--secondary-glow) !important;
+            position: relative;
+            color: var(--text) !important;
+            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Título e Texto Interno */
+        #popover-title {
+            font-family: 'Orbitron', sans-serif !important;
+            font-size: 1.4rem !important;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px var(--secondary-glow);
+        }
+
+        /* Efeito de desfoque para o saldo */
+        .blur-effect {
+            filter: blur(8px);
+            transition: 0.3s;
+        }
+
+        /* Brilho do saldo quando ativo */
+        .balance-glow {
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+            color: var(--success) !important;
+        }
+
+        /* Botões de ação do header */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 33px;
+        }
+
+        /* Tabelas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        th {
+            text-align: left;
+            color: var(--secondary);
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .header-genesis {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .balance-info {
+                text-align: center;
+            }
+        }
+
+        /* Animação de Surgimento */
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes pulse-neon {
+            0% {
+                box-shadow: 0 0 5px var(--success-glow);
+            }
+
+            50% {
+                box-shadow: 0 0 20px var(--success-glow);
+            }
+
+            100% {
+                box-shadow: 0 0 5px var(--success-glow);
+            }
+        }
+
+        .balance-glow {
+            animation: pulse-neon 2s infinite ease-in-out;
+            border-radius: 50px;
+            padding: 2px 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <header class="header-genesis">
+            <div class="user-info">
+                <h2 id="header-title">Ambiente Gênesis - <span id="user-fullname" style="color: var(--secondary);">André
+                        Luiz Trindade</span></h2>
+                <div class="user-details"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 5px;">
+                    <div>
+                        <p><i class="fas fa-wallet" style="color: var(--secondary);"></i> Wallet: <span
+                                id="header-wallet">0xBCB96235</span></p>
+                        <p><i class="fas fa-envelope" style="color: var(--secondary);"></i> E-mail: <span
+                                id="header-email">andrelt@alts.com</span></p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-logout" onclick="encerrarSessao()" style="margin-top: 0;">
+                        <i class="fas fa-right-from-bracket"></i> ENCERRAR SESSÃO
+                    </button>
+                    <button class="btn btn-outline" id="btn-reset" onclick="resetGenesis()"
+                        style="border-color: var(--error); color: var(--error); font-size: 0.65rem; padding: 5px 10px; border-radius: 4px; background: transparent; cursor: pointer; font-weight: bold;">
+                        <i class="fas fa-trash-can"></i> RESET REVOLVER
+                    </button>
+                </div>
+            </div>
+
+            <div class="balance-container" style="text-align: right; min-width: 280px;">
+                <span class="balance-label">SALDO DISPONÍVEL (REDE)
+                    <i class="fas fa-eye" id="toggle-balance-icon" onclick="toggleSaldoVisibilidade()"
+                        style="cursor: pointer; margin-left: 10px; color: var(--secondary);"></i>
+                </span>
+                <div class="balance-value" id="display-saldo" style="margin-bottom: 10px;">R$&nbsp;0,00</div>
+                <div class="header-actions"
+                    style="display: flex; flex-direction: column; gap: 5px; align-items: flex-end;">
+                    <div style="display: flex; gap: 5px;">
+                        <button id="btn-injetar" class="btn btn-success btn-small"
+                            onclick="abrirPopOverInjetar()">Injetar</button>
+                        <button class="btn btn-outline btn-small" onclick="abrirPopOverEstorno()"
+                            style="border-color: #ff9800; color: #ff9800;">Estornar</button>
+                    </div>
+                    <div style="display: flex; gap: 5px; margin-top: 2px;">
+                        <button class="btn btn-small" onclick="window.abrirRelatorio('colaboradores')"
+                            style="background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; font-size: 0.65rem; padding: 4px 8px; cursor: pointer; font-weight: bold; border-radius: 3px;">
+                            <i class="fas fa-users"></i> Colaboradores
+                        </button>
+                        <button class="btn btn-small" onclick="window.abrirRelatorioFinanceiro()"
+                            style="background: rgba(33, 212, 253, 0.15); color: #21d4fd; border: 1px solid #21d4fd; font-size: 0.65rem; padding: 4px 8px; cursor: pointer; font-weight: bold; border-radius: 3px;">
+                            <i class="fas fa-file-invoice-dollar"></i> Financeiro
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+        <div id="area-relatorio-fullwidth"
+            style="display: none; width: 100%; max-width: 1200px; margin: 20px auto; padding: 20px; background: #141414; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; box-sizing: border-box;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                <h3 id="relatorio-fullwidth-titulo" style="margin: 0; font-size: 1.1rem; font-family: sans-serif;">
+                    Relatório</h3>
+                <button onclick="fecharRelatorioFullWidth()"
+                    style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.2s;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+                    onmouseout="this.style.background='transparent'">
+                    <i class="fas fa-xmark"></i> RECOLHER PAINEL
+                </button>
+            </div>
+            <div id="relatorio-fullwidth-conteudo"></div>
+        </div>
+
+        </header>
+        <main class="dashboard-grid">
+            <section class="card">
+                <h3><i class="fas fa-user-plus"></i> Cadastrar Colaborador</h3>
+                <div class="input-group">
+                    <label>NOME DO COLABORADOR</label>
+                    <input type="text" id="cad-nome" placeholder="Ex: nome completo">
+                </div>
+                <div class="input-group">
+                    <label>E-MAIL CORPORATIVO (LOGIN)</label>
+                    <input type="email" id="cad-email" placeholder="abreviarnome@alts.com">
+                </div>
+                <div class="input-group">
+                    <label>CARGO / SETOR (HIERARQUIA CORPORATIVA)</label>
+                    <select id="mat-cargo"
+                        style="width: 100%; padding: 8px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px;">
+                        <optgroup label="1. Nível Estratégico (C-Level & Board)">
+                            <option value="Presidente do Conselho">Presidente do Conselho (Chairman)</option>
+                            <option value="Conselheiro Consultivo">Conselheiro Consultivo</option>
+                            <option value="CEO">CEO (Diretor Executivo)</option>
+                            <option value="COO">COO (Operações)</option>
+                            <option value="CFO">CFO (Financeiro)</option>
+                            <option value="CTO">CTO (Tecnologia)</option>
+                            <option value="CMO">CMO (Marketing)</option>
+                            <option value="CHRO">CHRO (Recursos Humanos)</option>
+                            <option value="CIO">CIO (Informação)</option>
+                            <option value="CLO">CLO (Jurídico)</option>
+                            <option value="CCO">CCO (Compliance)</option>
+                            <option value="CDO">CDO (Digital/Dados)</option>
+                            <option value="Presidente">Presidente</option>
+                            <option value="Vice-Presidente Executivo">Vice-Presidente Executivo (EVP)</option>
+                        </optgroup>
+                        <optgroup label="2. Nível Tático (Diretoria e Gerência Sênior)">
+                            <option value="Diretor Regional">Diretor Regional</option>
+                            <option value="Diretor de Unidade">Diretor de Unidade</option>
+                            <option value="Diretor Adjunto">Diretor Adjunto</option>
+                            <option value="Gerente de Divisão">Gerente de Divisão</option>
+                            <option value="Gerente Geral">Gerente Geral (GM)</option>
+                            <option value="Gerente de Planta">Gerente de Planta</option>
+                        </optgroup>
+                        <optgroup label="3. Nível de Gestão Intermediária">
+                            <option value="Gerente de Departamento">Gerente de Departamento</option>
+                            <option value="Gerente de Área">Gerente de Área</option>
+                            <option value="Gerente Comercial">Gerente Comercial</option>
+                            <option value="Coordenador de Equipe">Coordenador de Equipe</option>
+                            <option value="Coordenador de Projetos">Coordenador de Projetos</option>
+                            <option value="Supervisor de Vendas">Supervisor de Vendas</option>
+                            <option value="Supervisor de Produção">Supervisor de Produção</option>
+                            <option value="Supervisor Administrativo">Supervisor Administrativo</option>
+                        </optgroup>
+                        <optgroup label="4. Nível Técnico e Especialista">
+                            <option value="Especialista de Produto">Especialista de Produto</option>
+                            <option value="Consultor Interno">Consultor Interno</option>
+                            <option value="Arquiteto de Soluções">Arquiteto de Soluções</option>
+                            <option value="Analista Sênior">Analista Sênior</option>
+                            <option value="Analista Pleno">Analista Pleno</option>
+                            <option value="Analista Júnior">Analista Júnior</option>
+                            <option value="Analista - QA">Analista QA</option>
+                            <option value="Líder de Equipe">Líder de Equipe (Team Lead)</option>
+                            <option value="Tech Lead">Tech Lead</option>
+                            <option value="Encarregado">Encarregado</option>
+                        </optgroup>
+                        <optgroup label="5. Nível Operacional e Apoio">
+                            <option value="Assistente Administrativo">Assistente Administrativo</option>
+                            <option value="Assistente de Vendas">Assistente de Vendas</option>
+                            <option value="Assistente de RH">Assistente de RH</option>
+                            <option value="Auxiliar de Escritório">Auxiliar de Escritório</option>
+                            <option value="Auxiliar de Serviços Gerais">Auxiliar de Serviços Gerais</option>
+                            <option value="Auxiliar de Estoque">Auxiliar de Estoque</option>
+                            <option value="Operador de Máquinas">Operador de Máquinas</option>
+                            <option value="Vendedor">Vendedor</option>
+                            <option value="Atendente de Suporte">Atendente de Suporte (CSR)</option>
+                            <option value="Técnico de Campo">Técnico de Campo</option>
+                            <option value="Estagiário">Estagiário</option>
+                            <option value="Trainee">Trainee</option>
+                            <option value="Jovem Aprendiz">Jovem Aprendiz</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="input-group" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
+                    <label>SENHA DE ACESSO (DEVE CONTER LETRAS, NÚMEROS E @)</label>
+                    <input type="text" id="cad-pass" placeholder="Ex: @Exemplo1"
+                        style="background: rgba(0,0,0,0.3); color: #fff; border: 1px solid #444; width: 100%; padding: 10px; border-radius: 4px;">
+                </div>
+                <div class="input-group" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
+                    <label>ASSINATURA DIGITAL (PIN NUMÉRICO)</label>
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <div id="pin-display-screen"
+                            style="flex: 2; background: rgba(0,255,136,0.1); color: #00ff88; border: 1px dashed #00ff88; padding: 10px; text-align: center; font-family: monospace; font-weight: bold; font-size: 1.2rem; border-radius: 4px; min-height: 45px; display: flex; align-items: center; justify-content: center;">
+                            ------
+                        </div>
+                        <button type="button" class="btn btn-outline"
+                            style="flex: 1; font-size: 0.75rem; white-space: nowrap;" onclick="window.gerarPin()">GERAR
+                            PIN</button>
+                    </div>
+                </div>
+                <div class="input-group" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
+                    <label>WALLET GERADA</label>
+                    <input type="text" id="cad-wallet" value="0xC59DA3E1" readonly
+                        style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2);">
+                </div>
+                <button class="btn btn-success" id="btn-final-cad" onclick="cadastrarColaborador()" disabled
+                    style="width: 100%; padding: 15px; opacity: 0.5;">GERAR CADASTRO</button>
+            </section>
+            <section class="card">
+                <h3><i class="fas fa-paper-plane"></i> Enviar Recurso</h3>
+                <div class="input-group">
+                    <label>DESTINATÁRIO</label>
+                    <select id="send-dest" onchange="autoPreencherDestino()">
+                        <option value="">Selecione um destino</option>
+                    </select>
+                </div>
+                <div id="info-destinatario"
+                    style="display: none; margin-bottom: 15px; font-size: 0.75rem; color: var(--secondary); background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border-left: 3px solid var(--secondary);">
+                    <p style="margin: 0;"><strong>E-mail:</strong> <span id="info-dest-email"></span></p>
+                    <p style="margin: 5px 0 0 0;"><strong>Wallet:</strong> <span id="info-dest-wallet"></span></p>
+                </div>
+                <div class="input-group">
+                    <label>VALOR (BRL)</label>
+                    <input type="number" id="send-valor" placeholder="R$ 0,00">
+                </div>
+                <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                    <label>CONFIRMAR ASSINATURA DIGITAL</label>
+                    <input type="text" id="sign-email" placeholder="Seu E-mail de login" style="margin-bottom: 10px;">
+                    <div style="position: relative;">
+                        <input type="password" id="sign-pass" placeholder="Seu PIN (Senha)"
+                            style="width: 100%; padding-right: 40px;">
+                        <i class="fas fa-eye" id="toggle-sign-pass"
+                            style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--secondary);"
+                            onclick="togglePassword('sign-pass', this)"></i>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="btn-assinar" style="margin-top: 15px;"
+                    onclick="assinarTransacao()">ASSINAR TRANSAÇÃO</button>
+            </section>
+
+        </main>
+    </div>
+    <div id="popover" class="popover-overlay" style="display: none;">
+        <div class="popover-content" style="position: relative;">
+            <h2 id="popover-title" style="color: var(--success);">SUCESSO!</h2>
+            <div id="popover-msg">Operação realizada.</div>
+
+            <div id="popover-footer" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" id="popover-main-btn"
+                    style="display: none; width: 100%;">Fechar</button>
+
+                <div id="popover-extra-actions" style="display: flex; gap: 10px; width: 100%;"></div>
+
+                <button class="btn btn-outline"
+                    style="width: 100%; border: 1px solid rgba(255,255,255,0.2); color: #fff; background: transparent; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold;"
+                    onclick="fecharPopover()">
+                    FECHAR
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="module">import { myLedger } from '../logic/ledger.js'; window.myLedger = myLedger;</script>
+<script>
+    // --- ESTADO DA APLICAÇÃO ---
+    let appState = {
+        admin: {
+            nome: "Andre Luiz Trindade",
+            cargo: "Presidente",
+            wallet: "0xB2E1A73C",
+            email: "andre@alt.com",
+            origem: "Raiz",
+            pin: "877873",
+            data: "10/04/26-05:00am",
+            saldo: 0
+        },
+        colaboradores: [],
+        transacoes: []
+    };
+    let saldoVisivel = true;
+    // --- REPARO CIRÚRGICO 01: SINCRONIZAÇÃO DE SESSÃO E LEDGER ---
+    window.onload = () => {
+        try {
+            const loggedUser = JSON.parse(localStorage.getItem('usuario_sessao'));
+            if (loggedUser) {
+                // --- MANUTENÇÃO DOS CAMPOS ATUAIS ---
+                document.getElementById('user-fullname').innerText = loggedUser.nome;
+                document.getElementById('header-wallet').innerText = loggedUser.wallet;
+                document.getElementById('header-email').innerText = loggedUser.email;
+                // --- INJEÇÃO CIRÚRGICA: IDENTIDADE DO AMBIENTE (ETAPA 1) ---
+                const headerTitle = document.getElementById('header-title');
+                if (headerTitle) {
+                    if (loggedUser.cargo !== "Administrador Gênesis") {
+                        headerTitle.firstChild.textContent = "Ambiente Colaborador - ";
+                    } else {
+                        headerTitle.firstChild.textContent = "Ambiente Gênesis - ";
+                    }
+                }
+                // --- NOVO BLOCO: INSERIR APÓS A LINHA 577 ---
+                // --- REPARO CIRÚRGICO: PRIVILÉGIOS DE ACESSO (ETAPA 2) ---
+                const btnInjetar = document.getElementById('btn-injetar');
+                const btnReset = document.getElementById('btn-reset');
+
+                if (loggedUser.cargo !== "Administrador Gênesis") {
+                    if (btnInjetar) btnInjetar.style.display = 'none';
+                    if (btnReset) btnReset.style.display = 'none';
+                } else {
+                    if (btnInjetar) btnInjetar.style.display = 'inline-block';
+                    if (btnReset) btnReset.style.display = 'inline-block';
+                }
+                // --- FIM DA INSERÇÃO ---
+                // --- INJEÇÃO DOS NOVOS CAMPOS DINÂMICOS (VERSÃO RESILIENTE) ---
+                const campoPosto = document.getElementById('header-posto');
+                const campoOrigem = document.getElementById('header-origem');
+                if (campoPosto) {
+                    // Tenta ler 'cargo' ou 'posto' do usuário logado. Se for undefined, define como 'Colaborador'
+                    campoPosto.innerText = loggedUser.cargo || loggedUser.posto || "Colaborador";
+                }
+                if (campoOrigem) {
+                    // Tenta ler 'origem' ou 'setor'. Se não existir, aplica a lógica de domínio do e-mail
+                    const origemSugerida = loggedUser.email.includes('alt.com') ? "Raiz (Gênesis)" : "Rede";
+                    campoOrigem.innerText = loggedUser.origem || loggedUser.setor || origemSugerida;
+                }
+                // --- SUA LÓGICA DE AUDITORIA PERMANECE INTACTA ---
+                let usuariosDaRede = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+                const jaExiste = usuariosDaRede.some(u => u.wallet === loggedUser.wallet);
+                if (!jaExiste) {
+                    usuariosDaRede.push({
+                        ...loggedUser,
+                        origem: loggedUser.email.includes('alts.com') ? "Raiz" : "Rede",
+                        cadastroEm: new Date().toLocaleString('pt-BR')
+                    });
+                    localStorage.setItem('alt_solution_users', JSON.stringify(usuariosDaRede));
+                }
+            } else {
+                window.location.replace('index.html');
+            }
+        } catch (error) {
+            console.error("Erro Crítico de Inicialização:", error);
+        }
+        const saved = localStorage.getItem('genesis_state');
+        if (saved) appState = JSON.parse(saved);
+        atualizarUI();
+    };
+    // --- REPARO CIRÚRGICO: PERSISTÊNCIA SINCRONIZADA ---
+    function salvarEstado() {
+        // 1. Salva no Estado Local do Dashboard (Gráficos e Fluxo Interno)
+        localStorage.setItem('genesis_state', JSON.stringify(appState));
+
+        // 2. SINCRONIZAÇÃO COERENTE COM O BANCO CENTRAL (alt_solution_users)
+        let usuariosGerais = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+
+        // Sincroniza os dados do Administrador ativo
+        const indexAdmin = usuariosGerais.findIndex(u => u.wallet === appState.admin.wallet);
+        if (indexAdmin !== -1) {
+            usuariosGerais[indexAdmin].saldo = appState.admin.saldo;
+            usuariosGerais[indexAdmin].saldoTotal = appState.admin.saldo;
+        }
+
+        // Sincroniza a lista de colaboradores mutada localmente
+        if (appState.colaboradores && appState.colaboradores.length > 0) {
+            appState.colaboradores.forEach(colabLocal => {
+                const indexColab = usuariosGerais.findIndex(u => u.wallet === colabLocal.wallet);
+                if (indexColab !== -1) {
+                    usuariosGerais[indexColab].saldo = colabLocal.saldo;
+                }
+            });
+        }
+
+        // Grava de forma definitiva na chave consumida pelo ecossistema
+        localStorage.setItem('alt_solution_users', JSON.stringify(usuariosGerais));
+    }
+
+    function cadastrarColaborador() {
+        const inputNome = document.getElementById('cad-nome');
+        const inputEmail = document.getElementById('cad-email');
+        const inputSenha = document.getElementById('cad-pass'); // Alvo corrigido para Senha
+        const visorPin = document.getElementById('pin-display-screen'); // Alvo corrigido para o Visor
+        if (!inputNome || !inputEmail || !inputSenha || !visorPin) {
+            console.error("Erro de QA: Elementos de input ou visor não encontrados.");
+            return;
+        }
+        const nome = inputNome.value.trim();
+        const email = inputEmail.value.trim();
+        const senha = inputSenha.value; // Captura a senha alfanumérica (Ex: Alt@2026)
+        const pin = visorPin.innerText; // Captura os 6 dígitos que geramos no visor
+        const cargo = document.getElementById('mat-cargo').value;
+        const wallet = document.getElementById('cad-wallet').value;
+        // Validação estrita: O PIN não pode ser o valor padrão "------"
+        if (!nome || !email || !senha || pin === "------") {
+            alert("Andre, preencha Nome, E-mail, Senha e Gere um PIN para realizar o registro.");
+            return;
+        }
+        const agora = new Date();
+        const dataFormatada = agora.toLocaleDateString('pt-BR') + " " + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        // --- OBJETO UNIFICADO CORRIGIDO ---
+        const novoColaborador = {
+            nome: nome,
+            cargo: cargo,
+            email: email.toLowerCase(),
+            senha: senha,        // Senha para Login (index.html)
+            pin: pin,            // PIN para Transações (Dashboard)
+            wallet: wallet,
+            origem: "Gênesis (Admin)",
+            saldoTotal: 0,
+            historico: [],
+            cadastroEm: dataFormatada,
+            primeiroAcesso: true
+        };
+        // --- FIM DO REPARO CIRÚRGICO ---
+        // 1. Persistência no Estado Local (Mantém seus gráficos vivos)
+        if (typeof appState !== 'undefined' && appState.colaboradores) {
+            appState.colaboradores.push(novoColaborador);
+            salvarEstado();
+        }
+        // 2. Persistência no Banco Central (Permite o Login via index.html)
+        let listaUsuarios = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+        // Evita duplicidade de e-mail na rede
+        if (listaUsuarios.some(u => u.email === novoColaborador.email)) {
+            alert("Este e-mail já está integrado à rede ALT.");
+            return;
+        }
+        listaUsuarios.push(novoColaborador);
+        localStorage.setItem('alt_solution_users', JSON.stringify(listaUsuarios));
+        // REPARO DE SINCRONIZAÇÃO: Atualiza a lista global para o relatório ler os dados novos sem refresh
+        if (typeof appState !== 'undefined') appState.colaboradores = listaUsuarios;
+        // 3. Feedback Visual (Mantendo seu padrão original)
+        document.getElementById('popover-title').innerText = "CADASTRO REALIZADO";
+        document.getElementById('popover-title').style.color = "var(--success)";
+        document.getElementById('popover-msg').innerHTML = `
+            <p>O colaborador <strong>${nome}</strong> foi integrado à rede.</p>
+            <p>Wallet: <span style="color:var(--secondary)">${wallet}</span></p>
+            <p>PIN de Acesso: <strong style="color:var(--success)">${pin}</strong></p>
+        `;
+        const btnAcao = document.getElementById('popover-main-btn');
+        btnAcao.innerText = "FECHAR";
+        btnAcao.style.display = "block";
+        btnAcao.onclick = function () { fecharPopover(); };
+        document.getElementById('popover').style.display = 'flex';
+        // Limpeza dos campos
+        inputNome.value = "";
+        inputEmail.value = "";
+        // 4. Sincronização de Interface (Mantendo seu fluxo)
+        if (typeof carregarTabelaAuditoria === "function") carregarTabelaAuditoria();
+        if (typeof atualizarDestinatarios === "function") atualizarDestinatarios();
+    }
+    function atualizarUI() {
+        const saldoElement = document.getElementById('display-saldo');
+        if (!saldoElement) return;
+        const valorSaldo = appState.admin.saldo;
+        saldoElement.innerText = valorSaldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        if (valorSaldo > 0) {
+            saldoElement.classList.add('balance-glow');
+        } else {
+            saldoElement.classList.remove('balance-glow');
+        }
+        const select = document.getElementById('send-dest');
+        if (select) {
+            select.innerHTML = '<option value="">Selecione um destino</option>';
+            appState.colaboradores.forEach(c => {
+                select.innerHTML += `<option value="${c.wallet}">${c.nome} (${c.cargo})</option>`;
+            });
+        }
+    }
+    window.toggleSaldoVisibilidade = () => {
+        const saldoElement = document.getElementById('display-saldo');
+        const icon = document.getElementById('toggle-balance-icon');
+        if (saldoElement.classList.contains('blur-effect')) {
+            saldoElement.classList.remove('blur-effect');
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            saldoElement.classList.add('blur-effect');
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    };
+
+    function abrirPopOverInjetar() {
+        const sessaoAcesso = JSON.parse(localStorage.getItem('usuario_sessao'));
+        if (!sessaoAcesso || sessaoAcesso.cargo !== "Administrador Gênesis") return alert("Acesso Negado: Função exclusiva da Tesouraria Gênesis.");
+
+        const title = document.getElementById('popover-title');
+        const msg = document.getElementById('popover-msg');
+        const btnAcao = document.getElementById('popover-main-btn');
+
+        // Certifica a limpeza de qualquer botão dinâmico experimental residual no DOM
+        const oldBtnCancelar = document.getElementById('popover-cancel-btn');
+        if (oldBtnCancelar) oldBtnCancelar.remove();
+
+        title.innerText = "INJETAR CAPITAL GÊNESIS";
+        title.style.color = "var(--success)";
+
+        // Injeção do rótulo e do campo de entrada de dados numéricos
+        msg.innerHTML = `
+            <p style="margin-bottom: 12px;">Insira o montante desejado para o aporte administrativo e registro no Ledger:</p>
+            <input type="number" id="input-valor-aporte" placeholder="0.00" step="any" min="0.01" style="width: 100%; padding: 10px; border: 1px solid #333; background: #111; color: #fff; border-radius: 4px; font-size: 16px; text-align: center; box-sizing: border-box;">
+        `;
+
+        // Reconfiguração do botão principal de ação para o estado de confirmação
+        btnAcao.style.display = "block";
+        btnAcao.className = "btn btn-primary";
+        btnAcao.innerText = "CONFIRMAR APORTE";
+        btnAcao.style.background = "var(--success)";
+
+        btnAcao.onclick = function () {
+            const inputElement = document.getElementById('input-valor-aporte');
+            if (!inputElement) return;
+
+            const valorAporte = parseFloat(inputElement.value);
+            const sessaoAtual = JSON.parse(localStorage.getItem('usuario_sessao'));
+
+            if (!sessaoAtual) return alert("Erro: Sessão não encontrada.");
+
+            if (isNaN(valorAporte) || valorAporte <= 0) {
+                return alert("Erro de Validação: Por favor, insira um valor numérico válido e maior que zero.");
+            }
+
+            appState.admin.saldo += valorAporte;
+
+            myLedger.addBlock(
+                "SISTEMA ALTS",
+                sessaoAtual.nome,
+                valorAporte
+            );
+
+            salvarEstado();
+            atualizarUI();
+            fecharPopover();
+            console.log("Aporte Gênesis minerado e registrado no Ledger para: " + sessaoAtual.nome + " no valor de R$ " + valorAporte);
+        };
+
+        document.getElementById('popover').style.display = 'flex';
+    }
+
+    // --- REPARO DA LÓGICA DE GERAÇÃO (DASHBOARD) ---
+    window.gerarPin = () => {
+        // 1. Gera o número aleatório de 6 dígitos
+        const novoPin = Math.floor(100000 + Math.random() * 900000).toString();
+        // 2. Localiza os novos elementos do layout
+        const visor = document.getElementById('pin-display-screen');
+        const btnFinal = document.getElementById('btn-final-cad');
+        if (visor) {
+            // Atualiza o texto do visor verde
+            visor.innerText = novoPin;
+            // Guarda o PIN em um atributo invisível para a função de salvar ler depois
+            visor.setAttribute('data-current-pin', novoPin);
+            // 3. Libera o botão "GERAR CADASTRO"
+            if (btnFinal) {
+                btnFinal.disabled = false;
+                btnFinal.style.opacity = '1';
+                btnFinal.style.cursor = 'pointer';
+            }
+            console.log("PIN Transacional gerado:", novoPin);
+        } else {
+            console.error("Erro: Elemento 'pin-display-screen' não encontrado.");
+        }
+    };
+    function togglePin() {
+        const pinField = document.getElementById('cad-pin');
+        const icon = document.getElementById('pin-icon');
+        if (pinField.type === "password") {
+            pinField.type = "text";
+            icon.className = "fas fa-eye-slash";
+        } else {
+            pinField.type = "password";
+            icon.className = "fas fa-eye";
+        }
+    }
+    // --- LÓGICA FINANCEIRA: ESTORNO ---
+    function abrirPopOverEstorno() {
+        document.getElementById('popover-title').innerText = "SOLICITAR ESTORNO EXTERNO";
+        document.getElementById('popover-title').style.color = "#ff9800";
+        // 1. Campos de Input
+        document.getElementById('popover-msg').innerHTML = `
+        <div style="text-align: left; margin-top: 15px;">
+            <label>CHAVE PIX OU WALLET DE DESTINO</label>
+            <input type="text" id="estorno-destino" placeholder="000.000.000-00" style="margin-bottom: 10px;">
+            <label>VALOR DO ESTORNO</label>
+            <input type="number" id="estorno-valor" placeholder="R$ 0,00">
+        </div>`;
+        // 2. Configura o botão de CONFIRMAR
+        const btnConfirmar = document.getElementById('popover-main-btn');
+        btnConfirmar.style.display = "block";
+        btnConfirmar.innerText = "CONFIRMAR ESTORNO";
+        btnConfirmar.style.background = "#ff9800";
+        // 3. Configura o contêiner de ações extras
+        const extraActions = document.getElementById('popover-extra-actions');
+        if (extraActions) {
+            extraActions.innerHTML = `<button class="btn btn-outline" id="btn-cancelar-estorno" style="border-color: #555; color: #888; width: 100%; margin-top: 10px;">CANCELAR OPERAÇÃO</button>`;
+        }
+        // 4. Lógica de Clique: Confirmar
+        btnConfirmar.onclick = () => {
+            const valor = parseFloat(document.getElementById('estorno-valor').value);
+            if (valor > 0 && valor <= appState.admin.saldo) {
+                appState.admin.saldo -= valor;
+                salvarEstado();
+                atualizarUI();
+                fecharPopover();
+            } else {
+                alert("Saldo insuficiente ou valor inválido.");
+            }
+        };
+        // 5. Lógica de Clique: Cancelar
+        const btnCancelar = document.getElementById('btn-cancelar-estorno');
+        if (btnCancelar) {
+            btnCancelar.onclick = fecharPopover;
+        }
+        document.getElementById('popover').style.display = 'flex';
+    }
+    // --- OUTROS UTILITÁRIOS ---
+    function fecharPopover() {
+        document.getElementById('popover').style.display = 'none';
+        // Limpa o contêiner correto que padronizamos
+        const extra = document.getElementById('popover-extra-actions');
+        if (extra) extra.innerHTML = "";
+    }
+    function togglePassword(inputId, icon) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+    // --- REPARO CIRÚRGICO DA LÓGICA DE AUDITORIA ---
+    window.fecharRelatorioFullWidth = () => {
+        const area = document.getElementById('area-relatorio-fullwidth');
+        if (area) {
+            area.style.display = 'none';
+            document.getElementById('relatorio-fullwidth-conteudo').innerHTML = '';
+        }
+    };
+
+    window.abrirRelatorio = (tipo) => {
+        appState.colaboradores = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+        const usuarios = appState.colaboradores;
+        const sessao = JSON.parse(localStorage.getItem('usuario_sessao')) || {};
+
+        if (tipo === 'colaboradores') {
+            const isAdmin = sessao.email && sessao.email.includes('alts.com');
+            const listaParaExibir = isAdmin ? usuarios : usuarios.filter(u => u.email === sessao.email);
+
+            let htmlTabela = `
+        <div style="overflow-x:auto; overflow-y:auto; max-height:350px; margin-top:10px;">
+            <table style="width:100%; border-collapse:collapse; font-size:11px; color:#e2e8f0; min-width: 800px;">
+                <thead>
+                    <tr style="border-bottom:2px solid #00ff88; color:#00ff88; text-align:left;">
+                        <th style="padding:10px;">COLABORADOR / E-MAIL</th>
+                        <th style="padding:10px;">CARGO</th>
+                        <th style="padding:10px;">WALLET</th>
+                        <th style="padding:10px;">ORIGEM</th>
+                        <th style="padding:10px;">SENHA</th>
+                        <th style="padding:10px;">PIN</th>
+                        <th style="padding:10px;">DATA / HORA</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+            listaParaExibir.forEach(u => {
+                htmlTabela += `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.1);">
+                <td style="padding:10px;">
+                    <div style="font-weight:bold; color:#fff;">${u.nome}</div>
+                    <div style="font-size:9px; color:#888;">${u.email}</div>
+                </td>
+                <td style="padding:10px;">${u.cargo || 'Colaborador'}</td>
+                <td style="padding:10px; font-family:monospace; color:#21d4fd;">${u.wallet}</td>
+                <td style="padding:10px; font-size:9px;">${u.origem || 'Externo'}</td>
+                <td style="padding:10px;">
+                    <span style="filter: blur(4px); transition: 0.3s; cursor: pointer; font-family: monospace;" onmouseover="this.innerText='${isAdmin ? u.senha : 'Restrito'}'; this.style.filter='none'" onmouseout="this.innerText='******'; this.style.filter='blur(4px)'">******</span>
+                </td>
+                <td style="padding:10px;">
+                    <span style="filter: blur(4px); transition: 0.3s; cursor: pointer; color:#00ff88; font-family: monospace;" onmouseover="this.innerText='${isAdmin ? u.pin : 'Restrito'}'; this.style.filter='none'" onmouseout="this.innerText='******'; this.style.filter='blur(4px)'">******</span>
+                </td>
+                <td style="padding:10px;">${u.cadastroEm || '---'}</td>
+            </tr>`;
+            });
+
+            htmlTabela += `</tbody></table></div>`;
+
+            // Redireciona para o painel integrado full-width
+            document.getElementById('relatorio-fullwidth-titulo').innerText = "Cadastro de Colaboradores";
+            document.getElementById('relatorio-fullwidth-titulo').style.color = "#00ff88";
+            document.getElementById('relatorio-fullwidth-conteudo').innerHTML = htmlTabela;
+            document.getElementById('area-relatorio-fullwidth').style.display = 'block';
+        }
+    };
+
+    function abrirRelatorioFinanceiro() {
+        const sessao = JSON.parse(localStorage.getItem('usuario_sessao')) || {};
+        const isAdmin = sessao.email && sessao.email.includes('alts.com');
+        const chain = window.myLedger.getChain();
+        const transacoesFiltradas = chain.filter(t => isAdmin || t.origem === sessao.nome || t.destino === sessao.nome);
+
+        let html = `
+    <div style="overflow-y: auto; max-height: 350px; border: 1px solid rgba(255,255,255,0.05); border-radius: 4px; background: rgba(0,0,0,0.1);">
+        <div style="overflow-x: auto;">
+            <table style="width:100%; border-collapse: collapse; min-width: 900px; font-size: 0.75rem; color:#e2e8f0;">
+                <thead style="background: #111; color: var(--secondary); text-align: left; position: sticky; top: 0; z-index: 1;">
+                    <tr style="border-bottom: 2px solid var(--secondary);">
+                        <th style="padding: 10px;">ORIGEM (NOME/CARGO)</th>
+                        <th>HASH / WALLET ORIGEM</th>
+                        <th>WALLET DESTINO</th>
+                        <th>VALOR</th>
+                        <th>DATA/HORA</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+        transacoesFiltradas.forEach(t => {
+            const ehGenesis = t.origem === "SISTEMA ALTS" || t.origem === "SISTEMA";
+            const corValor = ehGenesis ? "var(--success)" : "var(--error)";
+            const sinal = ehGenesis ? "+" : "-";
+
+            html += `
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td style="padding: 10px;">
+                    ${t.origemNome || t.origem} 
+                    <br><small style="color: #666;">${t.origemCargo || (ehGenesis ? 'Protocolo Gênesis' : 'Blockchain Node')}</small>
+                </td>
+                <td style="font-family: monospace; font-size: 10px; color: #888;">
+                    ${t.hash ? `HASH: ${t.hash.substring(0, 12)}...` : (t.origemWallet || 'N/A')}
+                </td>
+                <td style="color: var(--secondary);">${t.destinoWallet || t.destino}</td>
+                <td style="color: ${corValor}; font-weight: bold;">${sinal} R$ ${t.valor.toLocaleString('pt-BR')}</td>
+                <td>${t.timestamp || t.data}</td>
+            </tr>`;
+        });
+
+        if (transacoesFiltradas.length === 0) {
+            html += '<tr><td colspan="5" style="text-align:center; padding:20px; color: #555;">Nenhuma movimentação registrada para sua conta.</td></tr>';
+        }
+
+        html += `</tbody></table></div></div>`;
+
+        // Redireciona para o painel integrado full-width
+        document.getElementById('relatorio-fullwidth-titulo').innerText = "RELATÓRIO DE MOVIMENTAÇÃO FINANCEIRA";
+        document.getElementById('relatorio-fullwidth-titulo').style.color = "var(--secondary)";
+        document.getElementById('relatorio-fullwidth-conteudo').innerHTML = html;
+        document.getElementById('area-relatorio-fullwidth').style.display = 'block';
+    }
+
+    // 2. Função de Assinatura e Envio
+    function assinarTransacao() {
+        const destWallet = document.getElementById('send-dest').value;
+        const valorInput = document.getElementById('send-valor').value;
+        const valor = parseFloat(valorInput);
+        const emailSig = document.getElementById('sign-email').value;
+        const passSig = document.getElementById('sign-pass').value;
+        // --- REPARO CIRÚRGICO DA ASSINATURA ---
+        const sessaoAtiva = JSON.parse(localStorage.getItem('usuario_sessao'));
+        // 1. Validação de Identidade (Substituindo Alert por Pop-over)
+        if (emailSig !== sessaoAtiva.email || passSig !== sessaoAtiva.pin) {
+            const popover = document.getElementById('popover');
+            document.getElementById('popover-title').innerText = "ASSINATURA INVÁLIDA";
+            document.getElementById('popover-title').style.color = "#ff4d4d"; // Vermelho de erro
+            document.getElementById('popover-msg').innerHTML = `
+                <p style="text-align:center;">Andre, os dados de assinatura não conferem.</p>
+                <p style="font-size:10px; color:#888; margin-top:10px;">Verifique se utilizou seu e-mail oficial: <b>${sessaoAtiva.email}</b></p>
+            `;
+            document.getElementById('popover-main-btn').style.display = "block";
+            document.getElementById('popover-main-btn').innerText = "TENTAR NOVAMENTE";
+            popover.style.display = 'flex';
+            return; // Interrompe a execução
+        }
+        // 2. Validação Financeira
+        if (!destWallet || isNaN(valor) || valor <= 0 || valor > appState.admin.saldo) {
+            const popover = document.getElementById('popover');
+            document.getElementById('popover-title').innerText = "ERRO DE OPERAÇÃO";
+            document.getElementById('popover-title').style.color = "#ffb86c"; // Laranja de atenção
+            document.getElementById('popover-msg').innerHTML = "Verifique o destinatário, o valor digitado ou se há saldo disponível.";
+            document.getElementById('popover-main-btn').style.display = "block";
+            document.getElementById('popover-main-btn').innerText = "CORRIGIR DADOS";
+            popover.style.display = 'flex';
+            return;
+        }
+        // Insira antes de const destinatario = ...
+        appState.colaboradores = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+        const destinatario = appState.colaboradores.find(c => c.wallet === destWallet);
+        // Registro do Ledger (Movimentação)
+        const novaTransacao = {
+            origemNome: appState.admin.nome,
+            origemCargo: appState.admin.cargo,
+            origemEmail: appState.admin.email,
+            origemWallet: appState.admin.wallet,
+            destinoNome: destinatario.nome,
+            destinoWallet: destWallet,
+            valor: valor,
+            data: new Date().toLocaleString('pt-BR')
+        };
+        // Processamento de Débito
+        appState.admin.saldo -= valor;
+        // Inicializa o array de transações caso ele não exista (Segurança contra erro de reset)
+        // Substitua a lógica de push e salvarEstado() por:
+        if (typeof myLedger !== 'undefined') {
+            myLedger.addBlock(appState.admin.nome, destinatario.nome, valor);
+        }
+        salvarEstado();
+        atualizarUI();
+        // Feedback de Sucesso
+        document.getElementById('popover-title').innerText = "TRANSAÇÃO CONCLUÍDA";
+        document.getElementById('popover-title').style.color = "var(--success)";
+        document.getElementById('popover-msg').innerHTML = `
+        <div style="text-align: center;">
+            <p>Envio de <strong>R$ ${valor.toLocaleString('pt-BR')}</strong> realizado!</p>
+            <p style="font-size: 0.8rem; color: #888;">Destino: ${destinatario.nome}</p>
+        </div>
+    `;
+        const btnAcao = document.getElementById('popover-main-btn');
+        btnAcao.innerText = "CONCLUIR";
+        btnAcao.onclick = fecharPopover;
+        document.getElementById('popover').style.display = 'flex';
+        // Limpeza de campos de segurança
+        document.getElementById('send-valor').value = "";
+        document.getElementById('sign-pass').value = "";
+    }
+
+    // --- FINALIZAÇÃO: REPARO DO RESET (OTIMIZADO E DESACOPLADO) ---
+    function resetGenesis() {
+        const sessaoSeguranca = JSON.parse(localStorage.getItem('usuario_sessao'));
+        if (!sessaoSeguranca || sessaoSeguranca.cargo !== "Administrador Gênesis") {
+            alert("Acesso Negado: Operação restrita ao Administrador.");
+            return;
+        }
+
+        // Validação de segurança utilizando a API nativa do navegador
+        const confirmado = window.confirm("CONFIRMAR RESET TOTAL\n\nEsta ação é irreversível.\n\nO banco de dados local será apagado e a página reiniciada. Deseja continuar?");
+
+        if (confirmado) {
+            // 1. Purga do Banco de Dados Local (Storage)
+            localStorage.removeItem('alt_solution_users');
+            localStorage.removeItem('genesis_state');
+            localStorage.removeItem('usuario_sessao');
+
+            // 2. Limpeza profunda da RAM (Módulo Ledger e Estado)
+            if (window.myLedger && typeof window.myLedger.clearAll === 'function') { window.myLedger.clearAll(); }
+            if (window.myLedger && window.myLedger.chain) { window.myLedger.chain = []; }
+            appState.transacoes = [];
+            appState.admin.saldo = 0;
+            
+            // 3. Persistência do Estado Base Limpo antes de descarregar a página
+            localStorage.setItem('genesis_state', JSON.stringify(appState));
+
+            // 4. Limpeza Visual e Disparo do Recarregamento (Último passo)
+            if (window.fecharRelatorioFullWidth) { window.fecharRelatorioFullWidth(); }
+            window.location.reload();
+        }
+
+    }
+    // --- SOLUÇÃO PROBLEMA 1: LOGOUT ---
+    function encerrarSessao() {
+        // 1. Limpa a chave de sessão para impedir acesso sem login
+        localStorage.removeItem('usuario_sessao');
+        // 2. Redireciona para a tela inicial
+        // Usamos replace para que o usuário não consiga voltar com a seta do navegador
+        window.location.replace('index.html');
+    }
+</script>
+</body>
+
+</html>

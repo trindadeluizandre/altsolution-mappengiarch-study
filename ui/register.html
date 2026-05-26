@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALT Solution - Cadastro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-blue: #21d4fd;
+            --neon-green: #00ff88;
+            --glass-bg: rgba(23, 28, 35, 0.0);
+            --glass-border: rgba(33, 212, 253, 0.2);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #06090f;
+            /* Grid Tecnológico para alinhar com o Dashboard */
+            background-image:
+                linear-gradient(rgba(33, 212, 253, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(33, 212, 253, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #e2e8f0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        /* CONTAINER COM EFEITO DE VIDRO FOSCO */
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 40px 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+        /* LUZ DE STATUS POSICIONADA NO TOPO */
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: absolute;
+            top: 25px;
+            right: 25px;
+        }
+        .light-red {
+            background: #ff5252;
+            box-shadow: 0 0 10px #ff5252;
+        }
+        .light-green {
+            background: var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+        .input-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .input-container input {
+            width: 100%;
+            padding: 12px 40px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+        .input-container input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(33, 212, 253, 0.2);
+        }
+        .icon-left {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-blue);
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            cursor: pointer;
+        }
+        /* DESTAQUE DO PIN DE SEGURANÇA */
+        .pin-display {
+            background: rgba(0, 255, 136, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--neon-green);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: 1px dashed var(--neon-green);
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+        }
+        .btn-inactive {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            background: #1a1d23;
+            color: #555;
+            cursor: not-allowed;
+            border: none;
+            font-weight: bold;
+        }
+        /* BOTÃO DE AÇÃO GÊNESIS */
+        .btn-active {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+            color: #000;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-active:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
+        }
+        .toast {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--neon-green);
+            color: #000;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.5s;
+            z-index: 9999;
+        }
+        .toast.show {
+            top: 30px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="success-toast" class="toast">Identidade Criada com Sucesso!</div>
+    
+    <div id="error-toast" class="toast">A rede já foi inicializada!</div>
+    
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2>Nova Identidade</h2>
+            <div id="status-light" class="status-light light-red"></div>
+        </header>
+        
+        <div id="pin-section">
+            <p style="font-size: 0.85rem; color: #888; margin-bottom: 10px;">PIN de Segurança Gerado:</p>
+            <div class="pin-display" id="generated-pin">----</div>
+            <button class="btn-active" style="margin-bottom: 20px; background: #21d4fd;" onclick="gerarPin()">GERAR MEU
+                PRIMEIRO PIN</button>
+        </div>
+        
+        <div class="input-container">
+            <i class="fa-solid fa-user icon-left"></i>
+            <input type="text" id="reg-name" placeholder="Nome Completo">
+        </div>
+        <div class="input-container">
+            <i class="fa-solid fa-envelope icon-left"></i>
+            <input type="email" id="reg-email" placeholder="E-mail Corporativo">
+        </div>
+        <div class="input-container">
+            <i class="fa-solid fa-lock icon-left"></i>
+            <input type="password" id="reg-pass" placeholder="Definir Nova Senha">
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+        </div>
+        
+        <button id="btn-register" class="btn-inactive" disabled onclick="cadastrar()">SOLICITAR ACESSO</button>
+        
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="index.html" style="color: #21d4fd; text-decoration: none; font-size: 0.9rem;">Já possui conta?
+                Entrar</a>
+        </div>
+        
+    </div>
+    <script type="module">
+        import { StorageService } from '../logic/storage.js';
+        let currentPin = "";
+        // --- REPARO CIRÚRGICO: TRAVA DE SEGURANÇA GÊNESIS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (StorageService.hasGenesis()) {
+                console.warn("ACESSO NEGADO: O Ambiente Gênesis já possui um Administrador Raiz.");
+                
+                const errorToast = document.getElementById('error-toast');
+                let contagem = 5;
+                
+                errorToast.innerText = `A rede já foi inicializada! Redirecionando em ${contagem}s...`;
+                errorToast.classList.add('show');
+                
+                const temporizadorTrava = setInterval(() => {
+                    contagem--;
+                    if (contagem > 0) {
+                        errorToast.innerText = `A rede já foi inicializada! Redirecionando em ${contagem}s...`;
+                    } else {
+                        clearInterval(temporizadorTrava);
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+            }
+        });
+        window.gerarPin = () => {
+            currentPin = Math.floor(100000 + Math.random() * 900000).toString();
+            document.getElementById('generated-pin').innerText = currentPin;
+            validar();
+        };
+        window.togglePassword = () => {
+            const input = document.getElementById('reg-pass');
+            const icon = document.querySelector('.toggle-password');
+            input.type = input.type === 'password' ? 'text' : 'password';
+            icon.classList.toggle('fa-eye-slash');
+        };
+        window.validar = () => {
+            const n = document.getElementById('reg-name').value.trim();
+            const e = document.getElementById('reg-email').value.trim();
+            const p = document.getElementById('reg-pass').value.trim();
+            const btn = document.getElementById('btn-register');
+            const light = document.getElementById('status-light');
+            const regexSeguranca = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const camposValidos = n.length > 3 && emailRegex.test(e) && regexSeguranca.test(p);
+            const pinGerado = typeof currentPin !== 'undefined' && currentPin !== '';
+            if (camposValidos && pinGerado) {
+                btn.className = 'btn-active';
+                btn.disabled = false;
+                light.className = 'status-light light-green';
+            } else {
+                btn.className = 'btn-inactive';
+                btn.disabled = true;
+                light.className = 'status-light light-red';
+            }
+        };
+        document.getElementById('reg-name').addEventListener('input', window.validar);
+        document.getElementById('reg-email').addEventListener('input', window.validar);
+        document.getElementById('reg-pass').addEventListener('input', window.validar);
+        // Vinculação ao final do arquivo, antes do
+        document.getElementById('reg-pass').addEventListener('change', window.validar);
+        // --- REPARO CIRÚRGICO: CADASTRO COM COMPATIBILIDADE DE ESTADO ---
+        window.cadastrar = () => {
+            // --- REPARO CIRÚRGICO: DEFINIÇÃO DO BLOCO GÊNESIS ---
+            const user = {
+                nome: document.getElementById('reg-name').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                senha: document.getElementById('reg-pass').value,
+                pin: currentPin,
+                wallet: '0x' + Math.random().toString(16).slice(2, 10).toUpperCase(),
+                // O cargo pode ser capturado de um input ou fixado como "Presidente do Conselho"
+                cargo: "Administrador Gênesis",
+                origem: "Ambiente Gênesis",      // Chave mestra de identificação
+                power_level: 0,                  // Nível raiz para liberar funções no Dashboard
+                saldoTotal: 0,
+                historico: [],
+                cadastroEm: new Date().toLocaleString('pt-BR')
+            };
+            // 2. Validação simples: Não deixa cadastrar vazio
+            if (!user.nome || !user.email || !user.senha) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+            // LOCALIZAR no script de register.html o bloco "3. PERSISTÊNCIA NA LISTA DE USUÁRIOS"
+            // Substitua o trecho antigo por esta chamada limpa:
+
+            // --- REPARO CIRÚRGICO: UNIFICAÇÃO DA PERSISTÊNCIA VIA STORAGESERVICE ---
+            if (typeof StorageService !== 'undefined') {
+                StorageService.saveUser(user);
+            } else {
+                // Fallback de segurança caso o módulo não tenha carregado
+                let usuariosDaRede = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+                usuariosDaRede.push(user);
+                localStorage.setItem('alt_solution_users', JSON.stringify(usuariosDaRede));
+            }
+            // --- FIM DO REPARO ---
+            // 5. Feedback Visual e Redirecionamento com Contagem Regressiva
+            const toastElement = document.getElementById('success-toast');
+            let contagem = 5;
+            
+            toastElement.innerText = `Identidade criada ! Redirecionando em ${contagem}s...`;
+            toastElement.classList.add('show');
+            
+            console.log("Usuário Gênesis registrado na REDE ALT:", user.wallet);
+            
+            const temporizador = setInterval(() => {
+                contagem--;
+                if (contagem > 0) {
+                    toastElement.innerText = `Identidade criada ! Redirecionando em ${contagem}s...`;
+                } else {
+                    clearInterval(temporizador);
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
