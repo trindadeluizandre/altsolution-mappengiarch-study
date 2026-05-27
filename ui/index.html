@@ -147,86 +147,86 @@
 </head>
 
 <body>
-//Esta linha abre a região principal do site. Tudo o que for colocado daqui para a frente 
-será desenhado e exibido de forma visível na janela do navegador para quem estiver acessando o sistema.//    
+<!--Esta linha abre a região principal do site. Tudo o que for colocado daqui para a frente 
+será desenhado e exibido de forma visível na janela do navegador para quem estiver acessando o sistema.-->    
     
 <div id="error-toast" class="toast">Acesso Negado! Credenciais inválidas.</div>
-    //Esta linha cria uma caixa de texto que exibe o aviso "Acesso Negado!". O elemento 'div' serve para criar blocos na tela. 
+    <!--Esta linha cria uma caixa de texto que exibe o aviso "Acesso Negado!". O elemento 'div' serve para criar blocos na tela. 
     O atributo id="error-toast" funciona como o "RG exclusivo" dessa caixinha para que o sistema a encontre depois. 
-    A propriedade class="toast" aplica regras visuais para deixá-la flutuando no topo do site como um balão de alerta.//
+    A propriedade class="toast" aplica regras visuais para deixá-la flutuando no topo do site como um balão de alerta.-->
     
     <div class="container">
-    //Esta linha abre uma grande caixa invisível que serve para organizar o site. 
+    <!--Esta linha abre uma grande caixa invisível que serve para organizar o site. 
     A palavra class="container" indica que este bloco vai seguir o padrão visual de limitar a largura máxima da tela, 
-    centralizando todo o formulário de login para que ele não fique espalhado pelas bordas.//    
+    centralizando todo o formulário de login para que ele não fique espalhado pelas bordas.-->    
         
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-        //Esta linha cria o cabeçalho no topo da página. A tag header avisa ao navegador que este pedaço é o topo do site. 
+        <!--Esta linha cria o cabeçalho no topo da página. A tag header avisa ao navegador que este pedaço é o topo do site. 
         O comando style="..." configura as regras de design: o display: flex alinha os itens lado a lado; 
         o justify-content: space-between joga o texto para a esquerda e a luz indicadora para a direita; 
         o align-items: center deixa tudo alinhado na mesma altura do meio; 
-        e o margin-bottom: 25px cria um espaço vazio abaixo deles para empurrar o resto do conteúdo para baixo.//    
+        e o margin-bottom: 25px cria um espaço vazio abaixo deles para empurrar o resto do conteúdo para baixo.-->    
             
             <div>
-            //Esta linha abre uma pequena caixinha interna usada apenas para agrupar as duas linhas de texto que virão a seguir, garantindo que o título e o subtítulo fiquem grudados e se movam juntos.//                
+            <!--Esta linha abre uma pequena caixinha interna usada apenas para agrupar as duas linhas de texto que virão a seguir, garantindo que o título e o subtítulo fiquem grudados e se movam juntos.-->                
                 
                 <h2 style="font-size: 1.5rem;">Acesso a Rede</h2>
-                //Esta linha exibe o título principal da tela "Acesso a Rede". A tag h2 define que o texto é um título de destaque e a propriedade style="font-size: 1.5rem;" configura o tamanho exato da letra.//
+                <!--Esta linha exibe o título principal da tela "Acesso a Rede". A tag h2 define que o texto é um título de destaque e a propriedade style="font-size: 1.5rem;" configura o tamanho exato da letra.-->
                 
                 <p style="color: #888; font-size: 0.8rem;">ALT Solution - Assets Liquidity & Treasury</p>
-                //Esta linha exibe o subtítulo descritivo com o nome completo da corporação. A tag 'p' cria um bloco de parágrafo de texto comum, enquanto o estilo color: #888 deixa a cor da letra num tom cinza discreto e o font-size: 0.8rem diminui o tamanho do texto para ficar menor que o título.//
+                <!--Esta linha exibe o subtítulo descritivo com o nome completo da corporação. A tag 'p' cria um bloco de parágrafo de texto comum, enquanto o estilo color: #888 deixa a cor da letra num tom cinza discreto e o font-size: 0.8rem diminui o tamanho do texto para ficar menor que o título.-->
             
             </div>
-            //Esta linha fecha a caixinha interna que estava agrupando os textos. Tudo o que for criado a partir daqui não fará mais parte do bloco de títulos do cabeçalho.//
+            <!--Esta linha fecha a caixinha interna que estava agrupando os textos. Tudo o que for criado a partir daqui não fará mais parte do bloco de títulos do cabeçalho.-->
 
             <div id="status-light" class="status-light light-red"></div>
-            //Esta linha cria a bolinha indicadora de status de conexão na tela. O atributo id="status-light" dá um nome exclusivo para essa bolinha para que o programador consiga mudar a cor dela via código. A classe status-light desenha a bolinha redonda na tela e a classe light-red pinta ela de vermelho, indicando que o sistema começa desconectado da rede.//
+            <!--Esta linha cria a bolinha indicadora de status de conexão na tela. O atributo id="status-light" dá um nome exclusivo para essa bolinha para que o programador consiga mudar a cor dela via código. A classe status-light desenha a bolinha redonda na tela e a classe light-red pinta ela de vermelho, indicando que o sistema começa desconectado da rede.-->
         
         </header>
-        //Esta linha fecha o bloco do cabeçalho do site. Toda a estrutura do topo da página está concluída.//
+        <!--Esta linha fecha o bloco do cabeçalho do site. Toda a estrutura do topo da página está concluída.-->
 
         <div class="input-container">
-        //Esta linha abre uma caixinha para organizar uma linha de entrada de dados. A classe input-container aplica regras visuais para garantir que o campo de texto e o ícone fiquem bem posicionados e organizados juntos.//
+        <!--Esta linha abre uma caixinha para organizar uma linha de entrada de dados. A classe input-container aplica regras visuais para garantir que o campo de texto e o ícone fiquem bem posicionados e organizados juntos.-->
 
             <i class="fa-solid fa-envelope icon-left"></i>
-            //Esta linha desenha um pequeno desenho de envelope na tela. A tag 'i' serve para inserir ícones, e as classes 'fa-solid fa-envelope' escolhem a imagem do envelope, enquanto a classe 'icon-left' joga esse desenho para o lado esquerdo do campo.//
+            <!--Esta linha desenha um pequeno desenho de envelope na tela. A tag 'i' serve para inserir ícones, e as classes 'fa-solid fa-envelope' escolhem a imagem do envelope, enquanto a classe 'icon-left' joga esse desenho para o lado esquerdo do campo.-->
 
             <input type="email" id="l-email" placeholder="E-mail de acesso">
-            //Esta linha cria o campo onde o usuário digita o e-mail. A tag input gera campos de preenchimento, o atributo type="email" garante que o navegador valide se o texto digitado possui uma estrutura com "@" e ponto, o id="l-email" dá o nome único para a lógica JavaScript ler o que foi escrito, e o placeholder="..." define a frase instrutiva em cinza que desaparece ao digitar.//
+            <!--Esta linha cria o campo onde o usuário digita o e-mail. A tag input gera campos de preenchimento, o atributo type="email" garante que o navegador valide se o texto digitado possui uma estrutura com "@" e ponto, o id="l-email" dá o nome único para a lógica JavaScript ler o que foi escrito, e o placeholder="..." define a frase instrutiva em cinza que desaparece ao digitar.-->
 
         </div>
-        //Esta linha fecha a primeira caixinha de entrada de dados. Tudo o que for digitado abaixo fará parte de um novo bloco.//
+        <!--Esta linha fecha a primeira caixinha de entrada de dados. Tudo o que for digitado abaixo fará parte de um novo bloco.-->
 
         <div class="input-container">
-        //Esta linha abre uma nova caixinha de organização, idêntica à primeira, mas agora reservada para agrupar e estruturar visualmente o campo de senha do usuário.//
+        <!--Esta linha abre uma nova caixinha de organização, idêntica à primeira, mas agora reservada para agrupar e estruturar visualmente o campo de senha do usuário.-->
 
             <i class="fa-solid fa-lock icon-left"></i>
-            //Esta linha desenha um ícone de cadeado. As propriedades fa-solid fa-lock definem o desenho do cadeado trancado e a classe icon-left fixa a imagem do lado esquerdo interno do campo de preenchimento.//
+            <!--Esta linha desenha um ícone de cadeado. As propriedades fa-solid fa-lock definem o desenho do cadeado trancado e a classe icon-left fixa a imagem do lado esquerdo interno do campo de preenchimento.-->
 
             <input type="password" id="l-pass" placeholder="Sua senha">
-            //Esta linha cria o campo de texto para digitar a senha. O grande diferencial está no atributo type="password", que avisa ao navegador para ocultar os caracteres digitados por bolinhas pretas, protegendo a senha de olhares terceiros, enquanto o id="l-pass" serve de ponte de acesso para os códigos JavaScript.//
+            <!--Esta linha cria o campo de texto para digitar a senha. O grande diferencial está no atributo type="password", que avisa ao navegador para ocultar os caracteres digitados por bolinhas pretas, protegendo a senha de olhares terceiros, enquanto o id="l-pass" serve de ponte de acesso para os códigos JavaScript.-->
 
             <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
-            //Esta linha cria o ícone de "olhinho" usado para revelar a senha. A classe fa-solid fa-eye desenha o olho, a propriedade toggle-password posiciona ele no canto direito do campo, e o comando onclick="togglePassword()" diz ao navegador que, toda vez que o usuário clicar nesse olho, ele deve chamar e rodar uma função no código JavaScript que altera o campo de oculto para visível.//
+            <!--Esta linha cria o ícone de "olhinho" usado para revelar a senha. A classe fa-solid fa-eye desenha o olho, a propriedade toggle-password posiciona ele no canto direito do campo, e o comando onclick="togglePassword()" diz ao navegador que, toda vez que o usuário clicar nesse olho, ele deve chamar e rodar uma função no código JavaScript que altera o campo de oculto para visível.-->
 
         </div>
-        //Esta linha finaliza o escopo da segunda caixinha de entrada de dados.//
+        <!--Esta linha finaliza o escopo da segunda caixinha de entrada de dados.-->
 
         <button id="btn-login" class="btn-inactive" disabled onclick="autenticar()">AUTENTICAR NA REDE</button>
-        //Esta linha cria o botão "AUTENTICAR NA REDE" usado para fazer login. O id="btn-login" nomeia o elemento, a classe class="btn-inactive" deixa ele visualmente cinza e apagado, o atributo disabled faz o navegador trancar o botão (impedindo cliques), e o onclick="autenticar()" define que, quando o botão estiver destrancado pelo sistema e for clicado, a função de checagem e login será acionada.//
+        <!--Esta linha cria o botão "AUTENTICAR NA REDE" usado para fazer login. O id="btn-login" nomeia o elemento, a classe class="btn-inactive" deixa ele visualmente cinza e apagado, o atributo disabled faz o navegador trancar o botão (impedindo cliques), e o onclick="autenticar()" define que, quando o botão estiver destrancado pelo sistema e for clicado, a função de checagem e login será acionada.-->
 
         <div style="margin-top: 20px; text-align: center;">
-        //Esta linha abre uma caixinha simples para ajustar a posição do link de cadastro. A instrução style="..." empurra a caixa 20 pixels para baixo (afastando-se do botão) e centraliza o link exatamente no meio horizontal da página.//
+        <!--Esta linha abre uma caixinha simples para ajustar a posição do link de cadastro. A instrução style="..." empurra a caixa 20 pixels para baixo (afastando-se do botão) e centraliza o link exatamente no meio horizontal da página.-->
 
             <a href="register.html" style="color: #21d4fd; text-decoration: none; font-size: 0.9rem;">Criar nova
                 identidade</a>
-                //Esta linha cria o link clicável "Criar nova identidade". A tag a gera links de navegação, o atributo href="register.html" avisa ao navegador qual página deve ser aberta quando o usuário clicar ali, e as regras do style pintam o texto de azul claro, removem aquele risco sublinhado padrão dos links e encolhem um pouco o tamanho da letra.//
+                <!--Esta linha cria o link clicável "Criar nova identidade". A tag a gera links de navegação, o atributo href="register.html" avisa ao navegador qual página deve ser aberta quando o usuário clicar ali, e as regras do style pintam o texto de azul claro, removem aquele risco sublinhado padrão dos links e encolhem um pouco o tamanho da letra.-->
 
         </div>
-        //Esta linha fecha a caixinha de ajuste de posição do link.//
+        <!--Esta linha fecha a caixinha de ajuste de posição do link.-->
 
     </div>
-    //Esta linha fecha a grande caixa invisível central que envelopava todo o formulário. Isso conclui o empacotamento visual de toda a tela de login.//
+    <!--Esta linha fecha a grande caixa invisível central que envelopava todo o formulário. Isso conclui o empacotamento visual de toda a tela de login.-->
 
     <script type="module">
         //abre a seção de programação do site. O comando indica ao navegador que os próximos blocos não são elementos visuais, mas sim comandos de lógica JavaScript que rodarão de forma moderna, limpa e segura.//
@@ -369,10 +369,10 @@ será desenhado e exibido de forma visível na janela do navegador para quem est
         //cria o mesmo vigia de perda de foco para o campo de e-mail, forçando a verificação de regras se o usuário clicar fora do campo, garantindo que as cores do botão e da luz mudem reativamente.//
 
     </script>
-    //encerra a seção de códigos e programações de lógica da página.//
+    <!--encerra a seção de códigos e programações de lógica da página.-->
 
 </body>
-//fecha o corpo do site, indicando que nenhum outro elemento visual será desenhado na tela abaixo daqui.
+<!--fecha o corpo do site, indicando que nenhum outro elemento visual será desenhado na tela abaixo daqui.-->
 
 </html>
-//fecha o arquivo por completo. É o ponto final de toda a estrutura da página de login.
+<!--fecha o arquivo por completo. É o ponto final de toda a estrutura da página de login.-->
