@@ -345,52 +345,251 @@
 </head>
 
 <body>
+
     <div class="main-container">
+    <!-- Versão Didática: Esta é a "grande caixa" que segura todo o conteúdo do site e garante que ele fique centralizado e organizado na tela. -->
+    <!-- Versão Técnica: Elemento contêiner de nível superior (Wrapper) que define o limite de largura e o contexto de empilhamento vertical para o layout flexível. -->
+
         <header class="header-genesis">
+        <!-- Versão Didática: Esta linha abre o topo do site, onde mostramos quem você é e quanto dinheiro tem na rede. -->
+        <!-- Versão Técnica: Nó semântico de cabeçalho configurado com Glassmorphism e posicionamento relativo para ancoragem de pseudo-elementos decorativos. -->
+
             <div class="user-info">
-                <h2 id="header-title">Ambiente Gênesis - <span id="user-fullname" style="color: var(--secondary);">André
-                        Luiz Trindade</span></h2>
-                <div class="user-details"
-                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 5px;">
+            <!-- Versão Didática: Esta caixinha agrupa o seu nome e os seus dados de identificação pessoal. -->
+            <!-- Versão Técnica: Divisão de agrupamento (Sub-bloco) responsável por encapsular os metadados do perfil do usuário autenticado. -->
+
+                <h2 id="header-title">Ambiente Gênesis - <span id="user-fullname" style="color: var(--secondary);">André Luiz Trindade</span></h2>
+                <!-- Versão Didática: Este é o título principal que diz em qual parte do sistema você está e mostra o seu nome completo. -->
+                <!-- Versão Técnica: Elemento de cabeçalho de segundo nível com nós de texto dinâmicos mapeados via ID para manipulação de string via JavaScript. -->
+
+                <div class="user-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 5px;">
+                <!-- Versão Didática: Aqui organizamos a sua carteira e o seu e-mail em duas colunas para ficar fácil de ler. -->
+                <!-- Versão Técnica: Contêiner de layout em grade (CSS Grid) configurado com duas frações iguais para exibição simétrica de propriedades. -->
+
                     <div>
-                        <p><i class="fas fa-wallet" style="color: var(--secondary);"></i> Wallet: <span
-                                id="header-wallet">0xBCB96235</span></p>
-                        <p><i class="fas fa-envelope" style="color: var(--secondary);"></i> E-mail: <span
-                                id="header-email">andrelt@alts.com</span></p>
+
+                        <p><i class="fas fa-wallet" style="color: var(--secondary);"></i> Wallet: <span id="header-wallet">0xBCB96235</span></p>
+                        <!-- Versão Didática: Mostra o endereço da sua carteira digital, que é como se fosse o seu "número de conta" na rede. -->
+                        <!-- Versão Técnica: Parágrafo contendo ícone vetorial e elemento span de ID único para injeção dinâmica de endereçamento alfanumérico. -->
+
+                        <p><i class="fas fa-envelope" style="color: var(--secondary);"></i> E-mail: <span id="header-email">andrelt@alts.com</span></p>
+                        <!-- Versão Didática: Exibe o seu endereço de e-mail corporativo que você usa para entrar no sistema. -->
+                        <!-- Versão Técnica: Elemento textual de metadados para exibição de credencial de identificação de login. -->
+
+                    </div>
+
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <!-- Versão Didática: Uma pequena linha que coloca os botões de Sair e de Reiniciar lado a lado. -->
+                <!-- Versão Técnica: Wrapper flexível horizontal utilizado para o alinhamento de elementos interativos de controle de estado. -->
+
+                    <button class="btn btn-logout" onclick="encerrarSessao()" style="margin-top: 0;">
+                    <!-- Versão Didática: Este botão serve para fechar a sua conta com segurança e voltar para a tela inicial. -->
+                    <!-- Versão Técnica: Atuador de comando (Button) vinculado ao manipulador de evento global encerrarSessao para invalidação de token de sessão. -->
+
+                        <i class="fas fa-right-from-bracket"></i> ENCERRAR SESSÃO
+
+                    </button>
+
+                    <button class="btn btn-outline" id="btn-reset" onclick="resetGenesis()" style="border-color: var(--error); color: var(--error); font-size: 0.65rem; padding: 5px 10px; border-radius: 4px; background: transparent; cursor: pointer; font-weight: bold;">
+                    <!-- Versão Didática: Este é um botão de segurança que apaga todos os dados e recomeça o sistema do zero. Use com cuidado! -->
+                    <!-- Versão Técnica: Elemento interativo de alta criticidade configurado com estilização de erro e vinculado à rotina de purga de dados persistidos. -->
+
+                        <i class="fas fa-trash-can"></i> RESET REVOLVER
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="balance-container" style="text-align: right; min-width: 280px;">
+            <!-- Versão Didática: Esta seção mostra o saldo total de dinheiro que existe na rede agora. -->
+            <!-- Versão Técnica: Contêiner de dados financeiros com alinhamento à direita e restrição de largura mínima para estabilidade visual. -->
+
+                <span class="balance-label">SALDO DISPONÍVEL (REDE)
+                <!-- Versão Didática: Um rótulo pequeno que explica que o valor abaixo é o saldo da rede. -->
+                <!-- Versão Técnica: Elemento de texto de nível de suporte para identificação de categoria de dado financeiro. -->
+
+                    <i class="fas fa-eye" id="toggle-balance-icon" onclick="toggleSaldoVisibilidade()" style="cursor: pointer; margin-left: 10px; color: var(--secondary);"></i>
+                    <!-- Versão Didática: O ícone do olhinho que permite esconder ou mostrar o saldo para ninguém ver por cima do seu ombro. -->
+                    <!-- Versão Técnica: Interruptor visual (Toggle) vinculado à função de manipulação de filtros CSS para proteção de privacidade. -->
+
+                </span>
+
+                <div class="balance-value" id="display-saldo" style="margin-bottom: 10px;">R$&nbsp;0,00</div>
+                <!-- Versão Didática: O valor real em reais do saldo da rede. Ele brilha quando você tem dinheiro guardado. -->
+                <!-- Versão Técnica: Nó de exibição monetária formatada com ID para atualização em tempo real e aplicação de efeitos de brilho (Neon Glow). -->
+
+                <div class="header-actions" style="display: flex; flex-direction: column; gap: 5px; align-items: flex-end;">
+                <!-- Versão Didática: Aqui ficam os botões para injetar dinheiro, estornar valores ou abrir relatórios. -->
+                <!-- Versão Técnica: Coluna de ações rápidas configurada com alinhamento de eixo secundário no final da flexbox. -->
+
+                    <div style="display: flex; gap: 5px;">
+
+                        <button id="btn-injetar" class="btn btn-success btn-small" onclick="abrirPopOverInjetar()">Injetar</button>
+                        <!-- Versão Didática: Botão usado pelo administrador para colocar dinheiro novo no sistema. -->
+                        <!-- Versão Técnica: Elemento de gatilho para abertura de interface modal de aporte de capital. -->
+
+                        <button class="btn btn-outline btn-small" onclick="abrirPopOverEstorno()" style="border-color: #ff9800; color: #ff9800;">Estornar</button>
+                        <!-- Versão Didática: Botão usado para retirar ou corrigir valores que foram enviados por engano. -->
+                        <!-- Versão Técnica: Atuador de comando para rotina de reversão financeira externa. -->
+
+                    </div>
+
+                    <div style="display: flex; gap: 5px; margin-top: 2px;">
+
+                        <button class="btn btn-small" onclick="window.abrirRelatorio('colaboradores')" style="background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; font-size: 0.65rem; padding: 4px 8px; cursor: pointer; font-weight: bold; border-radius: 3px;">
+                        <!-- Versão Didática: Abre a lista detalhada de todas as pessoas cadastradas na sua empresa. -->
+                        <!-- Versão Técnica: Botão de controle de visão que dispara a renderização de tabelas de usuários. -->
+
+                            <i class="fas fa-users"></i> Colaboradores
+
+                        </button>
+
+                        <button class="btn btn-small" onclick="window.abrirRelatorioFinanceiro()" style="background: rgba(33, 212, 253, 0.15); color: #21d4fd; border: 1px solid #21d4fd; font-size: 0.65rem; padding: 4px 8px; cursor: pointer; font-weight: bold; border-radius: 3px;">
+                        <!-- Versão Didática: Abre o extrato completo de todas as movimentações financeiras da rede. -->
+                        <!-- Versão Técnica: Atuador de comando para abertura do painel de auditoria do ledger. -->
+
+                            <i class="fas fa-file-invoice-dollar"></i> Financeiro
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <div id="area-relatorio-fullwidth" style="display: none; width: 100%; max-width: 1200px; margin: 20px auto; padding: 20px; background: #141414; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; box-sizing: border-box;">
+        <!-- Versão Didática: Este é o painel onde os relatórios aparecem quando você clica em "Colaboradores" ou "Financeiro". -->
+        <!-- Versão Técnica: Seção de conteúdo dinâmico (Slot) com estado inicial oculto, projetada para exibição de grandes volumes de dados tabulares. -->
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+
+                <h3 id="relatorio-fullwidth-titulo" style="margin: 0; font-size: 1.1rem; font-family: sans-serif;">Relatório</h3>
+                <!-- Versão Didática: O título que diz qual relatório você está lendo no momento. -->
+                <!-- Versão Técnica: Cabeçalho de terceiro nível para identificação contextual do conteúdo carregado. -->
+
+                <button onclick="fecharRelatorioFullWidth()" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+                <!-- Versão Didática: Botão para fechar o relatório e voltar a ver os cartões principais. -->
+                <!-- Versão Técnica: Elemento interativo de controle de visualização que reseta o estado do painel de relatórios. -->
+
+                    <i class="fas fa-xmark"></i> RECOLHER PAINEL
+
+                </button>
+
+            </div>
+
+            <div id="relatorio-fullwidth-conteudo"></div>
+            <!-- Versão Didática: O espaço vazio onde o sistema desenha a tabela com as informações. -->
+            <!-- Versão Técnica: Ponto de injeção de marcação dinâmica (Inner HTML) para o motor de relatórios. -->
+
+        </div>
+    <div class="main-container">
+    <!-- Versão Didática: Esta é a "grande caixa" que segura todo o conteúdo do site e garante que ele fique centralizado e organizado na tela. -->
+    <!-- Versão Técnica: Elemento contêiner de nível superior (Wrapper) que define o limite de largura e o contexto de empilhamento vertical para o layout flexível. -->
+
+        <header class="header-genesis">
+        <!-- Versão Didática: Esta linha abre o topo do site, onde mostramos quem você é e quanto dinheiro tem na rede. -->
+        <!-- Versão Técnica: Nó semântico de cabeçalho configurado com Glassmorphism e posicionamento relativo para ancoragem de pseudo-elementos decorativos. -->
+
+            <div class="user-info">
+            <!-- Versão Didática: Esta caixinha agrupa o seu nome e os seus dados de identificação pessoal. -->
+            <!-- Versão Técnica: Divisão de agrupamento (Sub-bloco) responsável por encapsular os metadados do perfil do usuário autenticado. -->
+
+                <h2 id="header-title">Ambiente Gênesis - <span id="user-fullname" style="color: var(--secondary);">André Luiz Trindade</span></h2>
+                <!-- Versão Didática: Este é o título principal que diz em qual parte do sistema você está e mostra o seu nome completo. -->
+                <!-- Versão Técnica: Elemento de cabeçalho de segundo nível com nós de texto dinâmicos mapeados via ID para manipulação de string via JavaScript. -->
+
+                <div class="user-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 5px;">
+                <!-- Versão Didática: Aqui organizamos a sua carteira e o seu e-mail em duas colunas para ficar fácil de ler. -->
+                <!-- Versão Técnica: Contêiner de layout em grade (CSS Grid) configurado com duas frações iguais para exibição simétrica de propriedades. -->
+
+                    <div>
+                        <p><i class="fas fa-wallet" style="color: var(--secondary);"></i> Wallet: <span id="header-wallet">0xBCB96235</span></p>
+                        <!-- Versão Didática: Mostra o endereço da sua carteira digital, que é como se fosse o seu "número de conta" na rede. -->
+                        <!-- Versão Técnica: Parágrafo contendo ícone vetorial e elemento span de ID único para injeção dinâmica de endereçamento alfanumérico. -->
+
+                        <p><i class="fas fa-envelope" style="color: var(--secondary);"></i> E-mail: <span id="header-email">andrelt@alts.com</span></p>
+                        <!-- Versão Didática: Exibe o seu endereço de e-mail corporativo que você usa para entrar no sistema. -->
+                        <!-- Versão Técnica: Elemento textual de metadados para exibição de credencial de identificação de login. -->
+
                     </div>
                 </div>
+
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <!-- Versão Didática: Uma pequena linha que coloca os botões de Sair e de Reiniciar lado a lado. -->
+                <!-- Versão Técnica: Wrapper flexível horizontal utilizado para o alinhamento de elementos interativos de controle de estado. -->
+
                     <button class="btn btn-logout" onclick="encerrarSessao()" style="margin-top: 0;">
+                    <!-- Versão Didática: Este botão serve para fechar a sua conta com segurança e voltar para a tela inicial. -->
+                    <!-- Versão Técnica: Atuador de comando vinculado ao manipulador de evento global para invalidação de token de sessão. -->
+
                         <i class="fas fa-right-from-bracket"></i> ENCERRAR SESSÃO
+
                     </button>
-                    <button class="btn btn-outline" id="btn-reset" onclick="resetGenesis()"
-                        style="border-color: var(--error); color: var(--error); font-size: 0.65rem; padding: 5px 10px; border-radius: 4px; background: transparent; cursor: pointer; font-weight: bold;">
+
+                    <button class="btn btn-outline" id="btn-reset" onclick="resetGenesis()" style="border-color: var(--error); color: var(--error); font-size: 0.65rem; padding: 5px 10px; border-radius: 4px; background: transparent; cursor: pointer; font-weight: bold;">
+                    <!-- Versão Didática: Este é um botão de segurança que apaga todos os dados e recomeça o sistema do zero. Use com cuidado! -->
+                    <!-- Versão Técnica: Elemento interativo de alta criticidade configurado com estilização de erro e vinculado à rotina de purga de dados persistidos. -->
+
                         <i class="fas fa-trash-can"></i> RESET REVOLVER
+
                     </button>
                 </div>
             </div>
 
             <div class="balance-container" style="text-align: right; min-width: 280px;">
+            <!-- Versão Didática: Esta seção mostra o saldo total de dinheiro que existe na rede agora. -->
+            <!-- Versão Técnica: Contêiner de dados financeiros com alinhamento à direita e restrição de largura mínima para estabilidade visual. -->
+
                 <span class="balance-label">SALDO DISPONÍVEL (REDE)
+                <!-- Versão Didática: Um rótulo pequeno que explica que o valor abaixo é o saldo da rede. -->
+                <!-- Versão Técnica: Elemento de texto de nível de suporte para identificação de categoria de dado financeiro. -->
+
                     <i class="fas fa-eye" id="toggle-balance-icon" onclick="toggleSaldoVisibilidade()"
                         style="cursor: pointer; margin-left: 10px; color: var(--secondary);"></i>
+                    <!-- Versão Didática: O ícone do olhinho que permite esconder ou mostrar o saldo para ninguém ver por cima do seu ombro. -->
+                    <!-- Versão Técnica: Interruptor visual (Toggle) vinculado à função de manipulação de filtros CSS para proteção de privacidade. -->
                 </span>
+
                 <div class="balance-value" id="display-saldo" style="margin-bottom: 10px;">R$&nbsp;0,00</div>
+                <!-- Versão Didática: O valor real em reais do saldo da rede. Ele brilha quando você tem dinheiro guardado. -->
+                <!-- Versão Técnica: Nó de exibição monetária formatada com ID para atualização em tempo real e aplicação de efeitos de brilho (Neon Glow). -->
+
                 <div class="header-actions"
                     style="display: flex; flex-direction: column; gap: 5px; align-items: flex-end;">
+                    <!-- Versão Didática: Aqui ficam os botões para injetar dinheiro, estornar valores ou abrir relatórios. -->
+                    <!-- Versão Técnica: Coluna de ações rápidas configurada com alinhamento de eixo secundário no final da flexbox. -->
+
                     <div style="display: flex; gap: 5px;">
                         <button id="btn-injetar" class="btn btn-success btn-small"
                             onclick="abrirPopOverInjetar()">Injetar</button>
+                        <!-- Versão Didática: Botão usado pelo administrador para colocar dinheiro novo no sistema. -->
+                        <!-- Versão Técnica: Elemento de gatilho para abertura de interface modal de aporte de capital. -->
+
                         <button class="btn btn-outline btn-small" onclick="abrirPopOverEstorno()"
                             style="border-color: #ff9800; color: #ff9800;">Estornar</button>
+                        <!-- Versão Didática: Botão usado para retirar ou corrigir valores que foram enviados por engano. -->
+                        <!-- Versão Técnica: Atuador de comando para rotina de reversão financeira externa. -->
                     </div>
+
                     <div style="display: flex; gap: 5px; margin-top: 2px;">
                         <button class="btn btn-small" onclick="window.abrirRelatorio('colaboradores')"
                             style="background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid #00ff88; font-size: 0.65rem; padding: 4px 8px; cursor: pointer; font-weight: bold; border-radius: 3px;">
+                            <!-- Versão Didática: Abre a lista detalhada de todas as pessoas cadastradas na sua empresa. -->
+                            <!-- Versão Técnica: Botão de controle de visão que dispara a renderização de tabelas de usuários. -->
                             <i class="fas fa-users"></i> Colaboradores
                         </button>
+
                         <button class="btn btn-small" onclick="window.abrirRelatorioFinanceiro()"
                             style="background: rgba(33, 212, 253, 0.15); color: #21d4fd; border: 1px solid #21d4fd; font-size: 0.65rem; padding: 4px 8px; cursor: pointer; font-weight: bold; border-radius: 3px;">
+                            <!-- Versão Didática: Abre o extrato completo de todas as movimentações financeiras da rede. -->
+                            <!-- Versão Técnica: Atuador de comando para abertura do painel de auditoria do ledger. -->
                             <i class="fas fa-file-invoice-dollar"></i> Financeiro
                         </button>
                     </div>
@@ -398,38 +597,66 @@
             </div>
 
         </header>
-        <div id="area-relatorio-fullwidth"
-            style="display: none; width: 100%; max-width: 1200px; margin: 20px auto; padding: 20px; background: #141414; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; box-sizing: border-box;">
-            <div
-                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                <h3 id="relatorio-fullwidth-titulo" style="margin: 0; font-size: 1.1rem; font-family: sans-serif;">
-                    Relatório</h3>
-                <button onclick="fecharRelatorioFullWidth()"
-                    style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.2s;"
-                    onmouseover="this.style.background='rgba(255,255,255,0.1)'"
-                    onmouseout="this.style.background='transparent'">
+        <div id="area-relatorio-fullwidth" style="display: none; width: 100%; max-width: 1200px; margin: 20px auto; padding: 20px; background: #141414; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; box-sizing: border-box;">
+            <!-- Versão Didática: Este é o painel onde os relatórios aparecem quando você clica em "Colaboradores" ou "Financeiro". -->
+            <!-- Versão Técnica: Seção de conteúdo dinâmico (Slot) com estado inicial oculto, projetada para exibição de grandes volumes de dados tabulares. -->
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                
+                <h3 id="relatorio-fullwidth-titulo" style="margin: 0; font-size: 1.1rem; font-family: sans-serif;">Relatório</h3>
+                <!-- Versão Didática: O título que diz qual relatório você está lendo no momento. -->
+                <!-- Versão Técnica: Cabeçalho de terceiro nível para identificação contextual do conteúdo carregado. -->
+
+                <button onclick="fecharRelatorioFullWidth()" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+                    <!-- Versão Didática: Botão para fechar o relatório e voltar a ver os cartões principais. -->
+                    <!-- Versão Técnica: Elemento interativo de controle de visualização que reseta o estado do painel de relatórios. -->
+                    
                     <i class="fas fa-xmark"></i> RECOLHER PAINEL
+                
                 </button>
+                
             </div>
+            
             <div id="relatorio-fullwidth-conteudo"></div>
+            <!-- Versão Didática: O espaço vazio onde o sistema desenha a tabela com as informações. -->
+            <!-- Versão Técnica: Ponto de injeção de marcação dinâmica (Inner HTML) para o motor de relatórios. -->
+            
         </div>
 
-        </header>
         <main class="dashboard-grid">
+            <!-- Versão Didática: Esta é a área principal onde todos os cartões de ferramentas (Cadastro, Envio, etc) ficam organizados. -->
+            <!-- Versão Técnica: Contêiner de grade principal (CSS Grid) que gerencia o posicionamento responsivo dos módulos funcionais do dashboard. -->
+
             <section class="card">
+                <!-- Versão Didática: Esta é a ficha de cadastro para colocar novos funcionários no sistema. -->
+                <!-- Versão Técnica: Módulo de entrada de dados (Form Component) encapsulado em um card de interface para criação de novos registros de usuários. -->
+
+            <section class="card">
+            <!-- Versão Didática: Esta é a ficha de cadastro para colocar novos funcionários no sistema. -->
+            <!-- Versão Técnica: Módulo de entrada de dados (Form Component) encapsulado em um card de interface para criação de novos registros de usuários. -->
+
                 <h3><i class="fas fa-user-plus"></i> Cadastrar Colaborador</h3>
+                <!-- Versão Didática: O título que mostra que este formulário é para cadastros. -->
+                <!-- Versão Técnica: Cabeçalho de seção com ícone decorativo Font Awesome para identificação semântica do recurso. -->
+
                 <div class="input-group">
                     <label>NOME DO COLABORADOR</label>
                     <input type="text" id="cad-nome" placeholder="Ex: nome completo">
+                    <!-- Versão Didática: Campo para digitar o nome completo do novo funcionário. -->
+                    <!-- Versão Técnica: Input do tipo texto vinculado ao ID 'cad-nome' para captura de string nominativa. -->
                 </div>
                 <div class="input-group">
                     <label>E-MAIL CORPORATIVO (LOGIN)</label>
                     <input type="email" id="cad-email" placeholder="abreviarnome@alts.com">
+                    <!-- Versão Didática: Campo para o e-mail da empresa do funcionário, que será usado para ele entrar no sistema. -->
+                    <!-- Versão Técnica: Input do tipo e-mail para validação sintática de endereçamento eletrônico no padrão RFC. -->
                 </div>
                 <div class="input-group">
                     <label>CARGO / SETOR (HIERARQUIA CORPORATIVA)</label>
                     <select id="mat-cargo"
                         style="width: 100%; padding: 8px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px;">
+                        <!-- Versão Didática: Uma lista de opções para escolher o cargo do funcionário, desde a diretoria até o operacional. -->
+                        <!-- Versão Técnica: Elemento select com optgroups hierárquicos para classificação de nível de acesso e cargo na estrutura de dados. -->
                         <optgroup label="1. Nível Estratégico (C-Level & Board)">
                             <option value="Presidente do Conselho">Presidente do Conselho (Chairman)</option>
                             <option value="Conselheiro Consultivo">Conselheiro Consultivo</option>
@@ -497,9 +724,13 @@
                     <label>SENHA DE ACESSO (DEVE CONTER LETRAS, NÚMEROS E @)</label>
                     <input type="text" id="cad-pass" placeholder="Ex: @Exemplo1"
                         style="background: rgba(0,0,0,0.3); color: #fff; border: 1px solid #444; width: 100%; padding: 10px; border-radius: 4px;">
+                    <!-- Versão Didática: A senha que o funcionário vai usar na tela de login. Ela precisa ser forte! -->
+                    <!-- Versão Técnica: Campo de entrada de credencial inicial para persistência no objeto de usuário. -->
                 </div>
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
                     <label>ASSINATURA DIGITAL (PIN NUMÉRICO)</label>
+                    <!-- Versão Didática: O código secreto de 6 números que o funcionário usará para confirmar pagamentos e transferências. -->
+                    <!-- Versão Técnica: Seção de gerenciamento de segredo transacional (PIN) via geração randômica. -->
                     <div style="display: flex; gap: 10px; width: 100%;">
                         <div id="pin-display-screen"
                             style="flex: 2; background: rgba(0,255,136,0.1); color: #00ff88; border: 1px dashed #00ff88; padding: 10px; text-align: center; font-family: monospace; font-weight: bold; font-size: 1.2rem; border-radius: 4px; min-height: 45px; display: flex; align-items: center; justify-content: center;">
@@ -508,107 +739,216 @@
                         <button type="button" class="btn btn-outline"
                             style="flex: 1; font-size: 0.75rem; white-space: nowrap;" onclick="window.gerarPin()">GERAR
                             PIN</button>
+                        <!-- Versão Didática: Clique aqui para o sistema inventar um novo número secreto aleatório para o funcionário. -->
+                        <!-- Versão Técnica: Gatilho de execução para a função global 'gerarPin' que atualiza o estado do visor. -->
                     </div>
                 </div>
                 <div class="input-group" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
                     <label>WALLET GERADA</label>
                     <input type="text" id="cad-wallet" value="0xC59DA3E1" readonly
                         style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2);">
+                    <!-- Versão Didática: O endereço da carteira digital que o sistema criou automaticamente para o funcionário receber dinheiro. -->
+                    <!-- Versão Técnica: Campo de leitura apenas (Read-only) exibindo o endereço hexadecimal gerado para o novo nó da rede. -->
                 </div>
                 <button class="btn btn-success" id="btn-final-cad" onclick="cadastrarColaborador()" disabled
                     style="width: 100%; padding: 15px; opacity: 0.5;">GERAR CADASTRO</button>
+                <!-- Versão Didática: Botão final para salvar todos os dados e confirmar a entrada do funcionário na empresa. -->
+                <!-- Versão Técnica: Atuador de submissão vinculado à rotina de persistência 'cadastrarColaborador' com controle de estado (Disabled) via validação de PIN. -->
             </section>
             <section class="card">
+                <!-- Versão Didática: Esta é a ferramenta que permite ao administrador enviar dinheiro da rede diretamente para a carteira de um colaborador. -->
+                <!-- Versão Técnica: Módulo de transferência de ativos (Asset Transfer) que atua como interface de saída de capital do tesouro. -->
+
                 <h3><i class="fas fa-paper-plane"></i> Enviar Recurso</h3>
+                <!-- Versão Didática: Título da seção de envio de recursos. -->
+                <!-- Versão Técnica: Cabeçalho de seção com iconografia direcional. -->
+
                 <div class="input-group">
                     <label>DESTINATÁRIO</label>
                     <select id="send-dest" onchange="autoPreencherDestino()">
                         <option value="">Selecione um destino</option>
                     </select>
+                    <!-- Versão Didática: Aqui você escolhe para qual funcionário o dinheiro será enviado. -->
+                    <!-- Versão Técnica: Menu suspenso (Select) dinâmico que mapeia o ID da wallet do destinatário a partir da lista de usuários. -->
                 </div>
+
                 <div id="info-destinatario"
                     style="display: none; margin-bottom: 15px; font-size: 0.75rem; color: var(--secondary); background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border-left: 3px solid var(--secondary);">
+                    <!-- Versão Didática: Esta caixa azul mostra os dados de quem vai receber, para você ter certeza de que não está enviando para a pessoa errada. -->
+                    <!-- Versão Técnica: Container de conferência visual que exibe metadados de identificação via interpolação de string após seleção. -->
+
                     <p style="margin: 0;"><strong>E-mail:</strong> <span id="info-dest-email"></span></p>
                     <p style="margin: 5px 0 0 0;"><strong>Wallet:</strong> <span id="info-dest-wallet"></span></p>
                 </div>
+
                 <div class="input-group">
                     <label>VALOR (BRL)</label>
                     <input type="number" id="send-valor" placeholder="R$ 0,00">
+                    <!-- Versão Didática: Coloque aqui a quantia exata que deseja transferir. -->
+                    <!-- Versão Técnica: Input numérico para definição do montante da transação, sujeito a validação de saldo no backend. -->
                 </div>
+
                 <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
                     <label>CONFIRMAR ASSINATURA DIGITAL</label>
+                    <!-- Versão Didática: Por segurança, você precisa confirmar quem você é usando seu e-mail e seu PIN secreto. -->
+                    <!-- Versão Técnica: Bloco de validação de assinatura digital exigido para autorização da transação no ledger. -->
+
                     <input type="text" id="sign-email" placeholder="Seu E-mail de login" style="margin-bottom: 10px;">
+                    <!-- Versão Didática: Digite seu e-mail de administrador para iniciar a assinatura. -->
+                    <!-- Versão Técnica: Campo de conferência de identidade do remetente (Sender Verification). -->
+
                     <div style="position: relative;">
-                        <input type="password" id="sign-pass" placeholder="Seu PIN (Senha)"
-                            style="width: 100%; padding-right: 40px;">
-                        <i class="fas fa-eye" id="toggle-sign-pass"
-                            style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--secondary);"
-                            onclick="togglePassword('sign-pass', this)"></i>
+                        <input type="password" id="sign-pass" placeholder="Seu PIN (Senha)" style="width: 100%; padding-right: 40px;">
+                        <!-- Versão Didática: Digite seu PIN secreto de 6 números para dar a ordem final de envio. -->
+                        <!-- Versão Técnica: Campo de segredo transacional para validação de integridade e não-repúdio da operação. -->
+
+                        <i class="fas fa-eye" id="toggle-sign-pass" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--secondary);" onclick="togglePassword('sign-pass', this)"></i>
                     </div>
                 </div>
-                <button class="btn btn-primary" id="btn-assinar" style="margin-top: 15px;"
-                    onclick="assinarTransacao()">ASSINAR TRANSAÇÃO</button>
+
+                <button class="btn btn-primary" id="btn-assinar" style="margin-top: 15px;" onclick="assinarTransacao()">ASSINAR TRANSAÇÃO</button>
+                <!-- Versão Didática: Clique aqui para finalizar o envio e gravar a transação permanentemente no sistema. -->
+                <!-- Versão Técnica: Atuador de comando que dispara a lógica de mineração de bloco e atualização de saldos via 'assinarTransacao'. -->
             </section>
 
         </main>
     </div>
     <div id="popover" class="popover-overlay" style="display: none;">
+    <!-- Versão Didática: Esta é a "cortina" escura que cobre o site para mostrar um aviso importante no meio da tela. -->
+    <!-- Versão Técnica: Contêiner de sobreposição (Overlay) com posicionamento fixo e z-index elevado para captura de foco e bloqueio de interação com o fundo. -->
+
         <div class="popover-content" style="position: relative;">
+        <!-- Versão Didática: Esta é a caixinha que flutua no meio do aviso e guarda a mensagem de sucesso ou erro. -->
+        <!-- Versão Técnica: Elemento de conteúdo do modal (Modal Body) com centralização via Flexbox e estilização de Glassmorphism. -->
+
             <h2 id="popover-title" style="color: var(--success);">SUCESSO!</h2>
+            <!-- Versão Didática: O título grande que diz se a operação deu certo (Sucesso) ou se houve algum problema. -->
+            <!-- Versão Técnica: Cabeçalho de segundo nível reativo, utilizado para exibir o status principal da operação via manipulação de texto dinâmica. -->
+
             <div id="popover-msg">Operação realizada.</div>
+            <!-- Versão Didática: Onde o sistema escreve a explicação detalhada do que aconteceu. -->
+            <!-- Versão Técnica: Nó de destino para injeção de mensagens informativas (inner-text ou inner-html) via JavaScript. -->
 
             <div id="popover-footer" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+            <!-- Versão Didática: A parte de baixo da caixinha onde ficam os botões de ação organizados. -->
+            <!-- Versão Técnica: Wrapper de rodapé configurado com layout flexível vertical para empilhamento de controles interativos. -->
+
                 <button class="btn btn-primary" id="popover-main-btn"
                     style="display: none; width: 100%;">Fechar</button>
+                <!-- Versão Didática: Um botão principal que aparece em alguns avisos para você confirmar que leu a mensagem. -->
+                <!-- Versão Técnica: Botão de ação primária com estado inicial oculto, gerenciado por rotinas lógicas específicas do sistema. -->
 
                 <div id="popover-extra-actions" style="display: flex; gap: 10px; width: 100%;"></div>
+                <!-- Versão Didática: Um espaço extra para botões especiais que podem aparecer dependendo do tipo de aviso. -->
+                <!-- Versão Técnica: Slot de injeção dinâmica (Dynamic Placeholder) para botões contextuais gerados em tempo de execução. -->
 
                 <button class="btn btn-outline"
                     style="width: 100%; border: 1px solid rgba(255,255,255,0.2); color: #fff; background: transparent; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold;"
                     onclick="fecharPopover()">
+                    <!-- Versão Didática: O botão padrão para fechar qualquer aviso e voltar a usar o sistema normalmente. -->
+                    <!-- Versão Técnica: Atuador de fechamento vinculado à função global fecharPopover para resetar o estado de visibilidade do overlay. -->
+
                     FECHAR
+
                 </button>
+
             </div>
+
         </div>
+
     </div>
 
 </body>
 <script type="module">import { myLedger } from '../logic/ledger.js'; window.myLedger = myLedger;</script>
 <script>
     // --- ESTADO DA APLICAÇÃO ---
+    // Versão Didática: Esta é a "memória central" do sistema, onde guardamos tudo o que está acontecendo agora.
+    // Versão Técnica: Objeto de estado global (State Store) que centraliza os dados voláteis da aplicação durante o ciclo de vida da página.
     let appState = {
         admin: {
+            // Versão Didática: Aqui ficam guardados os dados fixos do administrador principal.
+            // Versão Técnica: Sub-objeto de configuração de perfil para o usuário root (Administrador Gênesis).
+
             nome: "Andre Luiz Trindade",
+            // Versão Didática: Nome completo do dono do sistema.
+            // Versão Técnica: Propriedade do tipo string para identificação nominativa.
+
             cargo: "Presidente",
+            // Versão Didática: O cargo ou a função dele na empresa.
+            // Versão Técnica: Metadado de atribuição hierárquica para controle de privilégios.
+
             wallet: "0xB2E1A73C",
+            // Versão Didática: O endereço da carteira digital para receber e enviar dinheiro.
+            // Versão Técnica: Identificador hexadecimal único para transações na rede local.
+
             email: "andre@alt.com",
+            // Versão Didática: O endereço de correio eletrônico usado para login.
+            // Versão Técnica: String de endereçamento eletrônico utilizada como chave de autenticação.
+
             origem: "Raiz",
+            // Versão Didática: Indica que este usuário é a base de tudo no sistema.
+            // Versão Técnica: Atributo de rastreabilidade de linhagem do nó (Provenance).
+
             pin: "877873",
+            // Versão Didática: A senha secreta de 6 números para autorizar movimentos de dinheiro.
+            // Versão Técnica: Segredo transacional (Personal Identification Number) para validação de operações.
+
             data: "10/04/26-05:00am",
+            // Versão Didática: O dia e a hora em que esta conta foi criada.
+            // Versão Técnica: Carimbo de tempo (Timestamp) de criação do registro.
+
             saldo: 0
+            // Versão Didática: Quanto de dinheiro o administrador tem no momento.
+            // Versão Técnica: Propriedade numérica de ponto flutuante para controle de balanço financeiro.
         },
         colaboradores: [],
+        // Versão Didática: Uma lista vazia que vai sendo preenchida com as pessoas que você cadastrar.
+        // Versão Técnica: Array dinâmico (Collection) destinado ao armazenamento de objetos de usuários secundários.
+
         transacoes: []
+        // Versão Didática: Um histórico que anota cada vez que o dinheiro muda de mão.
+        // Versão Técnica: Buffer de histórico transacional para auditoria local.
     };
+
     let saldoVisivel = true;
+    // Versão Didática: Avisa ao sistema se o saldo deve aparecer ou ficar escondido na tela.
+    // Versão Técnica: Flag booleana de controle de estado de visualização (View State) para a interface do usuário.
     // --- REPARO CIRÚRGICO 01: SINCRONIZAÇÃO DE SESSÃO E LEDGER ---
     window.onload = () => {
+        // Versão Didática: Assim que a página termina de carregar, o sistema começa a verificar quem você é para liberar o acesso.
+        // Versão Técnica: Evento de ciclo de vida (Window Load) que dispara a rotina de hidratação da interface e verificação de autorização.
+
         try {
+            // Versão Didática: O sistema tenta ler seus dados, mas se algo der muito errado, ele tem um plano para não travar tudo.
+            // Versão Técnica: Implementação de bloco Try-Catch para tratamento de exceções durante o parsing de dados e manipulação do DOM.
+
             const loggedUser = JSON.parse(localStorage.getItem('usuario_sessao'));
+            // Versão Didática: Busca no computador a "ficha" de quem fez login agora pouco.
+            // Versão Técnica: Recuperação e desserialização síncrona do objeto de sessão persistido no LocalStorage.
+
             if (loggedUser) {
+                // Versão Didática: Se o sistema encontrar sua ficha, ele começa a preencher o painel com seu nome e e-mail.
+                // Versão Técnica: Verificação de existência do objeto de usuário (Truthiness) para prosseguir com a injeção de dados.
+
                 // --- MANUTENÇÃO DOS CAMPOS ATUAIS ---
                 document.getElementById('user-fullname').innerText = loggedUser.nome;
                 document.getElementById('header-wallet').innerText = loggedUser.wallet;
                 document.getElementById('header-email').innerText = loggedUser.email;
+
                 // --- INJEÇÃO CIRÚRGICA: IDENTIDADE DO AMBIENTE (ETAPA 1) ---
                 const headerTitle = document.getElementById('header-title');
                 if (headerTitle) {
                     if (loggedUser.cargo !== "Administrador Gênesis") {
                         headerTitle.firstChild.textContent = "Ambiente Colaborador - ";
+                        // Versão Didática: Se você for um funcionário, o título avisa que você está no ambiente de colaborador.
+                        // Versão Técnica: Mutação do nó de texto (TextNode) para contextualização de privilégio de nível 2.
                     } else {
                         headerTitle.firstChild.textContent = "Ambiente Gênesis - ";
+                        // Versão Didática: Se você for o dono, o título brilha com o nome "Ambiente Gênesis".
+                        // Versão Técnica: Mutação do nó de texto para identificação de nível de acesso Root/Admin.
                     }
                 }
+
                 // --- NOVO BLOCO: INSERIR APÓS A LINHA 577 ---
                 // --- REPARO CIRÚRGICO: PRIVILÉGIOS DE ACESSO (ETAPA 2) ---
                 const btnInjetar = document.getElementById('btn-injetar');
@@ -617,26 +957,39 @@
                 if (loggedUser.cargo !== "Administrador Gênesis") {
                     if (btnInjetar) btnInjetar.style.display = 'none';
                     if (btnReset) btnReset.style.display = 'none';
+                    // Versão Didática: Esconde os botões perigosos (como injetar dinheiro) se você não for o chefe.
+                    // Versão Técnica: Manipulação de propriedade 'display' via CSS Object Model para implementar segurança baseada em funções (RBAC).
                 } else {
                     if (btnInjetar) btnInjetar.style.display = 'inline-block';
                     if (btnReset) btnReset.style.display = 'inline-block';
+                    // Versão Didática: Mostra as ferramentas de administração apenas para o usuário Gênesis.
+                    // Versão Técnica: Restauração da visibilidade dos elementos de controle administrativo para o nível Root.
                 }
+
                 // --- FIM DA INSERÇÃO ---
                 // --- INJEÇÃO DOS NOVOS CAMPOS DINÂMICOS (VERSÃO RESILIENTE) ---
                 const campoPosto = document.getElementById('header-posto');
                 const campoOrigem = document.getElementById('header-origem');
+
                 if (campoPosto) {
                     // Tenta ler 'cargo' ou 'posto' do usuário logado. Se for undefined, define como 'Colaborador'
                     campoPosto.innerText = loggedUser.cargo || loggedUser.posto || "Colaborador";
+                    // Versão Didática: Exibe seu cargo oficial no topo para todos saberem sua função.
+                    // Versão Técnica: Atribuição de string com lógica de fallback (Short-circuiting) para evitar valores nulos.
                 }
+
                 if (campoOrigem) {
                     // Tenta ler 'origem' ou 'setor'. Se não existir, aplica a lógica de domínio do e-mail
                     const origemSugerida = loggedUser.email.includes('alt.com') ? "Raiz (Gênesis)" : "Rede";
                     campoOrigem.innerText = loggedUser.origem || loggedUser.setor || origemSugerida;
+                    // Versão Didática: Identifica de onde você vem: se é da rede interna ou externa.
+                    // Versão Técnica: Validação de proveniência baseada em domínio de e-mail e metadados de objeto.
                 }
+
                 // --- SUA LÓGICA DE AUDITORIA PERMANECE INTACTA ---
                 let usuariosDaRede = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
                 const jaExiste = usuariosDaRede.some(u => u.wallet === loggedUser.wallet);
+
                 if (!jaExiste) {
                     usuariosDaRede.push({
                         ...loggedUser,
@@ -644,21 +997,43 @@
                         cadastroEm: new Date().toLocaleString('pt-BR')
                     });
                     localStorage.setItem('alt_solution_users', JSON.stringify(usuariosDaRede));
+                    // Versão Didática: Se você é novo na rede, o sistema cria um registro seu permanentemente.
+                    // Versão Técnica: Implementação de rotina de auto-registro (Upsert) para sincronização de base local.
                 }
+
             } else {
                 window.location.replace('index.html');
+                // Versão Didática: Se ninguém estiver logado, o sistema expulsa o usuário de volta para a tela de login por segurança.
+                // Versão Técnica: Redirecionamento forçado de rota para proteção de área restrita (Navigation Guard).
             }
+
         } catch (error) {
             console.error("Erro Crítico de Inicialização:", error);
+            // Versão Didática: Registra no diário do sistema se aconteceu algum problema grave ao ligar a tela.
+            // Versão Técnica: Saída de fluxo de erro para o console do desenvolvedor para depuração de runtime.
         }
+
         const saved = localStorage.getItem('genesis_state');
         if (saved) appState = JSON.parse(saved);
+        if (saved) {
+            appState = JSON.parse(saved);
+            // Versão Didática: Recupera o saldo e as transações que estavam salvas antes de você fechar a página.
+            // Versão Técnica: Restauração de estado persistido (State Rehydration) para o objeto global appState.
+        }
+
         atualizarUI();
+        // Versão Didática: Por fim, redesenha os valores, cores e listas na tela com os dados mais recentes.
+        // Versão Técnica: Invocação do motor de renderização da interface para sincronizar o estado lógico com o visual.
     };
     // --- REPARO CIRÚRGICO: PERSISTÊNCIA SINCRONIZADA ---
     function salvarEstado() {
+        // Versão Didática: Esta função grava todas as mudanças (saldos, nomes, transações) no "cofre" do computador para que nada se perca se você fechar o site.
+        // Versão Técnica: Executa a persistência síncrona do objeto appState no LocalStorage e sincroniza a coleção mestre de usuários para garantir integridade entre sessões.
+
         // 1. Salva no Estado Local do Dashboard (Gráficos e Fluxo Interno)
         localStorage.setItem('genesis_state', JSON.stringify(appState));
+        // Versão Didática: Salva o estado atual do painel na gaveta de memória do navegador.
+        // Versão Técnica: Serialização JSON e escrita na chave de persistência volátil 'genesis_state'.
 
         // 2. SINCRONIZAÇÃO COERENTE COM O BANCO CENTRAL (alt_solution_users)
         let usuariosGerais = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
@@ -668,6 +1043,8 @@
         if (indexAdmin !== -1) {
             usuariosGerais[indexAdmin].saldo = appState.admin.saldo;
             usuariosGerais[indexAdmin].saldoTotal = appState.admin.saldo;
+            // Versão Didática: Atualiza o saldo do administrador na lista geral de usuários.
+            // Versão Técnica: Sincronização de propriedades financeiras no nó administrativo da coleção persistida.
         }
 
         // Sincroniza a lista de colaboradores mutada localmente
@@ -676,6 +1053,8 @@
                 const indexColab = usuariosGerais.findIndex(u => u.wallet === colabLocal.wallet);
                 if (indexColab !== -1) {
                     usuariosGerais[indexColab].saldo = colabLocal.saldo;
+                    // Versão Didática: Atualiza o saldo de cada funcionário para que o login deles mostre o valor correto.
+                    // Versão Técnica: Iteração de reconciliação de estado entre o buffer local e o banco de dados do LocalStorage.
                 }
             });
         }
@@ -685,29 +1064,58 @@
     }
 
     function cadastrarColaborador() {
+        // Versão Didática: Função que inicia o processo de salvar um novo funcionário no sistema.
+        // Versão Técnica: Ponto de entrada (Handler) para a rotina de persistência de novos objetos na coleção de usuários.
+
         const inputNome = document.getElementById('cad-nome');
         const inputEmail = document.getElementById('cad-email');
         const inputSenha = document.getElementById('cad-pass'); // Alvo corrigido para Senha
         const visorPin = document.getElementById('pin-display-screen'); // Alvo corrigido para o Visor
+
         if (!inputNome || !inputEmail || !inputSenha || !visorPin) {
+            // Versão Didática: Verifica se todas as caixas de texto do formulário estão funcionando corretamente.
+            // Versão Técnica: Validação de integridade do DOM para prevenir exceções de referência nula (Null Pointer) durante a captura de dados.
+
             console.error("Erro de QA: Elementos de input ou visor não encontrados.");
             return;
         }
+
         const nome = inputNome.value.trim();
+        // Versão Didática: Pega o nome digitado e remove espaços inúteis no começo ou no fim.
+        // Versão Técnica: Captura e sanitização de string via método trim() para evitar sujeira nos dados.
+
         const email = inputEmail.value.trim();
+        // Versão Didática: Captura o e-mail digitado para identificação do colaborador.
+        // Versão Técnica: Extração de valor do input de endereçamento eletrônico.
+
         const senha = inputSenha.value; // Captura a senha alfanumérica (Ex: Alt@2026)
+        // Versão Didática: Pega a senha que foi criada para o primeiro login.
+        // Versão Técnica: Captura de credencial de autenticação primária.
+
         const pin = visorPin.innerText; // Captura os 6 dígitos que geramos no visor
+        // Versão Didática: Pega o número secreto que foi mostrado no visor verde após o clique.
+        // Versão Técnica: Extração de conteúdo textual de um elemento de exibição passiva para uso como segredo transacional.
+
         const cargo = document.getElementById('mat-cargo').value;
         const wallet = document.getElementById('cad-wallet').value;
+
         // Validação estrita: O PIN não pode ser o valor padrão "------"
         if (!nome || !email || !senha || pin === "------") {
+            // Versão Didática: Garante que você não esqueceu de preencher nada ou de gerar o PIN de segurança.
+            // Versão Técnica: Avaliação de predicados lógicos para validação de regras de negócio obrigatórias (Business Rules Enforcement).
+
             alert("Andre, preencha Nome, E-mail, Senha e Gere um PIN para realizar o registro.");
             return;
         }
+
         const agora = new Date();
         const dataFormatada = agora.toLocaleDateString('pt-BR') + " " + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
         // --- OBJETO UNIFICADO CORRIGIDO ---
         const novoColaborador = {
+            // Versão Didática: Monta a "ficha digital" completa do novo funcionário com todos os seus dados.
+            // Versão Técnica: Instanciação de um objeto literal (Data Transfer Object) com propriedades mapeadas para o schema de usuários.
+
             nome: nome,
             cargo: cargo,
             email: email.toLowerCase(),
@@ -720,168 +1128,362 @@
             cadastroEm: dataFormatada,
             primeiroAcesso: true
         };
+
         // --- FIM DO REPARO CIRÚRGICO ---
         // 1. Persistência no Estado Local (Mantém seus gráficos vivos)
         if (typeof appState !== 'undefined' && appState.colaboradores) {
             appState.colaboradores.push(novoColaborador);
             salvarEstado();
+            // Versão Didática: Salva o novo funcionário na memória rápida do Dashboard para ele aparecer na hora.
+            // Versão Técnica: Atualização da coleção em memória (Application State) seguida de sincronização com o armazenamento persistente.
         }
+
         // 2. Persistência no Banco Central (Permite o Login via index.html)
         let listaUsuarios = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+        // Versão Didática: Abre a lista geral de todas as pessoas que já podem entrar no sistema.
+        // Versão Técnica: Recuperação e desserialização da coleção mestre de usuários do LocalStorage.
+
         // Evita duplicidade de e-mail na rede
         if (listaUsuarios.some(u => u.email === novoColaborador.email)) {
+            // Versão Didática: Confere se já não existe alguém cadastrado com este mesmo e-mail para não dar erro.
+            // Versão Técnica: Verificação de unicidade (Unique Constraint Check) utilizando o método de busca iterativa 'some'.
+
             alert("Este e-mail já está integrado à rede ALT.");
             return;
         }
+
         listaUsuarios.push(novoColaborador);
         localStorage.setItem('alt_solution_users', JSON.stringify(listaUsuarios));
+        // Versão Didática: Grava o novo colaborador no banco de dados definitivo do navegador.
+        // Versão Técnica: Serialização e escrita síncrona na chave de persistência compartilhada do ecossistema.
+
         // REPARO DE SINCRONIZAÇÃO: Atualiza a lista global para o relatório ler os dados novos sem refresh
         if (typeof appState !== 'undefined') appState.colaboradores = listaUsuarios;
+
         // 3. Feedback Visual (Mantendo seu padrão original)
         document.getElementById('popover-title').innerText = "CADASTRO REALIZADO";
         document.getElementById('popover-title').style.color = "var(--success)";
+
         document.getElementById('popover-msg').innerHTML = `
             <p>O colaborador <strong>${nome}</strong> foi integrado à rede.</p>
             <p>Wallet: <span style="color:var(--secondary)">${wallet}</span></p>
             <p>PIN de Acesso: <strong style="color:var(--success)">${pin}</strong></p>
         `;
+        // Versão Didática: Prepara a mensagem de sucesso que vai aparecer no balão na tela.
+        // Versão Técnica: Injeção dinâmica de marcação (Inner HTML) via Template Literals para feedback contextualizado.
+
         const btnAcao = document.getElementById('popover-main-btn');
         btnAcao.innerText = "FECHAR";
         btnAcao.style.display = "block";
         btnAcao.onclick = function () { fecharPopover(); };
+
         document.getElementById('popover').style.display = 'flex';
+        // Versão Didática: Abre o aviso na tela confirmando que o cadastro foi concluído.
+        // Versão Técnica: Ativação da visibilidade do componente de Overlay (Pop-over).
+
         // Limpeza dos campos
         inputNome.value = "";
         inputEmail.value = "";
+        // Versão Didática: Limpa os nomes e e-mails que você digitou para você poder cadastrar a próxima pessoa.
+        // Versão Técnica: Reset do estado (Value Clear) dos elementos de entrada para preparar o formulário para um novo ciclo de entrada.
+
         // 4. Sincronização de Interface (Mantendo seu fluxo)
-        if (typeof carregarTabelaAuditoria === "function") carregarTabelaAuditoria();
-        if (typeof atualizarDestinatarios === "function") atualizarDestinatarios();
+        if (typeof carregarTabelaAuditoria === "function") {
+            carregarTabelaAuditoria();
+            // Versão Didática: Atualiza a lista de auditoria para o novo funcionário aparecer na tabela.
+            // Versão Técnica: Invocação condicional do motor de renderização da tabela de auditoria.
+        }
+        if (typeof atualizarDestinatarios === "function") {
+            atualizarDestinatarios();
+            // Versão Didática: Atualiza a lista de envios para que você já possa mandar dinheiro para ele.
+            // Versão Técnica: Refresh do componente Select para refletir a nova entrada na coleção de destinatários.
+        }
     }
     function atualizarUI() {
+        // Versão Didática: Esta função é o "faxineiro" visual. Ela atualiza os números e as listas na tela para que você veja sempre a informação mais recente.
+        // Versão Técnica: Motor de sincronização da interface (View Update) responsável por refletir o estado do appState no DOM.
+
         const saldoElement = document.getElementById('display-saldo');
+        // Versão Didática: Procura na tela o lugar onde o saldo deve ser mostrado.
+        // Versão Técnica: Mapeamento do nó de exibição financeira via seletor de ID único para manipulação de conteúdo.
+
         if (!saldoElement) return;
+        // Versão Didática: Se não encontrar o lugar do saldo, a função para por aqui para não dar erro no sistema.
+        // Versão Técnica: Cláusula de guarda (Guard Clause) para prevenir exceções de referência nula caso o elemento não exista no DOM.
+
         const valorSaldo = appState.admin.saldo;
+        // Versão Didática: Pega o valor atual do dinheiro que o administrador tem guardado no estado do app.
+        // Versão Técnica: Extração do valor primitivo de saldo a partir do objeto de estado administrativo (Data Source).
+
         saldoElement.innerText = valorSaldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        // Versão Didática: Escreve o saldo na tela formatado como Real (R$), com vírgula e ponto nos lugares certos.
+        // Versão Técnica: Injeção de string formatada via API de internacionalização para conformidade monetária regional (BRL).
+
         if (valorSaldo > 0) {
             saldoElement.classList.add('balance-glow');
+            // Versão Didática: Se você tiver dinheiro (mais que zero), o saldo ganha um brilho verde especial na tela.
+            // Versão Técnica: Avaliação de predicado numérico para aplicação condicional de classe CSS de efeito visual (Neon Glow).
         } else {
             saldoElement.classList.remove('balance-glow');
+            // Versão Didática: Se o saldo for zero ou negativo, o brilho é removido automaticamente.
+            // Versão Técnica: Remoção de classe de estado visual para neutralização da estética do componente financeiro.
         }
+
         const select = document.getElementById('send-dest');
+        // Versão Didática: Procura a lista de seleção para escolher para quem enviar o dinheiro.
+        // Versão Técnica: Localização do elemento select de destinatários para reconstrução dinâmica de opções.
+
         if (select) {
             select.innerHTML = '<option value="">Selecione um destino</option>';
+            // Versão Didática: Limpa a lista antiga para preparar a entrada dos nomes e cargos atualizados.
+            // Versão Técnica: Reset do buffer de marcação interna (inner HTML) do elemento de formulário.
+
             appState.colaboradores.forEach(c => {
                 select.innerHTML += `<option value="${c.wallet}">${c.nome} (${c.cargo})</option>`;
+                // Versão Didática: Adiciona cada funcionário cadastrado na lista de envio com seu nome, cargo e endereço de carteira.
+                // Versão Técnica: Ciclo de iteração sobre a coleção de colaboradores para injeção de elementos de opção (Option Injection).
             });
         }
     }
     window.toggleSaldoVisibilidade = () => {
+        // Versão Didática: Esta função serve para esconder ou mostrar o valor do saldo na tela, como se fosse uma cortina de privacidade.
+        // Versão Técnica: Atribuição de uma função de seta ao objeto global window para gerenciar a alternância de visibilidade do estado financeiro via CSS.
+
         const saldoElement = document.getElementById('display-saldo');
+        // Versão Didática: O sistema identifica onde o número do saldo está escrito na tela.
+        // Versão Técnica: Mapeamento do nó DOM que contém a exibição monetária para aplicação de filtros visuais.
+
         const icon = document.getElementById('toggle-balance-icon');
+        // Versão Didática: O sistema localiza o desenho do "olhinho" que você clica.
+        // Versão Técnica: Referenciação do elemento de iconografia que atua como gatilho visual para a alternância de estados.
+
         if (saldoElement.classList.contains('blur-effect')) {
+            // Versão Didática: O sistema pergunta: "O saldo está embaçado agora?".
+            // Versão Técnica: Verificação de presença da classe CSS 'blur-effect' na lista de classes do elemento alvo.
+
             saldoElement.classList.remove('blur-effect');
+            // Versão Didática: Se estiver embaçado, o sistema remove o efeito para você conseguir ler o valor.
+            // Versão Técnica: Mutação da lista de classes para remoção do filtro de desfoque, restaurando a legibilidade.
+
             icon.classList.replace('fa-eye', 'fa-eye-slash');
+            // Versão Didática: O ícone do olho muda para um olho riscado, indicando que a função de esconder está pronta para ser usada.
+            // Versão Técnica: Substituição atômica de classe no Font Awesome para alternar a representação visual do estado de visibilidade.
         } else {
             saldoElement.classList.add('blur-effect');
+            // Versão Didática: O sistema coloca um efeito de embaçado no saldo para ninguém ver por cima do seu ombro.
+            // Versão Técnica: Injeção da classe CSS de desfoque (filter: blur) no elemento de saldo.
+
             icon.classList.replace('fa-eye-slash', 'fa-eye');
+            // Versão Didática: O ícone volta a ser um olho aberto, mostrando que você pode clicar para ver o saldo de novo.
+            // Versão Técnica: Alternância da iconografia para o estado de "oculto".
         }
     };
 
     function abrirPopOverInjetar() {
+        // Versão Didática: Esta função abre uma janelinha especial para o chefe colocar dinheiro novo no sistema.
+        // Versão Técnica: Declaração da rotina de controle para inicialização do componente de interface de aporte de capital (Capital Injection).
+
         const sessaoAcesso = JSON.parse(localStorage.getItem('usuario_sessao'));
-        if (!sessaoAcesso || sessaoAcesso.cargo !== "Administrador Gênesis") return alert("Acesso Negado: Função exclusiva da Tesouraria Gênesis.");
+        // Versão Didática: O sistema confere se quem está tentando colocar dinheiro é realmente o administrador principal.
+        // Versão Técnica: Recuperação de credenciais e validação de autorização baseada em cargo (RBAC) para proteção de função crítica.
+
+        if (!sessaoAcesso || sessaoAcesso.cargo !== "Administrador Gênesis") {
+            return alert("Acesso Negado: Função exclusiva da Tesouraria Gênesis.");
+        }
 
         const title = document.getElementById('popover-title');
         const msg = document.getElementById('popover-msg');
         const btnAcao = document.getElementById('popover-main-btn');
+        // Versão Didática: O sistema prepara os títulos e as mensagens que vão aparecer no aviso flutuante.
+        // Versão Técnica: Mapeamento de referências de nós do DOM para injeção dinâmica de conteúdo no componente Pop-over.
 
         // Certifica a limpeza de qualquer botão dinâmico experimental residual no DOM
         const oldBtnCancelar = document.getElementById('popover-cancel-btn');
-        if (oldBtnCancelar) oldBtnCancelar.remove();
+        if (oldBtnCancelar) {
+            oldBtnCancelar.remove();
+            // Versão Didática: Garante que não sobrou nenhum botão de operações anteriores para não confundir o usuário.
+            // Versão Técnica: Execução de rotina de limpeza preventiva (Garbage Collection visual) para manter a integridade da interface.
+        }
 
         title.innerText = "INJETAR CAPITAL GÊNESIS";
         title.style.color = "var(--success)";
+        // Versão Didática: Define o título da janela como "INJETAR CAPITAL" e coloca a cor verde de sucesso.
+        // Versão Técnica: Mutação de propriedades textuais e estilização declarativa do cabeçalho do modal.
 
         // Injeção do rótulo e do campo de entrada de dados numéricos
         msg.innerHTML = `
             <p style="margin-bottom: 12px;">Insira o montante desejado para o aporte administrativo e registro no Ledger:</p>
             <input type="number" id="input-valor-aporte" placeholder="0.00" step="any" min="0.01" style="width: 100%; padding: 10px; border: 1px solid #333; background: #111; color: #fff; border-radius: 4px; font-size: 16px; text-align: center; box-sizing: border-box;">
         `;
+        // Versão Didática: Cria a caixinha onde o administrador vai digitar o valor do dinheiro que quer criar.
+        // Versão Técnica: Injeção de marcação HTML dinâmica (Input Number) com atributos de validação de step e valor mínimo.
 
         // Reconfiguração do botão principal de ação para o estado de confirmação
         btnAcao.style.display = "block";
         btnAcao.className = "btn btn-primary";
         btnAcao.innerText = "CONFIRMAR APORTE";
         btnAcao.style.background = "var(--success)";
+        // Versão Didática: Transforma o botão principal em um botão de "CONFIRMAR" e o deixa destacado em verde.
+        // Versão Técnica: Reconfiguração de estado, classe e propriedades de estilo do atuador primário do modal.
 
         btnAcao.onclick = function () {
+            // Versão Didática: Aqui definimos o que acontece no momento que o botão de confirmar é clicado.
+            // Versão Técnica: Atribuição de manipulador de evento (Event Listener) para processamento da lógica de negócio financeira.
+
             const inputElement = document.getElementById('input-valor-aporte');
             if (!inputElement) return;
 
             const valorAporte = parseFloat(inputElement.value);
+            // Versão Didática: Transforma o texto digitado em um número real para o sistema poder fazer as contas.
+            // Versão Técnica: Parsing numérico do valor de entrada para o tipo de dado float.
+
             const sessaoAtual = JSON.parse(localStorage.getItem('usuario_sessao'));
 
             if (!sessaoAtual) return alert("Erro: Sessão não encontrada.");
 
             if (isNaN(valorAporte) || valorAporte <= 0) {
+                // Versão Didática: Confere se o valor é um número válido e maior que zero antes de continuar.
+                // Versão Técnica: Validação de integridade numérica e sanitização de entrada para prevenir valores nulos ou negativos.
                 return alert("Erro de Validação: Por favor, insira um valor numérico válido e maior que zero.");
             }
 
             appState.admin.saldo += valorAporte;
+            // Versão Didática: Adiciona o valor injetado ao saldo atual do administrador na memória do sistema.
+            // Versão Técnica: Operação aritmética de acumulação no estado global da aplicação (appState).
 
             myLedger.addBlock(
                 "SISTEMA ALTS",
                 sessaoAtual.nome,
                 valorAporte
             );
+            // Versão Didática: Registra essa entrada de dinheiro no livro de registros oficial (Blockchain) para segurança e auditoria.
+            // Versão Técnica: Invocação do motor de Ledger para mineração de um novo bloco de transação administrativa.
 
             salvarEstado();
+            // Versão Didática: Grava a atualização permanentemente no "cofre" do navegador.
+            // Versão Técnica: Execução da rotina de persistência síncrona no LocalStorage.
+
             atualizarUI();
+            // Versão Didática: Atualiza os números que aparecem na tela para mostrar o novo saldo.
+            // Versão Técnica: Gatilho de re-renderização da interface para sincronia com o estado lógico.
+
             fecharPopover();
+            // Versão Didática: Fecha a janelinha de aporte após o sucesso.
+            // Versão Técnica: Encerramento do contexto visual do componente Pop-over.
+
             console.log("Aporte Gênesis minerado e registrado no Ledger para: " + sessaoAtual.nome + " no valor de R$ " + valorAporte);
+            // Versão Didática: Deixa uma nota técnica no diário do sistema confirmando a operação.
+            // Versão Técnica: Emissão de log de auditoria no console do desenvolvedor.
         };
 
         document.getElementById('popover').style.display = 'flex';
+        // Versão Didática: Faz a janela de injeção de capital aparecer centralizada na tela.
+        // Versão Técnica: Ativação da visibilidade do elemento de overlay via manipulação da propriedade de display.
     }
 
     // --- REPARO DA LÓGICA DE GERAÇÃO (DASHBOARD) ---
     window.gerarPin = () => {
-        // 1. Gera o número aleatório de 6 dígitos
+        // Versão Didática: Esta função cria um código secreto de 6 números para o novo colaborador.
+        // Versão Técnica: Definição de uma Arrow Function global para geração de segredo transacional e atualização do estado da UI.
+
         const novoPin = Math.floor(100000 + Math.random() * 900000).toString();
-        // 2. Localiza os novos elementos do layout
+        // Versão Didática: O sistema escolhe um número aleatório de 6 dígitos para ser a senha de transação.
+        // Versão Técnica: Cálculo de valor pseudo-aleatório inteiro de 6 dígitos com conversão para representação em string.
+
         const visor = document.getElementById('pin-display-screen');
+        // Versão Didática: O sistema procura na tela o "visor" verde onde o número vai aparecer.
+        // Versão Técnica: Captura da referência do elemento DOM de saída (Output) para exibição do PIN gerado.
+
         const btnFinal = document.getElementById('btn-final-cad');
+        // Versão Didática: Localiza o botão de concluir cadastro para liberá-lo depois.
+        // Versão Técnica: Mapeamento do atuador de submissão do formulário para manipulação de estado.
+
         if (visor) {
-            // Atualiza o texto do visor verde
+            // Versão Didática: Se o sistema encontrar o visor, ele preenche os dados.
+            // Versão Técnica: Verificação de existência do nó alvo para prevenção de erros de referência nula.
+
             visor.innerText = novoPin;
-            // Guarda o PIN em um atributo invisível para a função de salvar ler depois
+            // Versão Didática: Mostra o novo número secreto no visor para o administrador ver.
+            // Versão Técnica: Atualização do nó de texto do elemento para feedback visual imediato ao usuário.
+
             visor.setAttribute('data-current-pin', novoPin);
-            // 3. Libera o botão "GERAR CADASTRO"
+            // Versão Didática: Guarda esse número "atrás da tela" para o sistema saber qual foi o PIN gerado na hora de salvar.
+            // Versão Técnica: Persistência temporária do valor no buffer de atributos de dados (Dataset) para recuperação posterior.
+
             if (btnFinal) {
+                // Versão Didática: Se encontrar o botão de salvar, ele será destravado agora.
+                // Versão Técnica: Bloco condicional para aplicação de mudanças de estado no componente interativo.
+
                 btnFinal.disabled = false;
+                // Versão Didática: Libera o botão para que você possa clicar e terminar o cadastro.
+                // Versão Técnica: Alteração da propriedade booleana 'disabled' para habilitar a interatividade do elemento.
+
                 btnFinal.style.opacity = '1';
+                // Versão Didática: Deixa o botão bem aceso e colorido, indicando que está pronto.
+                // Versão Técnica: Atualização da propriedade de estilo CSS para sinalização visual de estado ativo.
+
                 btnFinal.style.cursor = 'pointer';
+                // Versão Didática: Muda a setinha do mouse para a "mãozinha" de clique.
+                // Versão Técnica: Modificação do ponteiro do mouse via CSS para conformidade com padrões de UX.
             }
+
             console.log("PIN Transacional gerado:", novoPin);
+            // Versão Didática: Escreve no diário técnico que o código foi criado com sucesso.
+            // Versão Técnica: Emissão de log de auditoria no console para rastreabilidade de eventos de runtime.
+
         } else {
             console.error("Erro: Elemento 'pin-display-screen' não encontrado.");
+            // Versão Didática: Avisa os técnicos que houve um erro e o visor não foi encontrado.
+            // Versão Técnica: Tratamento de erro via console.error para diagnóstico de falha estrutural no DOM.
         }
     };
     function togglePin() {
+        // Versão Didática: Esta função serve para esconder ou mostrar o número secreto (PIN) que está sendo digitado.
+        // Versão Técnica: Declaração de função para alternar a visibilidade do campo de entrada de PIN via manipulação do atributo 'type'.
+
         const pinField = document.getElementById('cad-pin');
+        // Versão Didática: O sistema localiza o campo onde o PIN é escrito.
+        // Versão Técnica: Recuperação da referência do elemento de input através do seletor de ID único.
+
         const icon = document.getElementById('pin-icon');
+        // Versão Didática: O sistema localiza o desenho do olhinho que você clica para ver a senha.
+        // Versão Técnica: Mapeamento do nó DOM correspondente à iconografia de feedback visual.
+
         if (pinField.type === "password") {
+            // Versão Didática: O sistema pergunta: "Os números estão escondidos agora?".
+            // Versão Técnica: Avaliação condicional do estado da propriedade 'type' do elemento de input.
+
             pinField.type = "text";
+            // Versão Didática: Se estiverem escondidos, o sistema remove a proteção e mostra os números.
+            // Versão Técnica: Mutação do atributo 'type' para 'text', forçando a renderização de caracteres legíveis.
+
             icon.className = "fas fa-eye-slash";
+            // Versão Didática: O desenho do olho muda para um olho riscado, indicando que está revelado.
+            // Versão Técnica: Reatribuição da string de classe CSS para alternância de glifo vetorial (Font Awesome).
+
         } else {
+            // Versão Didática: Caso contrário, se os números já estiverem aparecendo...
+            // Versão Técnica: Fluxo de desvio para o estado alternativo (ocultação).
+
             pinField.type = "password";
+            // Versão Didática: O sistema esconde os números novamente por segurança.
+            // Versão Técnica: Restauração da propriedade 'type' para 'password', ativando a máscara de caracteres do navegador.
+
             icon.className = "fas fa-eye";
+            // Versão Didática: O desenho do olho volta a ficar aberto, pronto para ser clicado de novo.
+            // Versão Técnica: Reset da classe de iconografia para o estado inicial de visibilidade.
         }
     }
     // --- LÓGICA FINANCEIRA: ESTORNO ---
     function abrirPopOverEstorno() {
+        // Versão Didática: Abre a janela para devolver dinheiro para uma conta fora do sistema (Estorno).
+        // Versão Técnica: Inicializa o componente modal para operações de reversão financeira externa (External Refund).
+
         document.getElementById('popover-title').innerText = "SOLICITAR ESTORNO EXTERNO";
         document.getElementById('popover-title').style.color = "#ff9800";
+        // Versão Didática: Muda o título da janela para "ESTORNO" e usa a cor laranja para sinalizar atenção.
+        // Versão Técnica: Mutação de propriedades textuais e estilização de cor para o cabeçalho do popover.
+
         // 1. Campos de Input
         document.getElementById('popover-msg').innerHTML = `
         <div style="text-align: left; margin-top: 15px;">
@@ -890,69 +1492,153 @@
             <label>VALOR DO ESTORNO</label>
             <input type="number" id="estorno-valor" placeholder="R$ 0,00">
         </div>`;
+        // Versão Didática: Cria as caixas para você digitar a chave Pix/Wallet de destino e o valor que quer devolver.
+        // Versão Técnica: Injeção dinâmica de marcação HTML para captura de parâmetros transacionais.
+
         // 2. Configura o botão de CONFIRMAR
         const btnConfirmar = document.getElementById('popover-main-btn');
         btnConfirmar.style.display = "block";
         btnConfirmar.innerText = "CONFIRMAR ESTORNO";
         btnConfirmar.style.background = "#ff9800";
+        // Versão Didática: Liga o botão de confirmar e o deixa laranja para combinar com a operação de estorno.
+        // Versão Técnica: Reconfiguração de estado e visibilidade do atuador primário do modal.
+
         // 3. Configura o contêiner de ações extras
         const extraActions = document.getElementById('popover-extra-actions');
         if (extraActions) {
             extraActions.innerHTML = `<button class="btn btn-outline" id="btn-cancelar-estorno" style="border-color: #555; color: #888; width: 100%; margin-top: 10px;">CANCELAR OPERAÇÃO</button>`;
+            // Versão Didática: Cria um botão extra de "CANCELAR" caso você desista da operação.
+            // Versão Técnica: Injeção de controle secundário no slot de ações dinâmicas do popover.
         }
+
         // 4. Lógica de Clique: Confirmar
         btnConfirmar.onclick = () => {
+            // Versão Didática: Define o que acontece quando você confirma o estorno.
+            // Versão Técnica: Implementação do callback de processamento financeiro no evento de clique.
+
             const valor = parseFloat(document.getElementById('estorno-valor').value);
+            // Versão Didática: Transforma o texto digitado em um número para o sistema fazer o cálculo.
+            // Versão Técnica: Parsing numérico do valor de entrada para o tipo de dado float.
+
             if (valor > 0 && valor <= appState.admin.saldo) {
+                // Versão Didática: Confere se o valor é válido e se você tem saldo suficiente para devolver esse dinheiro.
+                // Versão Técnica: Validação de integridade numérica e verificação de disponibilidade de lastro no estado global.
+
                 appState.admin.saldo -= valor;
+                // Versão Didática: Diminui o valor do estorno do seu saldo total de administrador.
+                // Versão Técnica: Operação aritmética de decremento no balanço administrativo do appState.
+
                 salvarEstado();
+                // Versão Didática: Grava a mudança permanentemente no "cofre" do navegador.
+                // Versão Técnica: Execução da rotina de persistência síncrona no LocalStorage.
+
                 atualizarUI();
+                // Versão Didática: Atualiza os números na tela para mostrar o novo saldo imediatamente.
+                // Versão Técnica: Gatilho de re-renderização da interface para sincronia com o estado lógico.
+
                 fecharPopover();
+                // Versão Didática: Fecha a janela de estorno após o sucesso.
+                // Versão Técnica: Encerramento do contexto visual do componente modal.
+
             } else {
                 alert("Saldo insuficiente ou valor inválido.");
             }
         };
+
         // 5. Lógica de Clique: Cancelar
         const btnCancelar = document.getElementById('btn-cancelar-estorno');
         if (btnCancelar) {
             btnCancelar.onclick = fecharPopover;
+            // Versão Didática: Se você clicar em cancelar, a janela apenas fecha sem realizar nenhuma transferência.
+            // Versão Técnica: Vinculação de evento de interrupção ao método global de fechamento de overlay.
         }
+
         document.getElementById('popover').style.display = 'flex';
+        // Versão Didática: Faz a janela de solicitação de estorno aparecer no meio da tela.
+        // Versão Técnica: Ativação da visibilidade do elemento de overlay via manipulação da propriedade de display do DOM.
     }
     // --- OUTROS UTILITÁRIOS ---
     function fecharPopover() {
+        // Versão Didática: Esta função fecha qualquer janelinha de aviso ou formulário que esteja aberto no meio da tela.
+        // Versão Técnica: Manipulador de interface para ocultação do componente de overlay e reset do estado visual do modal.
+
         document.getElementById('popover').style.display = 'none';
-        // Limpa o contêiner correto que padronizamos
+        // Versão Didática: Esconde a caixa principal do aviso.
+        // Versão Técnica: Alteração da propriedade 'display' para 'none' para remover o elemento do fluxo de renderização.
+
         const extra = document.getElementById('popover-extra-actions');
-        if (extra) extra.innerHTML = "";
+        if (extra) {
+            extra.innerHTML = "";
+            // Versão Didática: Limpa os botões extras que foram criados para que eles não apareçam no próximo aviso.
+            // Versão Técnica: Purga do buffer de marcação interna (inner HTML) do slot de ações dinâmicas.
+        }
     }
+
     function togglePassword(inputId, icon) {
+        // Versão Didática: Esta função alterna entre mostrar as letras da senha ou escondê-las com bolinhas quando você clica no ícone do olho.
+        // Versão Técnica: Alternador de estado de visibilidade para campos de entrada protegidos, manipulando a propriedade 'type' e a iconografia associada.
+
         const input = document.getElementById(inputId);
+        // Versão Didática: Localiza o campo específico de senha que você quer ver.
+        // Versão Técnica: Mapeamento dinâmico do elemento de entrada via ID passado por parâmetro.
+
         if (input.type === 'password') {
             input.type = 'text';
+            // Versão Didática: Se a senha estiver escondida, o sistema revela o texto.
+            // Versão Técnica: Transição de estado do atributo 'type' para 'text'.
+
             icon.classList.replace('fa-eye', 'fa-eye-slash');
+            // Versão Didática: Troca o ícone para o olho com um risco, indicando que a senha está aparecendo.
+            // Versão Técnica: Substituição atômica de classe CSS para atualização do glifo vetorial.
         } else {
             input.type = 'password';
+            // Versão Didática: Se a senha estiver aparecendo, o sistema volta a esconder com as bolinhas.
+            // Versão Técnica: Reversão do atributo 'type' para o padrão de segurança 'password'.
+
             icon.classList.replace('fa-eye-slash', 'fa-eye');
+            // Versão Didática: O ícone volta para o olho aberto, pronto para ser clicado novamente.
+            // Versão Técnica: Reset da classe de iconografia para o estado de visibilidade oculta.
         }
     }
     // --- REPARO CIRÚRGICO DA LÓGICA DE AUDITORIA ---
     window.fecharRelatorioFullWidth = () => {
+        // Versão Didática: Esta função serve para fechar a tela grande de relatórios e limpar o que estava escrito nela.
+        // Versão Técnica: Método global de gerenciamento de estado visual para ocultação do painel de auditoria expandido.
+
         const area = document.getElementById('area-relatorio-fullwidth');
+        // Versão Didática: Localiza o painel do relatório na tela.
+        // Versão Técnica: Mapeamento do container root dos relatórios via seletor de ID.
+
         if (area) {
             area.style.display = 'none';
+            // Versão Didática: Esconde o painel da visão do usuário.
+            // Versão Técnica: Mutação da propriedade display para invalidação da renderização do elemento.
+
             document.getElementById('relatorio-fullwidth-conteudo').innerHTML = '';
+            // Versão Didática: Apaga o conteúdo do relatório para economizar memória e limpar a tela.
+            // Versão Técnica: Purga do buffer de marcação interna para reset de memória operacional do DOM.
         }
     };
 
     window.abrirRelatorio = (tipo) => {
+        // Versão Didática: Esta função prepara e mostra a lista de todos os colaboradores cadastrados.
+        // Versão Técnica: Controlador de renderização dinâmica para relatórios de usuários com lógica de filtragem de privilégios.
+
         appState.colaboradores = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+        // Versão Didática: Atualiza a lista de pessoas com os dados mais recentes salvos no sistema.
+        // Versão Técnica: Sincronização síncrona do estado local com a persistência mestre de usuários (LocalStorage).
+
         const usuarios = appState.colaboradores;
         const sessao = JSON.parse(localStorage.getItem('usuario_sessao')) || {};
 
         if (tipo === 'colaboradores') {
             const isAdmin = sessao.email && sessao.email.includes('alts.com');
+            // Versão Didática: Verifica se quem está olhando é um administrador da ALT para saber se mostra tudo ou não.
+            // Versão Técnica: Predicado booleano de validação de nível de acesso baseado em domínio de e-mail corporativo.
+
             const listaParaExibir = isAdmin ? usuarios : usuarios.filter(u => u.email === sessao.email);
+            // Versão Didática: Se for o chefe, mostra todo mundo. Se for um funcionário, mostra só os dados dele mesmo.
+            // Versão Técnica: Implementação de política de privacidade de dados (Data Scoping) via método filter.
 
             let htmlTabela = `
         <div style="overflow-x:auto; overflow-y:auto; max-height:350px; margin-top:10px;">
@@ -969,6 +1655,8 @@
                     </tr>
                 </thead>
                 <tbody>`;
+            // Versão Didática: Começa a desenhar a tabela com os títulos das colunas (Nome, Cargo, Carteira...).
+            // Versão Técnica: Inicialização de buffer de string (HTML Template) para construção da estrutura tabular.
 
             listaParaExibir.forEach(u => {
                 htmlTabela += `
@@ -982,9 +1670,13 @@
                 <td style="padding:10px; font-size:9px;">${u.origem || 'Externo'}</td>
                 <td style="padding:10px;">
                     <span style="filter: blur(4px); transition: 0.3s; cursor: pointer; font-family: monospace;" onmouseover="this.innerText='${isAdmin ? u.senha : 'Restrito'}'; this.style.filter='none'" onmouseout="this.innerText='******'; this.style.filter='blur(4px)'">******</span>
+                    <!-- Versão Didática: A senha fica borrada. Se for o administrador e passar o mouse, ele consegue ver. -->
+                    <!-- Versão Técnica: Implementação de segurança de interface via filtros CSS (Blur) e manipuladores de evento inline para revelação condicional. -->
                 </td>
                 <td style="padding:10px;">
                     <span style="filter: blur(4px); transition: 0.3s; cursor: pointer; color:#00ff88; font-family: monospace;" onmouseover="this.innerText='${isAdmin ? u.pin : 'Restrito'}'; this.style.filter='none'" onmouseout="this.innerText='******'; this.style.filter='blur(4px)'">******</span>
+                    <!-- Versão Didática: O PIN também fica escondido para ninguém copiar sem autorização. -->
+                    <!-- Versão Técnica: Ofuscação de segredo transacional na camada de visualização. -->
                 </td>
                 <td style="padding:10px;">${u.cadastroEm || '---'}</td>
             </tr>`;
@@ -997,14 +1689,25 @@
             document.getElementById('relatorio-fullwidth-titulo').style.color = "#00ff88";
             document.getElementById('relatorio-fullwidth-conteudo').innerHTML = htmlTabela;
             document.getElementById('area-relatorio-fullwidth').style.display = 'block';
+            // Versão Didática: Coloca a tabela pronta na tela e abre o painel para o usuário ler.
+            // Versão Técnica: Injeção de marcação dinâmica e ativação de visibilidade do componente de relatório.
         }
     };
 
     function abrirRelatorioFinanceiro() {
+        // Versão Didática: Esta função gera o extrato de todas as entradas e saídas de dinheiro da rede.
+        // Versão Técnica: Gerador de relatório de transações via auditoria do Distributed Ledger (Blockchain).
+
         const sessao = JSON.parse(localStorage.getItem('usuario_sessao')) || {};
         const isAdmin = sessao.email && sessao.email.includes('alts.com');
+        
         const chain = window.myLedger.getChain();
+        // Versão Didática: Busca o histórico oficial de transações na nossa Blockchain.
+        // Versão Técnica: Recuperação da coleção imutável de blocos através da interface do serviço myLedger.
+
         const transacoesFiltradas = chain.filter(t => isAdmin || t.origem === sessao.nome || t.destino === sessao.nome);
+        // Versão Didática: Filtra as transações para que o colaborador veja apenas o dinheiro que ele mandou ou recebeu.
+        // Versão Técnica: Aplicação de regra de isolamento de dados financeiros baseada na identidade do nó.
 
         let html = `
     <div style="overflow-y: auto; max-height: 350px; border: 1px solid rgba(255,255,255,0.05); border-radius: 4px; background: rgba(0,0,0,0.1);">
@@ -1023,6 +1726,9 @@
 
         transacoesFiltradas.forEach(t => {
             const ehGenesis = t.origem === "SISTEMA ALTS" || t.origem === "SISTEMA";
+            // Versão Didática: Identifica se o dinheiro veio do próprio sistema (Injeção de Capital).
+            // Versão Técnica: Verificação de procedência para rotulagem de transações de emissão primária.
+
             const corValor = ehGenesis ? "var(--success)" : "var(--error)";
             const sinal = ehGenesis ? "+" : "-";
 
@@ -1043,6 +1749,8 @@
 
         if (transacoesFiltradas.length === 0) {
             html += '<tr><td colspan="5" style="text-align:center; padding:20px; color: #555;">Nenhuma movimentação registrada para sua conta.</td></tr>';
+            // Versão Didática: Aviso caso ainda não exista nenhuma movimentação de dinheiro.
+            // Versão Técnica: Tratamento de estado vazio (Empty State) para a visualização da tabela.
         }
 
         html += `</tbody></table></div></div>`;
@@ -1052,10 +1760,15 @@
         document.getElementById('relatorio-fullwidth-titulo').style.color = "var(--secondary)";
         document.getElementById('relatorio-fullwidth-conteudo').innerHTML = html;
         document.getElementById('area-relatorio-fullwidth').style.display = 'block';
+        // Versão Didática: Finaliza e exibe o relatório financeiro completo.
+        // Versão Técnica: Renderização final do stream de transações no container de auditoria.
     }
 
     // 2. Função de Assinatura e Envio
     function assinarTransacao() {
+        // Versão Didática: Esta é a função que valida sua identidade e autoriza o envio de dinheiro para outra pessoa na rede.
+        // Versão Técnica: Atuador de transação financeira que valida credenciais de sessão (E-mail e PIN) e executa o débito no ledger imutável.
+
         const destWallet = document.getElementById('send-dest').value;
         const valorInput = document.getElementById('send-valor').value;
         const valor = parseFloat(valorInput);
@@ -1065,6 +1778,9 @@
         const sessaoAtiva = JSON.parse(localStorage.getItem('usuario_sessao'));
         // 1. Validação de Identidade (Substituindo Alert por Pop-over)
         if (emailSig !== sessaoAtiva.email || passSig !== sessaoAtiva.pin) {
+            // Versão Didática: Verifica se o e-mail e o PIN digitados conferem com quem está logado no momento.
+            // Versão Técnica: Verificação de assinatura digital (Digital Signature Validation) para garantir a autenticidade e o não-repúdio da operação.
+
             const popover = document.getElementById('popover');
             document.getElementById('popover-title').innerText = "ASSINATURA INVÁLIDA";
             document.getElementById('popover-title').style.color = "#ff4d4d"; // Vermelho de erro
@@ -1079,6 +1795,9 @@
         }
         // 2. Validação Financeira
         if (!destWallet || isNaN(valor) || valor <= 0 || valor > appState.admin.saldo) {
+            // Versão Didática: Confere se você escolheu alguém, se o valor é positivo e se você tem saldo suficiente para pagar.
+            // Versão Técnica: Validação de regras de negócio (Business Logic) e verificação de lastro financeiro antes da mineração do bloco.
+
             const popover = document.getElementById('popover');
             document.getElementById('popover-title').innerText = "ERRO DE OPERAÇÃO";
             document.getElementById('popover-title').style.color = "#ffb86c"; // Laranja de atenção
@@ -1104,13 +1823,20 @@
         };
         // Processamento de Débito
         appState.admin.saldo -= valor;
+        // Versão Didática: Retira o valor do seu saldo no momento do envio.
+        // Versão Técnica: Operação de débito no estado operacional da conta administrativa.
+
         // Inicializa o array de transações caso ele não exista (Segurança contra erro de reset)
         // Substitua a lógica de push e salvarEstado() por:
         if (typeof myLedger !== 'undefined') {
             myLedger.addBlock(appState.admin.nome, destinatario.nome, valor);
+            // Versão Didática: Grava a transferência permanentemente na Blockchain da empresa para ninguém conseguir apagar depois.
+            // Versão Técnica: Invocação do motor criptográfico para mineração de um novo nó de transação (Linked List).
         }
+
         salvarEstado();
         atualizarUI();
+
         // Feedback de Sucesso
         document.getElementById('popover-title').innerText = "TRANSAÇÃO CONCLUÍDA";
         document.getElementById('popover-title').style.color = "var(--success)";
@@ -1131,6 +1857,9 @@
 
     // --- FINALIZAÇÃO: REPARO DO RESET (OTIMIZADO E DESACOPLADO) ---
     function resetGenesis() {
+        // Versão Didática: Função de emergência que apaga absolutamente tudo e reinicia o sistema do zero. Use com cuidado!
+        // Versão Técnica: Rotina de expurgo total (Hard Reset) que invalida as chaves de persistência e limpa a memória operacional para reinicialização do ambiente.
+
         const sessaoSeguranca = JSON.parse(localStorage.getItem('usuario_sessao'));
         if (!sessaoSeguranca || sessaoSeguranca.cargo !== "Administrador Gênesis") {
             alert("Acesso Negado: Operação restrita ao Administrador.");
@@ -1145,12 +1874,16 @@
             localStorage.removeItem('alt_solution_users');
             localStorage.removeItem('genesis_state');
             localStorage.removeItem('usuario_sessao');
+            // Versão Didática: Limpa todas as gavetas de memória onde o sistema guardava os usuários e o dinheiro.
+            // Versão Técnica: Deleção física das chaves de persistência via Web Storage API.
 
             // 2. Limpeza profunda da RAM (Módulo Ledger e Estado)
             if (window.myLedger && typeof window.myLedger.clearAll === 'function') { window.myLedger.clearAll(); }
             if (window.myLedger && window.myLedger.chain) { window.myLedger.chain = []; }
             appState.transacoes = [];
             appState.admin.saldo = 0;
+            // Versão Didática: Reseta os números na memória imediata do sistema.
+            // Versão Técnica: Reinicialização de ponteiros de memória e buffers de transação.
             
             // 3. Persistência do Estado Base Limpo antes de descarregar a página
             localStorage.setItem('genesis_state', JSON.stringify(appState));
@@ -1158,11 +1891,16 @@
             // 4. Limpeza Visual e Disparo do Recarregamento (Último passo)
             if (window.fecharRelatorioFullWidth) { window.fecharRelatorioFullWidth(); }
             window.location.reload();
+            // Versão Didática: Recarrega a página para você começar tudo de novo.
+            // Versão Técnica: Invocação de Window.reload() para invalidação de cache de memória e reinicialização do ciclo de vida.
         }
 
     }
     // --- SOLUÇÃO PROBLEMA 1: LOGOUT ---
     function encerrarSessao() {
+        // Versão Didática: Fecha sua conta com segurança e volta para a tela de entrada.
+        // Versão Técnica: Invalidação de estado de autenticação (Session Purge) e redirecionamento de rota via substituição de histórico.
+
         // 1. Limpa a chave de sessão para impedir acesso sem login
         localStorage.removeItem('usuario_sessao');
         // 2. Redireciona para a tela inicial

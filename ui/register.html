@@ -155,160 +155,390 @@
     </style>
 </head>
 <body>
+    <!--Estas três tags marcam uma transição importante. Elas avisam ao navegador que a configuração visual e os estilos acabaram (</style></head>) e abrem oficialmente a parte visível do site (<body>), onde todos os textos, caixas e botões da tela de cadastro serão construídos.-->
     
     <div id="success-toast" class="toast">Identidade Criada com Sucesso!</div>
+    <!--cria uma caixinha de aviso invisível chamada success-toast. Ela serve para guardar a mensagem de sucesso "Identidade Criada com Sucesso!". Essa caixinha fica flutuando escondida na tela, esperando o código JavaScript dar a ordem para ela aparecer quando o usuário terminar de se cadastrar.-->
     
     <div id="error-toast" class="toast">A rede já foi inicializada!</div>
-    
+    <!--cria outra caixinha de aviso, mas focada em mensagens de erro ou segurança, chamada error-toast. O texto inicial dela diz "A rede já foi inicializada!", e ela será usada para alertar o usuário caso ele tente criar uma conta administrativa em um sistema que já possui um dono cadastrado.-->
+
     <div class="container">
+        <!--cria a "grande caixa" branca central do nosso site. Ela serve para envelopar e manter todos os elementos de cadastro (título, campos de texto e botões) bem organizados, centralizados e protegidos em um bloco único no meio da tela.-->
+
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <!--Esta linha abre a área do topo do formulário. Ela usa regras de posicionamento modernas (chamadas Flexbox) para fazer mágica com o espaço: ela empurra o título para o lado esquerdo e coloca a luz de status do lado direito, garantindo que os dois fiquem perfeitamente alinhados na mesma altura.-->
+
             <h2>Nova Identidade</h2>
+            <!--Esta linha escreve o título principal do topo da tela: "Nova Identidade". Ela avisa ao usuário que ele está iniciando o processo de criação de uma conta administrativa no sistema.-->
+
             <div id="status-light" class="status-light light-red"></div>
+            <!--desenha a pequena "luz" redonda no topo do formulário. Por padrão, ela começa com a classe light-red (luz vermelha), indicando visualmente que o formulário ainda não foi preenchido ou está inválido. Quando o usuário fizer tudo certinho, o código JavaScript mudará essa luz para verde.-->
         </header>
         
         <div id="pin-section">
+            <!--cria a seção ou "caixinha interna" do PIN. Ela agrupa todas as instruções e botões relacionados ao código de segurança que o usuário precisa gerar para validar a conta.-->
+
             <p style="font-size: 0.85rem; color: #888; margin-bottom: 10px;">PIN de Segurança Gerado:</p>
+            <!--apenas coloca um texto pequeno e cinza escrito "PIN de Segurança Gerado:", servindo de etiqueta para explicar o que é a caixa de texto que vem logo abaixo.-->
+
             <div class="pin-display" id="generated-pin">----</div>
+            <!--Este é o "visor" do nosso gerador. Ele começa exibindo quatro tracinhos (----). Quando o usuário clicar no botão de gerar, o código JavaScript vai localizar essa linha através do ID generated-pin e vai trocar esses hífens pelo número secreto que foi gerado.-->
+
             <button class="btn-active" style="margin-bottom: 20px; background: #21d4fd;" onclick="gerarPin()">GERAR MEU
                 PRIMEIRO PIN</button>
+                <!--desenha o botão azul escrito "GERAR MEU PRIMEIRO PIN". Ela possui um comando especial chamado onclick="gerarPin()", o que significa que, no exato momento em que o usuário clicar nesse botão, o navegador vai rodar a função JavaScript que calcula o número de segurança secreto.-->
         </div>
         
         <div class="input-container">
+            <!--abre a caixinha organizadora do campo de Nome. Ela serve para garantir que o desenho do bonequinho (ícone) e o local onde o usuário digita o nome fiquem unidos e alinhados em um único bloco visual na tela.-->
+
             <i class="fa-solid fa-user icon-left"></i>
+            <!--Esta tag desenha o pequeno ícone cinza de um bonequinho (usuário) no canto esquerdo do campo, servindo como uma pista visual rápida para o usuário saber que ali deve digitar o seu nome.-->
+
             <input type="text" id="reg-name" placeholder="Nome Completo">
+            <!--cria a caixa de texto real onde o usuário clica e digita. O comando id="reg-name" dá o nome exclusivo desse campo para o sistema, e o placeholder coloca aquele texto cinza de fundo "Nome Completo", que some assim que a pessoa começa a digitar.-->
+
         </div>
+        <!--Esta tag de fechamento tranca a caixinha do campo de Nome. Ela avisa ao navegador que o bloco do Nome acabou ali e que o próximo elemento deve começar na linha de baixo.-->
+
         <div class="input-container">
+            <!--abre a caixinha organizadora do campo de E-mail, agrupando o desenho do envelope e o campo de digitação do endereço eletrônico.-->
+
             <i class="fa-solid fa-envelope icon-left"></i>
+            <!--Esta tag desenha o ícone de uma cartinha (envelope) no canto esquerdo do campo, indicando que aquele espaço é destinado ao endereço de e-mail.-->
+
             <input type="email" id="reg-email" placeholder="E-mail Corporativo">
+            <!--cria o campo de texto inteligente para o e-mail. A propriedade type="email" ajuda o navegador a entender que o texto ali precisa ter o formato de um e-mail válido (com @ e .com), usando o ID reg-email para que o sistema consiga ler o dado digitado depois.-->
+
         </div>
+        <!--Esta tag de fechamento tranca a caixinha do e-mail, fechando este bloco e garantindo a separação exata entre o campo de e-mail e o campo de senha.-->
+
         <div class="input-container">
+            <!--abre a caixinha organizadora do campo de Senha. Como este campo é especial e precisa esconder as letras e ter um botão de mostrar/esconder, essa caixa vai agrupar três elementos internos.-->
+
             <i class="fa-solid fa-lock icon-left"></i>
+            <!--Esta tag desenha o ícone de um cadeado fechado do lado esquerdo, avisando ao usuário que aquela linha é destinada à criação da sua senha secreta.-->
+
             <input type="password" id="reg-pass" placeholder="Definir Nova Senha">
+            <!--cria o campo onde a senha é digitada. Graças ao comando type="password", tudo o que usuário digitar vai aparecer transformado em bolinhas pretas automaticamente, escondendo a senha de olhos curiosos ao redor, usando o ID reg-pass para as validações lógicas.-->
+
             <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+            <!--desenha o desenho de um "olhinho" no canto direito de dentro do campo de senha. Ela vem equipada com o gatilho onclick="togglePassword()", o que significa que quando o usuário clicar nele, o JavaScript vai transformar as bolinhas em texto aberto para a pessoa conferir se digitou a senha certa.-->
+
         </div>
+        <!--Esta tag de fechamento tranca a caixinha do campo de Senha, terminando oficialmente toda a seção de coleta de dados do formulário de criação de identidade.-->
         
-        <button id="btn-register" class="btn-inactive" disabled onclick="cadastrar()">SOLICITAR ACESSO</button>
-        
+        <button id="btn-register" class="btn-inactive" disabled onclick="cadastrar()">REGISTRAR ACESSO</button>
+        <!--desenha o grande botão "SOLICITAR ACESSO". Ele nasce travado e apagado por causa dos comandos class="btn-inactive" (cor cinza) e disabled (bloqueado para cliques). Ele só será liberado e ativado pelo JavaScript quando o usuário digitar dados válidos e gerar o PIN. Quando estiver destravado, o clique nele chamará a função cadastrar().-->
+
         <div style="margin-top: 20px; text-align: center;">
-            <a href="index.html" style="color: #21d4fd; text-decoration: none; font-size: 0.9rem;">Já possui conta?
-                Entrar</a>
+        <!--abre uma caixinha invisível apenas para organizar o link de voltar. O comando margin-top: 20px empurra o link um pouco para baixo (para não ficar colado no botão) e o text-align: center garante que o texto fique bem no meio da tela.-->
+
+            <a href="index.html" style="color: #21d4fd; text-decoration: none; font-size: 0.9rem;">Clique aqui se já possui registro.</a>
+                <!--Esta tag cria o link clicável escrito "Clique aqui  se já possui registro.". O comando href="index.html" funciona como um endereço de destino: se o usuário clicar nesse texto, o navegador interrompe a página atual e o leva de volta para a tela de login.-->
+
         </div>
+        <!--Esta tag de fechamento tranca a caixinha do link de navegação, indicando que as regras de centralização de texto acabam aqui.-->
         
     </div>
+    <!--Esta tag de fechamento é extremamente importante: ela fecha a "grande caixa" branca central (o container) que abrimos lá no topo da página. Ela avisa ao navegador que toda a interface visual do formulário de cadastro está oficialmente encerrada.-->
+
     <script type="module">
+        // Bloco Primário de 2º Escalão: Importação de Dependências e Serviços Externos. Carrega o serviço gerenciador de persistência local para expor os métodos de verificação de usuários cadastrados
+
         import { StorageService } from '../logic/storage.js';
+        //conecta este arquivo ao nosso cofre de dados (storage.js). Ela traz uma ferramenta chamada StorageService para que esta tela consiga perguntar ao sistema se já existe algum dono cadastrado.
+
         let currentPin = "";
-        // --- REPARO CIRÚRGICO: TRAVA DE SEGURANÇA GÊNESIS ---
+        //cria uma variável chamada currentPin para servir de caderninho de anotações temporário. Ela começa em branco e servirá para guardar o número secreto que o botão gerar.
+
         document.addEventListener('DOMContentLoaded', () => {
+            //Este comando fica de vigia. Ele diz ao navegador: "Espere o site desenhar tudo na tela (textos, caixas e botões). Assim que terminar, rode as regras que estão aqui dentro". Isso evita erros de tentar mexer em um botão que ainda não apareceu.
+
             if (StorageService.hasGenesis()) {
+                //Aqui é feito o teste de segurança. O sistema pergunta ao cofre: "Já existe um usuário cadastrado?". Se a resposta for sim, o sistema entra em modo de alerta máximo e executa o bloqueio de tela.
+
                 console.warn("ACESSO NEGADO: O Ambiente Gênesis já possui um Administrador Raiz.");
-                
+                //escreve um aviso de "Acesso Negado" escondido no console de ferramentas do navegador. Serve para avisar ao programador ou analista de QA que o sistema bloqueou uma tentativa inválida de cadastro.
+
                 const errorToast = document.getElementById('error-toast');
+                //localiza o balão de alerta vermelho na tela pelo nome dele (error-toast) e o guarda em uma variável para que o código consiga escrever o texto e fazê-lo aparecer.
+
                 let contagem = 5;
-                
+                //Cria um cronômetro que começa no número 5, que será usado para fazer a contagem regressiva antes de tirar o usuário da tela.
+
                 errorToast.innerText = `A rede já foi inicializada! Redirecionando em ${contagem}s...`;
+                //escreve o aviso na tela do usuário: "A rede já foi inicializada! Redirecionando em 5s...", preenchendo o número de forma inteligente
+
                 errorToast.classList.add('show');
-                
+                //dá a ordem para o balão de alerta vermelho aparecer fisicamente na tela do navegador do usuário.
+
                 const temporizadorTrava = setInterval(() => {
+                    //Aqui o sistema liga o relógio da contagem regressiva. Ele cria uma tarefa repetitiva que diz: "A cada 1 segundo (1000 milissegundos), execute o passo a passo de redução de tempo que está aqui dentro".
+
                     contagem--;
+                    //Pega o nosso número do cronômetro e diminui 1 dele (de 5 vai para 4, depois para 3, e assim por diante).
+
                     if (contagem > 0) {
                         errorToast.innerText = `A rede já foi inicializada! Redirecionando em ${contagem}s...`;
+                        //O sistema testa: "O cronômetro ainda é maior que zero?". Se for, ele atualiza a mensagem na tela exibindo o tempo atualizado (ex: "Redirecionando em 4s...").
                     } else {
+                        // Bloco de Conexão Condicional: Execução de Rotina de Expiração de Tempo de Bloqueio
+
                         clearInterval(temporizadorTrava);
+                        // Bloco de 5º Escalão: Destruição do Processo em Segundo Plano. Interrompe e limpa o loop do setInterval na memória do navegador para evitar vazamento de performance (Memory Leak)
+
                         window.location.href = 'index.html';
+                        // Bloco de 5º Escalão: Redirecionamento Forçado de Rota do Navegador. Altera a URL de navegação atual forçando o navegador a carregar o arquivo da tela de login
                     }
+                    // Fechamento Lógico de 5º Escalão: Encerra a condicional de expiração do tempo (else)
                 }, 1000);
+                //Este número 1000 é a configuração de tempo do relógio, confirmando que cada rodada de redução do cronômetro vai acontecer de 1 em 1 segundo.
             }
+            //Esta chave fecha as regras da trava de segurança. Tudo o que estava lá dentro só acontece se o sistema já tiver um dono.
         });
+        //Esta chave com parênteses e ponto e vírgula fecha a vigilância do carregamento da página. Tudo o que foi configurado para ser verificado quando o site abrisse se encerra aqui.
+
         window.gerarPin = () => {
+            //cria a função pública chamada gerarPin. Ela é anexada ao comando window para garantir que, quando o botão que desenhamos no HTML for clicado, ele consiga achar e executar esse bloco de código perfeitamente.
+
             currentPin = Math.floor(100000 + Math.random() * 900000).toString();
+            //Aqui é onde a matemática acontece: o Math.random() escolhe um número quebrado e aleatório, a multiplicação e a soma garantem que ele terá sempre 6 dígitos, e o Math.floor() arredonda o valor para eliminar as vírgulas. No fim, o .toString() transforma o número em um texto limpo e o guarda na variável currentPin.
             document.getElementById('generated-pin').innerText = currentPin;
             validar();
         };
+        // Fechamento Lógico de 2º Escalão: Encerra a função global window.gerarPin e libera o thread de execução
+
         window.togglePassword = () => {
+            //cria a função chamada togglePassword. Ela serve para escutar os cliques do usuário no desenho do "olhinho" do campo de senha e alternar o modo como a senha é exibida.
+
             const input = document.getElementById('reg-pass');
+            //localiza o campo onde o usuário digita a senha pelo ID dele (reg-pass) e o guarda em uma variável chamada input para podermos alterar suas propriedades na linha seguinte.
+
             const icon = document.querySelector('.toggle-password');
+            //localiza o desenho do "olhinho" no HTML usando a classe CSS dele (.toggle-password) e o guarda na variável icon para podermos mudar o desenho do olho depois.
+
             input.type = input.type === 'password' ? 'text' : 'password';
+            //Esta linha faz o teste da inversão: ela olha para o campo e pergunta "As letras estão escondidas como bolinhas (password)?". Se estiverem, ela muda o tipo para texto normal (text) para exibir a senha. Se já estiverem aparecendo, ela muda de volta para bolinhas (password) para esconder.
+
             icon.classList.toggle('fa-eye-slash');
+            //altera o desenho do olhinho. O comando toggle funciona como um interruptor de luz: se o ícone do olho cortado (fa-eye-slash) não estiver na linha, ele coloca (colocando o risco no olho); se já estiver lá, ele tira (deixando o olho aberto e limpo).
+
         };
+        //Fechamento Lógico de 2º Escalão: Encerra a função global window.togglePassword finalizando a inversão de estados
+
         window.validar = () => {
+            //Abre a função principal de checagem da nossa tela. Ela fica disponível globalmente sob o nome de validar() para que possa ser chamada de qualquer canto sempre que precisarmos testar os dados digitados.
+
             const n = document.getElementById('reg-name').value.trim();
+            //Pega o texto que o usuário digitou no campo de Nome, passa uma "vassoura" para apagar qualquer espaço em branco que tenha sido colocado sem querer no início ou no fim do texto, e guarda o resultado na variável n.
+
             const e = document.getElementById('reg-email').value.trim();
+            //Captura o valor do campo de e-mail aplicando a limpeza de strings via método trim
             const p = document.getElementById('reg-pass').value.trim();
+            //Captura o valor bruto da senha sanitizando os espaços vazios periféricos antes da validação
             const btn = document.getElementById('btn-register');
+            //Bloco Secundário: Resolução de Ponteiros dos Elementos de Ação e Feedback Visual. Armazena a referência do botão de submissão para manipulação dinâmica de propriedades de bloqueio
             const light = document.getElementById('status-light');
+            //Armazena a referência do nó indicador de luz para alteração das classes de cores reativas
             const regexSeguranca = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+            //configura a fita métrica de segurança da nossa senha. Ela cria uma regra oculta chamada regexSeguranca que exige três coisas obrigatórias na senha: pelo menos uma letra, pelo menos um número e pelo menos um símbolo especial (como @ ou #), além de ter no mínimo 8 letras/números de comprimento total.
+
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            //configura a regra do e-mail. Ela garante que o texto digitado se pareça com um e-mail de verdade, exigindo um texto inicial, o símbolo arroba (@), o nome do provedor e o ponto final (como .com ou .com.br).
+
             const camposValidos = n.length > 3 && emailRegex.test(e) && regexSeguranca.test(p);
+            //Aqui o sistema junta todas as condições de texto: ele checa se o nome tem mais de 3 letras, se o e-mail passou no teste da cartinha e se a senha passou no teste de segurança. Se os três estiverem corretos, a variável camposValidos ganha o valor de verdadeiro.
+
             const pinGerado = typeof currentPin !== 'undefined' && currentPin !== '';
+            //faz a checagem do PIN. Ela olha para a nossa memória e pergunta: "O PIN de segurança já foi gerado pelo botão azul ou ainda está em branco?". Se o usuário já tiver clicado no botão azul e gerado o número, esta checagem se torna verdadeira.
+
             if (camposValidos && pinGerado) {
+                //O teste final do formulário: se todos os campos de texto estiverem corretos (camposValidos) E o PIN secreto de segurança já tiver sido gerado (pinGerado), o sistema entra nas regras de liberação do formulário.
+
                 btn.className = 'btn-active';
                 btn.disabled = false;
+                //Com tudo aprovado, o código liga o botão: ele muda a cor do botão azul para ativo (btn-active) e desativa o bloqueio (disabled = false), permitindo que o usuário consiga clicar nele para se cadastrar.
+
                 light.className = 'status-light light-green';
+                //Muda a pequena luz redonda lá do topo do formulário para a cor verde (light-green), dando um sinal visual claro ao usuário de que o formulário está perfeito e pronto.
+
             } else {
+                //Caso faltar qualquer detalhe (como o nome curto, e-mail sem arroba, senha fraca ou se a pessoa esqueceu de clicar no botão azul do PIN), o sistema entra no else para trancar tudo novamente.
+
                 btn.className = 'btn-inactive';
                 btn.disabled = true;
                 light.className = 'status-light light-red';
+                //Tranca o botão mudando sua cor para cinza apagado (btn-inactive), desativa a capacidade de clique (disabled = true) e mantém ou volta a luz do topo para a cor vermelha (light-red).
+
             }
+            // } (Fechamento do else): Esta chave encerra as instruções de bloqueio do formulário.
+
         };
+        // }; (Fechamento do window.validar): Esta chave com ponto e vírgula fecha oficialmente a nossa grande função validar(). Toda a lógica de varredura se encerra aqui.
+
         document.getElementById('reg-name').addEventListener('input', window.validar);
+        // Versão Didática: O sistema fica "ouvindo" o que você digita no campo do Nome. Toda vez que você aperta uma tecla, ele chama a função de validação para conferir se está tudo certo.
+        // Versão Técnica: Registra um Event Listener no nó DOM '#reg-name'. Dispara o callback 'window.validar' no evento de 'input', permitindo validação em tempo real durante a entrada de dados.
+
         document.getElementById('reg-email').addEventListener('input', window.validar);
+        // Versão Didática: O sistema vigia o campo de E-mail. Assim que você começa a escrever seu endereço, ele já vai testando se o formato está correto.
+        // Versão Técnica: Acopla um observador de eventos ao elemento '#reg-email'. Sincroniza o estado da interface com a validade do e-mail através do disparo reativo do método de validação.
+
         document.getElementById('reg-pass').addEventListener('input', window.validar);
-        // Vinculação ao final do arquivo, antes do
+        // Versão Didática: O sistema observa o campo da Senha enquanto você digita, verificando instantaneamente se ela atende aos requisitos de segurança.
+        // Versão Técnica: Define um gatilho de execução para o evento 'input' no seletor '#reg-pass'. Assegura que a complexidade da senha seja avaliada a cada mutação do buffer de entrada.
+
         document.getElementById('reg-pass').addEventListener('change', window.validar);
-        // --- REPARO CIRÚRGICO: CADASTRO COM COMPATIBILIDADE DE ESTADO ---
+        // Versão Didática: Além de olhar enquanto você digita, o sistema faz uma última checagem na senha quando você termina de preencher ou muda de campo.
+        // Versão Técnica: Estabelece uma redundância de validação via evento 'change' no campo '#reg-pass'. Garante a consistência dos indicadores de status após a confirmação ou perda de foco.
+
         window.cadastrar = () => {
-            // --- REPARO CIRÚRGICO: DEFINIÇÃO DO BLOCO GÊNESIS ---
+            // Versão Didática: Esta é a função principal que registra o novo usuário no sistema. Ela é chamada quando o botão "REGISTRAR ACESSO" é clicado.
+            // Versão Técnica: Declaração de uma função de seta (Arrow Function) atribuída ao objeto global 'window', servindo como o manipulador de evento para a submissão do formulário de cadastro.
+
             const user = {
+                // Versão Didática: Aqui criamos uma "ficha" com todos os dados do novo usuário, coletando as informações dos campos do formulário.
+                // Versão Técnica: Instanciação de um objeto literal 'user' que agrega os dados coletados dos elementos de input do DOM, formando o payload do novo registro.
+
                 nome: document.getElementById('reg-name').value.trim(),
+                // Versão Didática: Pega o nome digitado no campo 'reg-name' e remove espaços extras, guardando-o na ficha.
+                // Versão Técnica: Extração e sanitização do valor do input '#reg-name' via '.value.trim()', atribuindo-o à propriedade 'nome'.
+
                 email: document.getElementById('reg-email').value.trim(),
+                // Versão Didática: Pega o e-mail digitado no campo 'reg-email' e remove espaços extras, guardando-o na ficha.
+                // Versão Técnica: Extração e sanitização do valor do input '#reg-email' via '.value.trim()', atribuindo-o à propriedade 'email'.
+
                 senha: document.getElementById('reg-pass').value,
+                // Versão Didática: Pega a senha digitada no campo 'reg-pass' e guarda-a na ficha.
+                // Versão Técnica: Captura do valor do input '#reg-pass', atribuindo-o à propriedade 'senha' sem sanitização de espaços (para preservar senhas com espaços internos).
+
                 pin: currentPin,
+                // Versão Didática: Adiciona o PIN de segurança que foi gerado anteriormente à ficha do usuário.
+                // Versão Técnica: Atribuição do valor da variável de estado global 'currentPin' à propriedade 'pin' do objeto 'user'.
+
                 wallet: '0x' + Math.random().toString(16).slice(2, 10).toUpperCase(),
+                // Versão Didática: Gera um código único para a "carteira digital" do usuário, começando com '0x' e usando letras e números aleatórios.
+                // Versão Técnica: Geração de um identificador hexadecimal pseudo-aleatório para a 'wallet', utilizando 'Math.random()' e formatação de string.
+
                 // O cargo pode ser capturado de um input ou fixado como "Presidente do Conselho"
                 cargo: "Administrador Gênesis",
-                origem: "Ambiente Gênesis",      // Chave mestra de identificação
-                power_level: 0,                  // Nível raiz para liberar funções no Dashboard
-                saldoTotal: 0,
-                historico: [],
-                cadastroEm: new Date().toLocaleString('pt-BR')
-            };
-            // 2. Validação simples: Não deixa cadastrar vazio
-            if (!user.nome || !user.email || !user.senha) {
-                alert("Por favor, preencha todos os campos.");
-                return;
-            }
-            // LOCALIZAR no script de register.html o bloco "3. PERSISTÊNCIA NA LISTA DE USUÁRIOS"
-            // Substitua o trecho antigo por esta chamada limpa:
+                // Versão Didática: Define o cargo do primeiro usuário como "Administrador Gênesis", que é o dono principal do sistema.
+                // Versão Técnica: Atribuição de um valor literal estático "Administrador Gênesis" à propriedade 'cargo', definindo o nível de privilégio.
 
-            // --- REPARO CIRÚRGICO: UNIFICAÇÃO DA PERSISTÊNCIA VIA STORAGESERVICE ---
-            if (typeof StorageService !== 'undefined') {
-                StorageService.saveUser(user);
-            } else {
-                // Fallback de segurança caso o módulo não tenha carregado
-                let usuariosDaRede = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
-                usuariosDaRede.push(user);
-                localStorage.setItem('alt_solution_users', JSON.stringify(usuariosDaRede));
+                origem: "Ambiente Gênesis",      // Chave mestra de identificação
+                // Versão Didática: Marca a origem deste usuário como "Ambiente Gênesis", indicando que é o usuário raiz.
+                // Versão Técnica: Atribuição de um identificador de origem estático para categorização do usuário como o administrador inicial do sistema.
+
+                power_level: 0,                  // Nível raiz para liberar funções no Dashboard
+                // Versão Didática: Define o nível de poder deste usuário como 0, que é o nível mais alto para o administrador raiz.
+                // Versão Técnica: Atribuição de um valor numérico '0' à propriedade 'power_level', indicando o nível de acesso e controle no dashboard.
+
+                saldoTotal: 0,
+                // Versão Didática: Inicia o saldo total do novo usuário em zero.
+                // Versão Técnica: Inicialização da propriedade 'saldoTotal' com valor numérico zero.
+
+                historico: [],
+                // Versão Didática: Cria uma lista vazia para guardar o histórico de transações futuras do usuário.
+                // Versão Técnica: Inicialização de um array vazio para a propriedade 'historico', que armazenará registros de transações.
+
+                cadastroEm: new Date().toLocaleString('pt-BR')
+                // Versão Didática: Registra a data e a hora exata em que o usuário foi cadastrado no sistema.
+                // Versão Técnica: Captura e formatação da data e hora atual do sistema para registro da criação do usuário.
+            };
+
+            if (!user.nome || !user.email || !user.senha) {
+                // Versão Didática: Verifica se o nome, e-mail ou senha estão vazios. Se algum estiver, o sistema impede o cadastro.
+                // Versão Técnica: Condicional que avalia a 'truthiness' das propriedades 'nome', 'email' e 'senha' do objeto 'user', impedindo o prosseguimento se alguma for uma string vazia.
+
+                alert("Por favor, preencha todos os campos.");
+                // Versão Didática: Exibe uma mensagem de alerta simples pedindo para o usuário preencher todos os campos.
+                // Versão Técnica: Invocação da função global 'alert()' para exibir uma notificação modal ao usuário.
+
+                return;
+                // Versão Didática: Para a execução da função aqui, impedindo que o cadastro continue.
+                // Versão Técnica: Interrompe a execução do método 'cadastrar()' e retorna o controle para o ponto de chamada.
             }
-            // --- FIM DO REPARO ---
-            // 5. Feedback Visual e Redirecionamento com Contagem Regressiva
+
+            if (typeof StorageService !== 'undefined') {
+                // Versão Didática: Verifica se o nosso "Cofre de Dados" (StorageService) está carregado e pronto para ser usado.
+                // Versão Técnica: Condicional que verifica se o módulo 'StorageService' foi carregado corretamente e está acessível no escopo.
+
+                StorageService.saveUser(user);
+                // Versão Didática: Usa o "Cofre de Dados" para salvar a ficha do novo usuário de forma organizada.
+                // Versão Técnica: Invocação do método 'saveUser()' do 'StorageService' para persistir o objeto 'user' no armazenamento local.
+
+            } else {
+                // Versão Didática: Se o "Cofre de Dados" não estiver pronto, o sistema usa um método alternativo para salvar o usuário.
+                // Versão Técnica: Cláusula 'else' que define um fallback de persistência caso o 'StorageService' não esteja disponível.
+
+                let usuariosDaRede = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+                // Versão Didática: Pega a lista de usuários já existentes ou cria uma nova lista vazia se não houver nenhuma.
+                // Versão Técnica: Recuperação e desserialização da coleção de usuários do 'localStorage', com fallback para um array vazio.
+
+                usuariosDaRede.push(user);
+                // Versão Didática: Adiciona a ficha do novo usuário à lista de usuários.
+                // Versão Técnica: Inserção do objeto 'user' na coleção 'usuariosDaRede' utilizando o método 'push()'.
+
+                localStorage.setItem('alt_solution_users', JSON.stringify(usuariosDaRede));
+                // Versão Didática: Salva a lista atualizada de usuários de volta no "banco de dados" do navegador.
+                // Versão Técnica: Serialização da coleção 'usuariosDaRede' e persistência no 'localStorage' sob a chave 'alt_solution_users'.
+            }
+
             const toastElement = document.getElementById('success-toast');
+            // Versão Didática: Localiza a caixinha de aviso de sucesso na tela para exibir a mensagem.
+            // Versão Técnica: Captura a referência do elemento DOM '#success-toast' para manipulação visual.
+
             let contagem = 5;
+            // Versão Didática: Inicia um contador regressivo de 5 segundos para o redirecionamento.
+            // Versão Técnica: Declaração e inicialização de uma variável 'contagem' para gerenciar o temporizador.
             
             toastElement.innerText = `Identidade criada ! Redirecionando em ${contagem}s...`;
+            // Versão Didática: Atualiza o texto da caixinha de aviso com a mensagem de sucesso e a contagem regressiva.
+            // Versão Técnica: Mutação da propriedade 'innerText' do 'toastElement' com uma string formatada via Template Literal.
+
             toastElement.classList.add('show');
+            // Versão Didática: Faz a caixinha de aviso de sucesso aparecer na tela.
+            // Versão Técnica: Adição da classe CSS 'show' ao 'toastElement' para acionar a transição de visibilidade.
             
             console.log("Usuário Gênesis registrado na REDE ALT:", user.wallet);
+            // Versão Didática: Registra uma mensagem de sucesso no console do navegador, útil para o desenvolvedor e QA.
+            // Versão Técnica: Emissão de uma mensagem de log no console, incluindo o identificador da 'wallet' do usuário recém-registrado.
             
             const temporizador = setInterval(() => {
+                // Versão Didática: Inicia um cronômetro que executa uma ação a cada segundo.
+                // Versão Técnica: Invocação da função 'setInterval()' para agendar a execução periódica de um callback.
+
                 contagem--;
+                // Versão Didática: Diminui o contador em uma unidade a cada segundo.
+                // Versão Técnica: Decremento da variável 'contagem' em cada ciclo do temporizador.
+
                 if (contagem > 0) {
+                    // Versão Didática: Se ainda houver tempo na contagem, atualiza a mensagem de aviso.
+                    // Versão Técnica: Condicional que verifica se a 'contagem' é maior que zero para continuar atualizando o feedback visual.
+
                     toastElement.innerText = `Identidade criada ! Redirecionando em ${contagem}s...`;
+                    // Versão Didática: Atualiza a mensagem de aviso com o tempo restante.
+                    // Versão Técnica: Mutação da propriedade 'innerText' do 'toastElement' com a contagem regressiva atualizada.
+
                 } else {
+                    // Versão Didática: Quando a contagem chega a zero, o sistema para o cronômetro e redireciona a página.
+                    // Versão Técnica: Cláusula 'else' que executa a lógica de finalização do temporizador e redirecionamento.
+
                     clearInterval(temporizador);
+                    // Versão Didática: Para o cronômetro para que ele não continue rodando desnecessariamente.
+                    // Versão Técnica: Invocação de 'clearInterval()' para interromper a execução agendada do 'setInterval()'.
+
                     window.location.href = 'index.html';
+                    // Versão Didática: Leva o usuário de volta para a tela de login.
+                    // Versão Técnica: Atribuição de uma nova URL à propriedade 'window.location.href' para forçar o redirecionamento do navegador.
                 }
+
             }, 1000);
+                // Versão Didática: Define que cada passo da contagem regressiva acontece a cada 1000 milissegundos (1 segundo).
+                // Versão Técnica: Parâmetro de intervalo para 'setInterval()', especificando a frequência de execução do callback em milissegundos.
+                 
         };
     </script>
 </body>

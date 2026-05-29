@@ -1,135 +1,78 @@
-Mapeamento Técnico de Persistência: ledger.js
-Técnico Responsável: André Luiz Trindade
+# Mapeamento Atômico: ledger.js
+**Técnico Responsável:** André Luiz Trindade
 
-Este documento reúne a análise estrutural e atômica das rotinas de ledger e integridade criptográfica do arquivo ledger.js dentro do ecossistema ALT Solution.
+Este documento detalha o motor da blockchain da ALT Solution, separando a lógica de negócios (Didática) da mecânica de engenharia (Técnica).
 
-Estrutura do Objeto Principal (myLedger)
+---
 
-O módulo atua como a engrenagem central de processamento de blocos, mineração de transações e auditoria da blockchain local.
+## 1. Motor de Hashing (Blindagem de Dados)
 
-Subbloco 01 - Configuração de Chaves (KEYS)
-Comando Analisado: KEYS: { CHAIN: 'alt_solution_chain' }
+### Elemento: `generateHash: function (...) { ... }`
+*   **Versão Didática:** É a nossa máquina de criar carimbos digitais. Ela pega qualquer informação e transforma em um código único.
+*   **Versão Técnica:** Implementação do algoritmo DJB2. Utiliza operações de bitwise para converter strings em hashes hexadecimais imutáveis.
 
-Análise de Engenharia: Criação de um dicionário estático de propriedades do objeto. Mapeia a string alfanumérica utilizada para persistir a corrente unificada de blocos na API do navegador, organizando o ecossistema sob um identificador único.
+### Elemento: `hash = ((hash << 5) - hash) + char;`
+*   **Versão Didática:** Esta é a "fórmula secreta" que embaralha os dados para que ninguém consiga descobrir o que foi escrito apenas olhando para o carimbo.
+*   **Versão Técnica:** Operador de deslocamento binário combinado com aritmética. Minimiza colisões de hash ao distribuir os valores nos 32 bits disponíveis.
 
-Subbloco 02 - Algoritmo de Hashing Criptográfico (generateHash)
-Comando Analisado: generateHash: function (index, timestamp, data, previousHash) { ... }
+---
 
-Análise de Engenharia: Implementação de um algoritmo determinístico não-criptográfico baseado na mecânica de hashing DJB2. Consolida um identificador hexadecimal de tamanho variável obtido através de operações aritméticas binárias e deslocamentos de bits sobre a codificação decimal de caracteres (ASCII/UTF-16), impossibilitando a reversão dos dados originais a partir do hash gerado.
+## 2. Gerenciamento da Corrente (Chain Management)
 
-Detalhamento Atômico de Linhas
+### Elemento: `getChain: function () { ... }`
+*   **Versão Didática:** É a função que lê o livro de registros. Se o livro estiver vazio, ela escreve a primeira página.
+*   **Versão Técnica:** Singleton de carregamento de dados com rotina de fallback para inicialização do Bloco Gênesis.
 
-export const myLedger = {
+### Elemento: `const genesisBlock = { ... }`
+*   **Versão Didática:** Este é o "Bloco de Nascimento" da rede. Ele não tem transações, apenas marca o dia em que o sistema começou.
+*   **Versão Técnica:** Objeto âncora imutável (Hardcoded) que serve como ponto de confiança (Trust Anchor) para o encadeamento da blockchain.
 
-Versão Técnica (Bloco Primário de Segundo Escalão): Declaração e exportação de um módulo contendo um objeto literal na sintaxe ES6, centralizando a inteligência de negócios contábeis e auditoria por toda a aplicação.
+---
 
-KEYS: { CHAIN: 'alt_solution_chain' },
+## 3. Registro de Transações (Mining)
 
-Versão Técnica (Bloco Primário de Segundo Escalão): Configuração de propriedade estática de mapeamento para isolamento do domínio de dados da blockchain local.
+### Elemento: `addBlock: function (...) { ... }`
+*   **Versão Didática:** É a função que escreve uma nova transação no livro, sempre amarrando a página nova com a assinatura da página anterior.
+*   **Versão Técnica:** Método mutador que implementa o conceito de Linked List criptográfica, onde cada nó contém a referência (hash) do nó predecessor.
 
-generateHash: function (index, timestamp, data, previousHash) {
+### Elemento: `previousHash: previousBlock.hash`
+*   **Versão Didática:** Este é o "elo da corrente". Ele garante que, se alguém mexer em um bloco antigo, todos os blocos seguintes quebrarão.
+*   **Versão Técnica:** Pointer de integridade retroativa. É o mecanismo fundamental que torna a blockchain imutável.
 
-Versão Técnica (Elemento Primário de Segundo Escalão): Definição de método anônimo de assinatura clássica parametrizado para recepção de metadados de controle e payloads de transação.
+---
 
-let str = index + timestamp + JSON.stringify(data) + previousHash;
+## 4. Auditoria de Segurança (QA Audit)
 
-Versão Técnica (Elemento Secundário): Concatenação linear de tipos primitivos combinada com a serialização estrita via JSON.stringify(), gerando uma cadeia única de caracteres para servir de semente ao gerador de hash.
+### Elemento: `isChainValid: function () { ... }`
+*   **Versão Didática:** É o nosso inspetor de segurança. Ele percorre a corrente inteira conferindo se todos os elos estão perfeitamente encaixados.
+*   **Versão Técnica:** Verificador de consistência linear. Compara o hash persistido contra o recálculo dinâmico para detectar Tampering.
 
-let hash = 0;
+### Elemento: `if (current.previousHash !== previous.hash) return false;`
+*   **Versão Didática:** Se o inspetor achar uma assinatura que não bate com a anterior, ele imediatamente para tudo e avisa que o sistema foi violado.
+*   **Versão Técnica:** Gatilho de invalidação de integridade. Retorna um estado booleano negativo que pode ser usado pela interface para travar o sistema.
 
-Versão Técnica (Elemento Secundário): Inicialização de variável mutável mutada por escopo de bloco para atuar como acumulador numérico durante o ciclo iterativo.
+---
 
-for (let i = 0; i < str.length; i++) {
+## Detalhamento Atômico de Elementos Técnicos
 
-Versão Técnica (Elemento Secundário): Estrutura de repetição linear controlada pelo comprimento total da string gerada, garantindo processamento atômico caractere por caractere.
+**str.charCodeAt(i)**
+*   **Versão Didática:** Transforma uma letra em um número que o computador entende para podermos fazer as contas.
+*   **Versão Técnica:** Recuperação do valor numérico UTF-16 do caractere para processamento aritmético.
 
-const char = str.charCodeAt(i);
+**Math.abs(hash).toString(16)**
+*   **Versão Didática:** Transforma o resultado final da conta em um código alfanumérico curto e fácil de ler.
+*   **Versão Técnica:** Casting de tipo numérico para representação hexadecimal (Base 16).
 
-Versão Técnica (Elemento Terciário): Atribuição síncrona do valor numérico representativo do caractere atual na tabela Unicode por meio do método nativo charCodeAt().
+**chain[chain.length - 1]**
+*   **Versão Didática:** Pega o último registro que foi salvo para servir de base para o próximo.
+*   **Versão Técnica:** Acesso posicional ao último índice do array de objetos.
 
-hash = ((hash << 5) - hash) + char;
+**localStorage.removeItem(...)**
+*   **Versão Didática:** Limpa o cofre de transações, jogando fora todo o histórico salvo.
+*   **Versão Técnica:** Invalidação física de dados persistidos para reset de estado.
 
-Versão Técnica (Elemento Terciário): Execução de operação bitwise de deslocamento para a esquerda (Bitwise Left Shift <<) combinada com subtração e adição, distribuindo probabilisticamente os bits para evitar colisões de assinatura.
-
-hash = hash & hash;
-
-Versão Técnica (Elemento Terciário): Aplicação de operador lógico binário AND (&) para forçar o truncamento e conversão interna do valor numérico em um inteiro assinado de 32 bits.
-
-return Math.abs(hash).toString(16).toUpperCase();
-
-Versão Técnica (Elemento Secundário): Fluxo de retorno do método. Normaliza o valor para número absoluto com Math.abs(), realiza a conversão de base numérica decimal para hexadecimal via toString(16) e formata a string resultante em caixa alta através do método toUpperCase().
-
-Subbloco 02 - Recuperação da Corrente e Inicialização da Rede (getChain)
-Comando Analisado: getChain: function () { ... }
-
-Análise de Engenharia: Método de controle estrutural que realiza gerenciamento de estado persistido. Intercepta a ausência de dados locais e opera uma rotina de boot através da instanciação de um objeto literal imutável representativo do Bloco Gênesis, injetando chaves estruturadas fixas e assinaturas criptográficas de fundação para ancorar a árvore de encadeamento dos blocos subsequentes.
-
-Detalhamento Atômico de Linhas
-
-getChain: function () {
-
-Versão Técnica (Elemento Primário de Segundo Escalão): Definição de método anônimo de assinatura clássica atado à propriedade do objeto myLedger, encarregado da integridade estrutural e boot da blockchain local.
-
-const chain = localStorage.getItem(this.KEYS.CHAIN);
-
-Versão Técnica (Elemento Secundário): Declaração de constante de escopo de bloco que recebe o retorno síncrono da chamada de leitura do disco físico local usando a chave configurada no dicionário estático.
-
-if (chain) return JSON.parse(chain);
-
-Versão Técnica (Elemento Secundário): Estrutura de controle condicional de fluxo de linha única. Se a constante contiver uma string válida, executa o interpretador síncrono JSON.parse() e encerra o método devolvendo o array de blocos.
-
-const genesisBlock = {
-
-Versão Técnica (Elemento Secundário): Instanciação de um objeto estruturado em memória contendo as propriedades estritas de modelagem da blockchain para a representação do bloco raiz.
-
-id: 0,
-
-Versão Técnica (Elemento Terciário): Propriedade numérica de indexação linear que define a origem sequencial absoluta da corrente.
-
-timestamp: new Date().toLocaleString('pt-BR'),
-
-Versão Técnica (Elemento Terciário): Atribuição de carimbo de tempo dinâmico gerado via instância global Date e formatado para strings regionais através do método toLocaleString().
-
-origem: "SISTEMA",
-
-Versão Técnica (Elemento Terciário): Propriedade de string estática que rastreia a entidade geradora e emissora do registro contábil de fundação.
-
-destino: "REDE ALT",
-
-Versão Técnica (Elemento Terciário): Propriedade de string estática que define o alvo e receptor do aporte do registro de rede.
-
-valor: 0,
-
-Versão Técnica (Elemento Terciário): Propriedade numérica de controle financeiro fixada em valor nulo para a transação inicial de setup.
-
-previousHash: "0000000000000000",
-
-Versão Técnica (Elemento Terciário): String alfanumérica de controle retroativo que serve como âncora nula por não haver um elo predecessor no ecossistema.
-
-hash: "8B9A2F1C4D5E6F7G"
-
-Versão Técnica (Elemento Terciário): Assinatura digital estática e predeterminada utilizada como chave de validação primária da blockchain ALT Solution.
-
-};
-
-Versão Técnica (Elemento Secundário): Fechamento do escopo de declaração do objeto literal do bloco inicial da rede.
-
-const newChain = [genesisBlock];
-
-Versão Técnica (Elemento Secundário): Inicialização de um novo vetor na sintaxe literal englobando o objeto do bloco inicial, gerando a estrutura de array primária do ledger.
-
-localStorage.setItem(this.KEYS.CHAIN, JSON.stringify(newChain));
-
-Versão Técnica (Bloco Secundário): Serializa a nova estrutura de array em formato textual por meio de JSON.stringify() e comete a gravação física síncrona no armazenamento local através do método setItem().
-
-return newChain;
-
-Versão Técnica (Elemento Secundário): Declaração de encerramento de fluxo que retorna a estrutura de dados inicializada para o escopo chamador.
-
-Subbloco 03 - Mineração e Acréscimo de Blocos (addBlock)
-Comando Analisado: addBlock: function (origem, destino, valor) { ... }
-
-Análise de Engenharia: Método mutador de complexidade linear encarregado da expansão da blockchain. Realiza a leitura do último índice do array para capturar o hash predecessor, instancia o novo nó acoplando a assinatura de segurança retroativa, invoca o algoritmo de hashing interno passando o payload unificado e consolida o encadeamento persistindo a estrutura mutada no localStorage.
+---
+*Documento atualizado para conformidade com o padrão de Auditoria de QA da ALT Solution.*
 
 Detalhamento Atômico de Linhas
 
