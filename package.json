@@ -1,0 +1,24 @@
+{
+  "name": "altsolution-mappengiarch-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trindadeluizandre/altsolution-mappengiarch-study.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/trindadeluizandre/altsolution-mappengiarch-study/issues"
+  },
+  "homepage": "https://github.com/trindadeluizandre/altsolution-mappengiarch-study#readme",
+  "dependencies": {
+    "xrpl": "^5.3.0"
+  }
+}

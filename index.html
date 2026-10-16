@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALT Solution - Autenticação de Rede</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+        :root {
+            --alt-bg-main: #03060c;
+            --alt-bg-card: rgba(10, 15, 24, 0.75);
+            --alt-bg-input: rgba(4, 8, 15, 0.85);
+            --alt-primary: #21d4fd;
+            --alt-primary-glow: rgba(33, 212, 253, 0.35);
+            --alt-success: #00ff88;
+            --alt-success-glow: rgba(0, 255, 136, 0.30);
+            --alt-danger: #ff5252;
+            --alt-text-main: #f1f5f9;
+            --alt-text-muted: #8492a6;
+            --alt-border: rgba(33, 212, 253, 0.2);
+            --alt-border-focus: #21d4fd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background-color: var(--alt-bg-main);
+            color: var(--alt-text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            background: var(--alt-bg-card);
+            border: 1px solid var(--alt-border);
+            border-radius: 20px;
+            padding: 35px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .brand-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--alt-text-main);
+            letter-spacing: 2px;
+        }
+
+        .brand-symbol {
+            color: var(--alt-primary);
+            text-shadow: 0 0 10px var(--alt-primary-glow);
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            color: var(--alt-text-muted);
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .light-red {
+            background-color: var(--alt-danger);
+            box-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
+        }
+
+        .light-green {
+            background-color: var(--alt-success);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 12px 15px 12px 42px;
+            background: var(--alt-bg-input);
+            border: 1px solid var(--alt-border);
+            border-radius: 8px;
+            color: var(--alt-text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-container input:focus {
+            border-color: var(--alt-border-focus);
+            box-shadow: 0 0 12px var(--alt-primary-glow);
+        }
+
+        .icon-left {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--alt-primary);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--alt-primary);
+        }
+
+        .btn-inactive {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--alt-border);
+            color: var(--alt-text-muted);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: not-allowed;
+            letter-spacing: 1px;
+        }
+
+        .btn-active {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #21d4fd 0%, #00ff88 100%);
+            border: none;
+            color: #03060c;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px var(--alt-success-glow);
+        }
+
+        /* Toast integrado dentro do container, visível apenas com a classe .show */
+        .toast {
+            background: rgba(255, 82, 82, 0.15);
+            border: 1px solid var(--alt-danger);
+            color: #ff8585;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            margin-bottom: 20px;
+            display: none;
+            box-shadow: 0 0 15px rgba(255, 82, 82, 0.2);
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Rótulo de Erro / Acesso Negado Integrado na Visão Periférica -->
+        <div id="error-toast" class="toast">Acesso Negado! Credenciais inválidas.</div>
+
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div>
+                <h2 class="brand-title" style="font-size: 1.3rem;">
+                    <span class="brand-symbol">(α)</span> ALT SOLUTION
+                </h2>
+                <p class="brand-subtitle">Assets Liquidity & Treasury Network</p>
+            </div>
+            <div id="status-light" class="status-light light-red"></div>
+        </header>
+
+        <div class="input-container">
+            <i class="fa-solid fa-envelope icon-left"></i>
+            <input type="email" id="l-email" placeholder="E-mail de acesso">
+        </div>
+
+        <div class="input-container">
+            <i class="fa-solid fa-lock icon-left"></i>
+            <input type="password" id="l-pass" placeholder="Sua senha">
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+        </div>
+
+        <button id="btn-login" class="btn-inactive" disabled onclick="autenticar()">AUTENTICAR NA REDE</button>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="register.html" style="color: #21d4fd; text-decoration: none; font-size: 0.9rem;">Criar nova
+                identidade</a>
+        </div>
+    </div>
+
+    <!-- SDK Oficial da XRPL -->
+    <script src="https://unpkg.com/xrpl@2.14.0/build/xrpl-latest-min.js"></script>
+
+   <!-- Importação de Módulos a partir da Raiz do Projeto -->
+    <script type="module">
+        import { XRPL_CONFIG } from './config/xrpl.config.js';
+        import { WalletService } from './config/walletService.js';
+        import { XRPLService } from './config/xrplService.js';
+        import { myLedger } from './logic/ledger.js';
+        import { StorageService } from './logic/storage.js';
+
+        window.XRPL_CONFIG = XRPL_CONFIG;
+        window.WalletService = WalletService;
+        window.XRPLService = XRPLService;
+        window.myLedger = myLedger;
+        window.StorageService = StorageService;
+
+        console.log("Módulos carregados com sucesso na raiz do projeto.");
+    </script>
+
+    <script>
+        window.validar = () => {
+            const e = document.getElementById('l-email').value.trim();
+            const p = document.getElementById('l-pass').value.trim();
+            const btn = document.getElementById('btn-login');
+            const light = document.getElementById('status-light');
+
+            const regexSeguranca = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (emailRegex.test(e) && regexSeguranca.test(p)) {
+                btn.className = 'btn-active';
+                btn.disabled = false;
+                light.className = 'status-light light-green';
+            } else {
+                btn.className = 'btn-inactive';
+                btn.disabled = true;
+                light.className = 'status-light light-red';
+            }
+        };
+
+        window.togglePassword = () => {
+            const input = document.getElementById('l-pass');
+            const icon = document.querySelector('.toggle-password');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        };
+
+        window.autenticar = async () => {
+            const e = document.getElementById('l-email').value.trim().toLowerCase();
+            const p = document.getElementById('l-pass').value;
+            const btn = document.getElementById('btn-login');
+
+            const storage = window.StorageService;
+            const usuariosDaRede = storage ? storage.getUsers() : (JSON.parse(localStorage.getItem('alt_solution_users')) || []);
+            const user = usuariosDaRede.find(u => u.email.toLowerCase() === e && u.senha === p);
+
+            if (user) {
+                btn.disabled = true;
+                btn.className = 'btn-inactive';
+                btn.innerText = "SINCRONIZANDO COM A XRPL...";
+
+                const xrplSvc = window.XRPLService;
+                const config = window.XRPL_CONFIG || { RATES: { XRP_BRL: 3.0, RLUSD_BRL: 5.5 } };
+
+                if (xrplSvc && user.wallet && user.wallet.startsWith('r')) {
+                    try {
+                        const accInfo = await xrplSvc.getAccountInfo(user.wallet);
+                        let xrpBalance = 0;
+                        if (accInfo && accInfo.Balance) {
+                            xrpBalance = parseFloat(accInfo.Balance) / 1000000;
+                        }
+
+                        let rlusdBalance = 0;
+                        try {
+                            const lines = await xrplSvc.getAccountLines(user.wallet);
+                            const rlusdLine = lines.find(l => l.currency === "RLUSD");
+                            if (rlusdLine && rlusdLine.balance) {
+                                rlusdBalance = parseFloat(rlusdLine.balance);
+                            }
+                        } catch (lineErr) {
+                            console.warn("Nenhuma Trustline RLUSD identificada ou erro de consulta:", lineErr);
+                        }
+
+                        const totalBRL = (xrpBalance * config.RATES.XRP_BRL) + (rlusdBalance * config.RATES.RLUSD_BRL);
+
+                        user.saldo = xrpBalance;
+                        user.saldos = {
+                            XRP: xrpBalance,
+                            RLUSD: rlusdBalance,
+                            BRL: totalBRL
+                        };
+
+                        if (storage) {
+                            storage.saveUser(user);
+                        } else {
+                            const idx = usuariosDaRede.findIndex(u => u.email === user.email);
+                            if (idx !== -1) usuariosDaRede[idx] = user;
+                            localStorage.setItem('alt_solution_users', JSON.stringify(usuariosDaRede));
+                        }
+                    } catch (err) {
+                        console.warn("Aviso de sincronização on-chain durante login:", err);
+                    }
+                }
+
+                if (storage) {
+                    storage.setSession(user);
+                } else {
+                    localStorage.setItem('usuario_sessao', JSON.stringify(user));
+                }
+
+                console.log("Login autorizado e sincronizado na XRPL para:", user.nome);
+                window.location.href = 'dashboard.html';
+            } else {
+                const toast = document.getElementById('error-toast');
+                toast.innerHTML = '<div style="text-align: center;">Acesso Negado ! <br><small style="font-size: 11px; display: block; margin-top: 4px; opacity: 0.9;">Clique em "Criar nova identidade" para se cadastrar.</small></div>';
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 8000);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputEmail = document.getElementById('l-email');
+            const inputPass = document.getElementById('l-pass');
+
+            if (inputEmail) inputEmail.addEventListener('input', window.validar);
+            if (inputPass) inputPass.addEventListener('input', window.validar);
+            if (inputEmail) inputEmail.addEventListener('blur', window.validar);
+            if (inputPass) inputPass.addEventListener('blur', window.validar);
+        });
+    </script>
+</body>
+
+</html>

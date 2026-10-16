@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALT Solution - Nova Identidade Gênesis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+        :root {
+            --alt-bg-main: #03060c;
+            --alt-bg-card: rgba(10, 15, 24, 0.75);
+            --alt-bg-input: rgba(4, 8, 15, 0.85);
+            --alt-primary: #21d4fd;
+            --alt-primary-glow: rgba(33, 212, 253, 0.35);
+            --alt-success: #00ff88;
+            --alt-success-glow: rgba(0, 255, 136, 0.30);
+            --alt-danger: #ff5252;
+            --alt-text-main: #f1f5f9;
+            --alt-text-muted: #8492a6;
+            --alt-border: rgba(33, 212, 253, 0.2);
+            --alt-border-focus: #21d4fd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background-color: var(--alt-bg-main);
+            color: var(--alt-text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            background: var(--alt-bg-card);
+            border: 1px solid var(--alt-border);
+            border-radius: 20px;
+            padding: 35px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .brand-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--alt-text-main);
+            letter-spacing: 2px;
+        }
+
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .light-red {
+            background-color: var(--alt-danger);
+            box-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
+        }
+
+        .light-green {
+            background-color: var(--alt-success);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .pin-display {
+            background: rgba(0, 255, 136, 0.08);
+            color: var(--alt-success);
+            border: 1px dashed var(--alt-success);
+            padding: 12px;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 12px 15px 12px 42px;
+            background: var(--alt-bg-input);
+            border: 1px solid var(--alt-border);
+            border-radius: 8px;
+            color: var(--alt-text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-container input:focus {
+            border-color: var(--alt-border-focus);
+            box-shadow: 0 0 12px var(--alt-primary-glow);
+        }
+
+        .icon-left {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--alt-primary);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--alt-primary);
+        }
+
+        .btn-inactive {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--alt-border);
+            color: var(--alt-text-muted);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: not-allowed;
+            letter-spacing: 1px;
+        }
+
+        .btn-active {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #21d4fd 0%, #00ff88 100%);
+            border: none;
+            color: #03060c;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px var(--alt-success-glow);
+        }
+
+        .toast {
+            background: rgba(255, 82, 82, 0.15);
+            border: 1px solid var(--alt-danger);
+            color: #ff8585;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .toast.success {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid var(--alt-success);
+            color: var(--alt-success);
+        }
+
+        .toast.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="success-toast" class="toast success">Identidade Criada com Sucesso!</div>
+        <div id="error-toast" class="toast">A rede já foi inicializada!</div>
+
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 class="brand-title" style="font-size: 1.2rem;">NOVA IDENTIDADE</h2>
+            <div id="status-light" class="status-light light-red"></div>
+        </header>
+
+        <div id="pin-section">
+            <p style="font-size: 0.8rem; color: var(--alt-text-muted); margin-bottom: 8px; font-family: 'Orbitron', sans-serif;">
+                PIN DE SEGURANÇA GERADO:</p>
+            <div class="pin-display" id="generated-pin">----</div>
+            <button class="btn-active" style="margin-bottom: 20px; background: var(--alt-primary); color: #03060c; box-shadow: 0 0 15px var(--alt-primary-glow);" onclick="gerarPin()">GERAR MEU PRIMEIRO PIN</button>
+        </div>
+
+        <div class="input-container">
+            <i class="fa-solid fa-user icon-left"></i>
+            <input type="text" id="reg-name" placeholder="Nome Completo">
+        </div>
+
+        <div class="input-container">
+            <i class="fa-solid fa-envelope icon-left"></i>
+            <input type="email" id="reg-email" placeholder="E-mail Corporativo">
+        </div>
+
+        <div class="input-container">
+            <i class="fa-solid fa-lock icon-left"></i>
+            <input type="password" id="reg-pass" placeholder="Definir Nova Senha">
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+        </div>
+
+        <button id="btn-register" class="btn-inactive" disabled onclick="cadastrar()">REGISTRAR ACESSO</button>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="index.html" style="color: var(--alt-primary); text-decoration: none; font-size: 0.9rem;">Clique aqui se já possui registro.</a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/xrpl@2.14.0/build/xrpl-latest-min.js"></script>
+
+    <script type="module">
+        import { XRPL_CONFIG } from './config/xrpl.config.js';
+        import { WalletService } from './config/walletService.js';
+        import { XRPLService } from './config/xrplService.js';
+        import { myLedger } from './logic/ledger.js';
+        import { StorageService } from './logic/storage.js';
+
+        window.XRPL_CONFIG = XRPL_CONFIG;
+        window.WalletService = WalletService;
+        window.XRPLService = XRPLService;
+        window.myLedger = myLedger;
+        window.StorageService = StorageService;
+
+        console.log("Módulos carregados com sucesso na raiz do projeto.");
+    </script>
+
+    <script>
+        let currentPin = "";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storage = window.StorageService;
+            if (storage && storage.hasGenesis()) {
+                console.warn("ACESSO NEGADO: O Ambiente Gênesis já possui um Administrador Raiz.");
+                const errorToast = document.getElementById('error-toast');
+                let contagem = 5;
+
+                errorToast.innerText = `A rede já foi inicializada! Redirecionando em ${contagem}s...`;
+                errorToast.classList.add('show');
+
+                const temporizadorTrava = setInterval(() => {
+                    contagem--;
+                    if (contagem > 0) {
+                        errorToast.innerText = `A rede já foi inicializada! Redirecionando em ${contagem}s...`;
+                    } else {
+                        clearInterval(temporizadorTrava);
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+            }
+
+            const inputName = document.getElementById('reg-name');
+            const inputEmail = document.getElementById('reg-email');
+            const inputPass = document.getElementById('reg-pass');
+
+            if (inputName) inputName.addEventListener('input', window.validar);
+            if (inputEmail) inputEmail.addEventListener('input', window.validar);
+            if (inputPass) inputPass.addEventListener('input', window.validar);
+            if (inputPass) inputPass.addEventListener('change', window.validar);
+        });
+
+        window.gerarPin = () => {
+            currentPin = Math.floor(100000 + Math.random() * 900000).toString();
+            document.getElementById('generated-pin').innerText = currentPin;
+            window.validar();
+        };
+
+        window.togglePassword = () => {
+            const input = document.getElementById('reg-pass');
+            const icon = document.querySelector('.toggle-password');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        };
+
+        window.validar = () => {
+            const n = document.getElementById('reg-name').value.trim();
+            const e = document.getElementById('reg-email').value.trim();
+            const p = document.getElementById('reg-pass').value.trim();
+            const btn = document.getElementById('btn-register');
+            const light = document.getElementById('status-light');
+
+            const regexSeguranca = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#\$%^&*(),.?":{}|<>]).{8,}$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            const camposValidos = n.length > 3 && emailRegex.test(e) && regexSeguranca.test(p);
+            const pinGerado = typeof currentPin !== 'undefined' && currentPin !== '';
+
+            if (camposValidos && pinGerado) {
+                btn.className = 'btn-active';
+                btn.disabled = false;
+                light.className = 'status-light light-green';
+            } else {
+                btn.className = 'btn-inactive';
+                btn.disabled = true;
+                light.className = 'status-light light-red';
+            }
+        };
+
+        window.cadastrar = async () => {
+            const nameVal = document.getElementById('reg-name').value.trim();
+            const emailVal = document.getElementById('reg-email').value.trim().toLowerCase();
+            const passVal = document.getElementById('reg-pass').value;
+            const btn = document.getElementById('btn-register');
+
+            if (!nameVal || !emailVal || !passVal || !currentPin) {
+                alert("Por favor, preencha todos os campos e gere seu PIN.");
+                return;
+            }
+
+            try {
+                btn.disabled = true;
+                btn.className = 'btn-inactive';
+                btn.innerText = "CRIANDO CARTEIRA NA XRPL...";
+
+                let realWallet = { address: "", seed: "", publicKey: "" };
+                let encryptedSeed = "";
+                let saldoInicialXRP = 0;
+
+                const walletSvc = window.WalletService;
+
+                if (walletSvc) {
+                    const generated = walletSvc.generateWallet();
+                    realWallet.address = generated.address;
+                    realWallet.seed = generated.seed;
+                    realWallet.publicKey = generated.publicKey;
+
+                    encryptedSeed = walletSvc.encryptSeed(realWallet.seed, currentPin);
+
+                    btn.innerText = "SOLICITANDO FUNDOS NO FAUCET...";
+                    try {
+                        const faucetResponse = await walletSvc.fundFromFaucet(realWallet.address);
+                        if (faucetResponse && faucetResponse.balance) {
+                            saldoInicialXRP = faucetResponse.balance;
+                        }
+                    } catch (faucetErr) {
+                        console.warn("Aviso do Faucet Testnet:", faucetErr);
+                    }
+                } else {
+                    realWallet.address = 'r' + Math.random().toString(36).substring(2, 15);
+                }
+
+                const config = window.XRPL_CONFIG || { RATES: { XRP_BRL: 3.0 } };
+                const saldoBRL = saldoInicialXRP * config.RATES.XRP_BRL;
+
+                const user = {
+                    nome: nameVal,
+                    email: emailVal,
+                    senha: passVal,
+                    pin: currentPin,
+                    wallet: realWallet.address,
+                    cipherSeed: encryptedSeed,
+                    publicKey: realWallet.publicKey,
+                    cargo: "Administrador Gênesis",
+                    origem: "Ambiente Gênesis",
+                    hierarchical_level: 0,
+                    parent_wallet: "0x00000000",
+                    saldo: saldoInicialXRP,
+                    saldos: {
+                        XRP: saldoInicialXRP,
+                        RLUSD: 0,
+                        BRL: saldoBRL
+                    },
+                    saldoTotal: saldoInicialXRP,
+                    historico: [],
+                    cadastroEm: new Date().toLocaleString('pt-BR')
+                };
+
+                const storage = window.StorageService;
+                if (storage) {
+                    storage.saveUser(user);
+                } else {
+                    let usuariosDaRede = JSON.parse(localStorage.getItem('alt_solution_users')) || [];
+                    usuariosDaRede.push(user);
+                    localStorage.setItem('alt_solution_users', JSON.stringify(usuariosDaRede));
+                }
+
+                // INSERÇÃO DO BLOCO GÊNESIS OFICIAL NO LEDGER IMUTÁVEL COM O NOME DO USUÁRIO NO DESTINO PARA GARANTIR SINAL POSITIVO (+)
+                if (window.myLedger) {
+                    window.myLedger.addBlock(
+                        "SISTEMA ALT (Protocolo Gênesis)",
+                        `${nameVal} (${realWallet.address})`,
+                        saldoInicialXRP,
+                        null,
+                        "XRP",
+                        "REDE ALT"
+                    );
+                    console.log("Bloco de abertura Gênesis registrado com sucesso no Ledger Imutável.");
+                }
+
+                const toastElement = document.getElementById('success-toast');
+                let contagem = 5;
+
+                toastElement.innerText = `Carteira XRPL Gerada (${realWallet.address.substring(0, 8)}...) ! Redirecionando em ${contagem}s...`;
+                toastElement.classList.add('show');
+
+                console.log("Usuário Gênesis registrado na XRPL Testnet:", realWallet.address);
+
+                const temporizador = setInterval(() => {
+                    contagem--;
+                    if (contagem > 0) {
+                        toastElement.innerText = `Carteira XRPL Gerada ! Redirecionando em ${contagem}s...`;
+                    } else {
+                        clearInterval(temporizador);
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+
+            } catch (err) {
+                console.error("Erro no cadastro de carteira XRPL:", err);
+                alert("Falha ao criar carteira na rede de testes XRPL. Verifique o console.");
+                btn.disabled = false;
+                btn.className = 'btn-active';
+                btn.innerText = "REGISTRAR ACESSO";
+            }
+        };
+    </script>
+</body>
+
+</html>
